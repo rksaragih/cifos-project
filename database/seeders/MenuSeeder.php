@@ -22,7 +22,7 @@ class MenuSeeder extends Seeder
             $category = Category::firstOrCreate([ 'nama' => $record['kategori']]);
 
             Menu::create([
-                'kategory_id' => $category->id,
+                'kategori_id' => $category->id,
                 'nama_menu' => $record['nama'],
                 'harga_menu' => $record['harga'],
             ]);
