@@ -16,6 +16,8 @@ class Menu extends Model
         'harga_menu',
         'foto_menu',
         'tersedia',
+        'rekomendasi',
+        'best_seller'
     ];
 
     protected $casts = [

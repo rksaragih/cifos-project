@@ -9,6 +9,7 @@ class Payment extends Model
 {
     use HasFactory;
 
+    protected $table = 'payments';
     protected $fillable = [
         'order_id',
         'status',
@@ -22,9 +23,9 @@ class Payment extends Model
         'response' => 'array',
     ];
 
-    public function reservations()
+    public function reservation()
     {
-        return $this->hasMany(Reservation::class, 'payment_id');
+        return $this->hasOne(Reservation::class, 'payment_id');
     }
 
     protected static function boot()
@@ -34,6 +35,7 @@ class Payment extends Model
         static::creating(function ($payment) {
             if (empty($payment->order_id)) {
                 $today = now()->format('Ymd');
+                
                 $lastPayment = self::whereDate('created_at', now()->toDateString())
                     ->orderBy('created_at', 'desc')
                     ->first();

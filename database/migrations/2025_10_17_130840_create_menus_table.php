@@ -18,6 +18,8 @@ return new class extends Migration
             $table->integer('harga_menu');
             $table->string('foto_menu')->nullable();
             $table->boolean('tersedia')->default(true);
+            $table->boolean('rekomendasi')->default(false);
+            $table->boolean('best_seller')->default(false);
             $table->timestamps();
         });
     }

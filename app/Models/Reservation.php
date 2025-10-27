@@ -9,6 +9,7 @@ class Reservation extends Model
 {
     use HasFactory;
 
+    protected $table = 'reservations';
     protected $primaryKey = 'kode_reservasi';
     public $incrementing = false;
     protected $keyType = 'string';
@@ -33,18 +34,21 @@ class Reservation extends Model
         parent::boot();
 
         static::creating(function ($reservation) {
-            $today = now()->format('Ymd');
-            $lastReservation = self::whereDate('created_at', now()->toDateString())
-                ->orderBy('created_at', 'desc')
-                ->first();
+            if(empty($reservation->kode_reservasi)) {
+                $today = now()->format('Ymd');
+                
+                $lastReservation = self::whereDate('created_at', now()->toDateString())
+                    ->orderBy('created_at', 'desc')
+                    ->first();
 
-            $lastNumber = 0;
-            if ($lastReservation && preg_match('/RSV-\d{8}-(\d+)/', $lastReservation->kode_reservasi, $matches)) {
-                $lastNumber = (int) $matches[1];
+                $lastNumber = 0;
+                if ($lastReservation && preg_match('/RSV-\d{8}-(\d+)/', $lastReservation->kode_reservasi, $matches)) {
+                    $lastNumber = (int) $matches[1];
+                }
+
+                $newNumber = $lastNumber + 1;
+                $reservation->kode_reservasi = 'RSV-' . $today . '-' . $newNumber;
             }
-
-            $newNumber = $lastNumber + 1;
-            $reservation->kode_reservasi = 'RSV-' . $today . '-' . $newNumber;
         });
     }
 
