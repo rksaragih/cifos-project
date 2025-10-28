@@ -6,8 +6,9 @@ use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\MenuController;
 use App\Http\Controllers\Api\CategoryController;
 
-// Admin login route
+// Admin route
 Route::post('/admin/login', [AdminController::class, 'login']);
+Route::middleware('auth:sanctum')->post('/admin/logout', [AdminController::class, 'logout']);
 
 // Publicly accessible routes for Menu
 Route::get('/menus', [MenuController::class, 'index']);

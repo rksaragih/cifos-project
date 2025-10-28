@@ -42,4 +42,23 @@ class AdminController extends Controller
             'token' => $token,
         ]);
     }
+
+    public function logout(Request $request)
+    {
+
+        $user = $request->user();
+
+        if ($user && $user->currentAccessToken()) {
+            $user->currentAccessToken()->delete();
+
+            return response()->json([
+                'message' => 'Logout Successful',
+            ]);
+
+            return respone()->json([
+                'message' => 'No active session or token found'
+            ], 401);
+        }
+
+    }
 }

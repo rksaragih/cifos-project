@@ -16,7 +16,7 @@ class AdminUserSeeder extends Seeder
     {
         User::create([
             'username' => 'admin',
-            'password' => Hash::make('admin123'), // You should change this in production
+            'password' => Hash::make('admin123'),
             'role' => 'admin',
         ]);
     }

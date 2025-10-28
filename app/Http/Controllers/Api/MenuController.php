@@ -23,7 +23,7 @@ class MenuController extends Controller
     {
         $request->validate([
             'kategori_id' => 'required|exists:categories,id',
-            'nama_menu' => 'required|string|max:255',
+            'nama_menu' => 'required|string|max:25',
             'harga_menu' => 'required|numeric',
             'foto_menu' => 'nullable|string|max:255',
             'tersedia' => 'boolean',
@@ -38,17 +38,22 @@ class MenuController extends Controller
     public function update(Request $request, Menu $menu)
     {
         $request->validate([
-            'kategori_id' => 'required|exists:categories,id',
-            'nama_menu' => 'required|string|max:255',
-            'harga_menu' => 'required|numeric',
-            'foto_menu' => 'nullable|string|max:255',
-            'tersedia' => 'boolean',
-            'rekomendasi' => 'boolean',
-            'best_seller' => 'boolean',
+            'kategori_id' => 'sometimes|exists:categories,id',
+            'nama_menu' => 'sometimes|string|max:25',
+            'harga_menu' => 'sometimes|numeric',
+            'foto_menu' => 'sometimes|nullable|string|max:255',
+            'tersedia' => 'sometimes|boolean',
+            'rekomendasi' => 'sometimes|boolean',
+            'best_seller' => 'sometimes|boolean',
         ]);
 
-        $menu->update($request->all());
-        return response()->json($menu);
+        $data = array_filter($request->all(), fn($v) => $v !== null && $v !== '');
+        $menu->update($data);
+
+        return response()->json([
+            'message' => 'Menu Updated Succesfully',
+            'data' => $menu
+        ]);
     }
 
     public function destroy(Menu $menu)
