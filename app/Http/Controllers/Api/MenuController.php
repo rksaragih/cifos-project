@@ -14,6 +14,19 @@ class MenuController extends Controller
         return response()->json($menus);
     }
 
+    public function filterByCategory(Request $request)
+    {
+        $query = Menu::with('category');
+
+        if ($request->has('category_id')) {
+            $query->where('kategori_id', $request->input('category_id'));
+        }
+
+        $menus = $query->get();
+
+        return response()->json($menus);
+    }
+
     public function search(Request $request)
     {
         $query = Menu::with('category');
