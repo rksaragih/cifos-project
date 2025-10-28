@@ -14,6 +14,38 @@ class MenuController extends Controller
         return response()->json($menus);
     }
 
+    public function filterByCategory(Request $request)
+    {
+        $query = Menu::with('category');
+
+        if ($request->has('category_id')) {
+            $query->where('kategori_id', $request->input('category_id'));
+        }
+
+        $menus = $query->get();
+
+        return response()->json($menus);
+    }
+
+    public function search(Request $request)
+    {
+        $query = Menu::with('category');
+
+        if ($request->has('search')) {
+            $searchTerm = $request->input('search');
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('nama_menu', 'like', '%' . $searchTerm . '%')
+                  ->orWhereHas('category', function ($q2) use ($searchTerm) {
+                      $q2->where('nama', 'like', '%' . $searchTerm . '%');
+                  });
+            });
+        }
+
+        $menus = $query->get();
+
+        return response()->json($menus);
+    }
+
     public function show(Menu $menu)
     {
         return response()->json($menu->load('category'));

@@ -12,6 +12,8 @@ Route::middleware('auth:sanctum')->post('/admin/logout', [AdminController::class
 
 // Publicly accessible routes for Menu
 Route::get('/menus', [MenuController::class, 'index']);
+Route::get('/menus/search', [MenuController::class, 'search']);
+Route::get('/menus/filter-by-category', [MenuController::class, 'filterByCategory']);
 Route::get('/menus/{menu}', [MenuController::class, 'show']);
 
 // Admin-only routes for Menu
