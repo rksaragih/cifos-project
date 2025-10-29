@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\MenuController;
 use App\Http\Controllers\Api\CategoryController;
 
+//test
 // Admin route
 Route::post('/admin/login', [AdminController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/admin/logout', [AdminController::class, 'logout']);
