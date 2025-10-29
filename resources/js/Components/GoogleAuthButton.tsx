@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button } from "@/Components/ui/button";
 import { AlertCircle, Loader2 } from "lucide-react";
-import { initializeGoogleAuth, handleGoogleLogin, handleGoogleRegister, GoogleUser } from "@/Components/lib/googleAuth";
+import { initializeGoogleAuth, handleGoogleLogin, handleGoogleRegister, GoogleUser } from "@/lib/googleAuth";
 
 interface GoogleAuthButtonProps {
   mode: "login" | "register";

@@ -2,8 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/Components/ui/card";
 import { Button } from "@/Components/ui/button";
-import Navbar from "@/Components/contexts/Navbar";
-import Footer from "@/Components/contexts/Footer";
+import Navbar from "@/Components/Navbar";
+import Footer from "@/Components/Footer";
 import { 
   UtensilsCrossed, 
   Calendar, 
