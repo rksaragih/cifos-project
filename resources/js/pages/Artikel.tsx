@@ -1,7 +1,7 @@
-import { useState } from "react";
-import Navbar from "@/Components/contexts/Navbar";
-import Footer from "@/Components/contexts/Footer";
-import ArticleCard from "@/Components/contexts/ArticleCard";
+import React, { useState } from "react";
+import Navbar from "@/Components/Navbar";
+import Footer from "@/Components/Footer";
+import ArticleCard from "@/Components/ArticleCard";
 import { Input } from "@/Components/ui/input";
 import { Button } from "@/Components/ui/button";
 import { Search } from "lucide-react";

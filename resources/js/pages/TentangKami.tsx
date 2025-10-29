@@ -1,5 +1,6 @@
-import Navbar from "@/Components/contexts/Navbar";
-import Footer from "@/Components/contexts/Footer";
+import React from "react";
+import Navbar from "@/Components/Navbar";
+import Footer from "@/Components/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/Components/ui/card";
 import { MapPin, Phone, Mail, Clock, Facebook, Instagram, Twitter } from "lucide-react";
 import { Button } from "@/Components/ui/button";

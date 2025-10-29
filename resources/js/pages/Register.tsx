@@ -1,12 +1,12 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/Components/ui/button";
 import { Input } from "@/Components/ui/input";
 import { Label } from "@/Components/ui/label";
 import { Checkbox } from "@/Components/ui/checkbox";
-import { useToast } from "@/Components/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { Star } from "lucide-react";
-import { register as registerApi } from "@/Components/lib/auth";
+import { register as registerApi } from "@/lib/auth";
 
 const Register = () => {
   const navigate = useNavigate();

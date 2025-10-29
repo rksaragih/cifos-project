@@ -20,7 +20,7 @@ import OrderHistory from './pages/OrderHistory';
 import NotFound from './pages/NotFound';
 
 // Context Providers
-import { BookingProvider } from './Components/contexts/BookingContext';
+import { BookingProvider } from './Components/BookingContext';
 
 // Komponen utama aplikasi
 const App = () => {

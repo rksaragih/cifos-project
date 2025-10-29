@@ -1,6 +1,6 @@
-import { useState } from "react";
-import Navbar from "@/Components/contexts/Navbar";
-import Footer from "@/Components/contexts/Footer";
+import React, { useState } from "react";
+import Navbar from "@/Components/Navbar";
+import Footer from "@/Components/Footer";
 import { Button } from "@/Components/ui/button";
 import { Input } from "@/Components/ui/input";
 import { Label } from "@/Components/ui/label";
@@ -8,7 +8,7 @@ import { Textarea } from "@/Components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/Components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/Components/ui/select";
 import { Calendar, Clock, Users, Phone, MessageSquare } from "lucide-react";
-import { useToast } from "@/Components/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast";
 
 const Reservasi = () => {
   const { toast } = useToast();
@@ -200,7 +200,7 @@ const Reservasi = () => {
 
                 {/* Submit Button */}
                 <div className="pt-4">
-                  <Button type="submit" variant="hero" size="lg" className="w-full">
+                  <Button type="submit" variant="default" size="lg" className="w-full">
                     Kirim Reservasi
                   </Button>
                 </div>

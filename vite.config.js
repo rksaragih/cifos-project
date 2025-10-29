@@ -13,27 +13,20 @@ export default defineConfig({
       refresh: true,
     }),
     react({
-      // 👇 PENTING: Enable automatic JSX runtime
       jsxRuntime: 'automatic',
-      babel: {
-        plugins: [],
-      },
     }),
   ],
-
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './resources/js'),
+      '@': path.resolve(__dirname, 'resources/js'),
     },
   },
-
-  esbuild: {
-    // 👇 PENTING: Support TSX files
-    loader: 'tsx',
-    include: /resources\/js\/.*\.tsx?$/,
+  optimizeDeps: {
+    include: ['react', 'react-dom'],
   },
-
   server: {
+    host: '127.0.0.1',
+    port: 5173,
     hmr: {
       host: 'localhost',
     },

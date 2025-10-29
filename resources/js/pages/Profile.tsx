@@ -1,14 +1,14 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/Components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/Components/ui/card";
 import { Input } from "@/Components/ui/input";
 import { Label } from "@/Components/ui/label";
 import { Alert, AlertDescription } from "@/Components/ui/alert";
-import Navbar from "@/Components/contexts/Navbar";
-import Footer from "@/Components/contexts/Footer";
+import Navbar from "@/Components/Navbar";
+import Footer from "@/Components/Footer";
 import { User, Mail, Phone, Calendar, MapPin, Edit, Save, X, LogOut } from "lucide-react";
-import { logout as authLogout } from "@/Components/lib/auth";
+import { getUser, logout } from "@/lib/auth";
 
 const Profile = () => {
   const [user, setUser] = useState<any>(null);
@@ -85,7 +85,7 @@ const Profile = () => {
   };
 
   const handleLogout = () => {
-    authLogout();
+    logout();
     // Also clear user object
     localStorage.removeItem('user');
     window.location.href = "/";

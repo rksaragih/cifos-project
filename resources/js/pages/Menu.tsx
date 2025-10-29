@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import Navbar from "@/Components/contexts/Navbar";
-import Footer from "@/Components/contexts/Footer";
-import MenuCard from "@/Components/contexts/MenuCard";
+import Navbar from "@/Components/Navbar";
+import Footer from "@/Components/Footer";
+import MenuCard from "@/Components/MenuCard";
 import { Button } from "@/Components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import useEmblaCarousel from 'embla-carousel-react';

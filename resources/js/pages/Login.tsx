@@ -1,11 +1,11 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/Components/ui/button";
 import { Input } from "@/Components/ui/input";
 import { Label } from "@/Components/ui/label";
-import { useToast } from "@/Components/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { Star } from "lucide-react";
-import { login as loginApi, getUser, findUserByIdentifier } from "@/Components/lib/auth";
+import { login as loginApi, getUser, findUserByIdentifier } from "@/lib/auth";
 
 const Login = () => {
   const navigate = useNavigate();

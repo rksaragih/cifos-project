@@ -1,7 +1,7 @@
 import React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
-import { cn } from "@/Components/lib/utils";
+import { cn } from "@/lib/utils";
 
 // ============================================================
 // Variants untuk Button (menggunakan class-variance-authority)

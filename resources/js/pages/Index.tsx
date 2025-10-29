@@ -4,14 +4,14 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { Button } from "@/Components/ui/button";
 import { Card, CardContent } from "@/Components/ui/card";
-import Navbar from "@/Components/contexts/Navbar";
-import Footer from "@/Components/contexts/Footer";
-import MenuCard from "@/Components/contexts/MenuCard";
-import ArticleCard from "@/Components/contexts/ArticleCard";
+import Navbar from "@/Components/Navbar";
+import Footer from "@/Components/Footer";
+import MenuCard from "@/Components/MenuCard";
+import ArticleCard from "@/Components/ArticleCard";
 import { UtensilsCrossed, Clock, Users, Star } from "lucide-react";
 import useEmblaCarousel from 'embla-carousel-react';
 
-import { useBooking } from "@/Components/contexts/BookingContext";
+import { useBooking } from "@/Components/BookingContext";
 
 
 const Index = () => {

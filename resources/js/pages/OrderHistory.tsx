@@ -1,12 +1,12 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Navbar from "@/Components/contexts/Navbar";
-import Footer from "@/Components/contexts/Footer";
+import Navbar from "@/Components/Navbar";
+import Footer from "@/Components/Footer";
 import { Button } from "@/Components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/Components/ui/card";
 import { Badge } from "@/Components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/Components/ui/tabs";
-import { useOrderHistory, Order } from "@/Components/contexts/OrderHistoryContext";
+import { useOrderHistory, Order } from "@/Components/OrderHistoryContext";
 import { Calendar, Clock, Package, CheckCircle, XCircle, AlertCircle, ChefHat } from "lucide-react";
 
 const OrderHistory = () => {
