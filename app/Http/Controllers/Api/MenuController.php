@@ -55,7 +55,7 @@ class MenuController extends Controller
     {
         $request->validate([
             'kategori_id' => 'required|exists:categories,id',
-            'nama_menu' => 'required|string|max:25',
+            'nama_menu' => 'required|string|max:255',
             'harga_menu' => 'required|numeric',
             'foto_menu' => 'nullable|string|max:255',
             'tersedia' => 'boolean',
@@ -71,7 +71,7 @@ class MenuController extends Controller
     {
         $request->validate([
             'kategori_id' => 'sometimes|exists:categories,id',
-            'nama_menu' => 'sometimes|string|max:25',
+            'nama_menu' => 'sometimes|string|max:255',
             'harga_menu' => 'sometimes|numeric',
             'foto_menu' => 'sometimes|nullable|string|max:255',
             'tersedia' => 'sometimes|boolean',
@@ -92,5 +92,17 @@ class MenuController extends Controller
     {
         $menu->delete();
         return response()->json(['message' => 'Menu deleted successfully'], 200);
+    }
+
+    public function getRecommendedMenus()
+    {
+        $menus = Menu::where('rekomendasi', true)->get();
+        return response()->json($menus);
+    }
+
+    public function getBestSellerMenus()
+    {
+        $menus = Menu::where('best_seller', true)->get();
+        return response()->json($menus);
     }
 }
