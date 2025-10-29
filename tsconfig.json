@@ -1,38 +1,39 @@
 {
-  "compilerOptions": {
-    /* ===== Target dan Library ===== */
-    "target": "ES2020",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "useDefineForClassFields": true,
+    "compilerOptions": {
+        /* ===== Target dan Library ===== */
+        "target": "ES2020",
+        "lib": ["ES2020", "DOM", "DOM.Iterable"],
+        "useDefineForClassFields": true,
 
-    /* ===== Module dan Resolusi ===== */
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react",
+        /* ===== Module dan Resolusi ===== */
+        "module": "ESNext",
+        "moduleResolution": "bundler",
+        "allowImportingTsExtensions": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": true,
+        "jsx": "react",
+        "types": ["vite/client", "axios"],
 
-    /* ===== Linting & Keamanan ===== */
-    "strict": false,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "noFallthroughCasesInSwitch": true,
-    "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
+        /* ===== Linting & Keamanan ===== */
+        "strict": false,
+        "noUnusedLocals": false,
+        "noUnusedParameters": false,
+        "noFallthroughCasesInSwitch": true,
+        "skipLibCheck": true,
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
 
-    /* ===== Path Mapping ===== */
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["resources/js/*"]
-    }
-  },
+        /* ===== Path Mapping ===== */
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["resources/js/*"]
+        }
+    },
 
-  /* ===== File yang Disertakan ===== */
-  "include": ["resources/**/*", "resources/js/**/*"],
+    /* ===== File yang Disertakan ===== */
+    "include": ["resources/**/*", "resources/js/**/*"],
 
-  /* ===== Referensi Konfigurasi Tambahan ===== */
-  "references": [{ "path": "./tsconfig.node.json" }]
+    /* ===== Referensi Konfigurasi Tambahan ===== */
+    "references": [{ "path": "./tsconfig.node.json" }]
 }
