@@ -1,8 +1,9 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/Components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/Components/ui/card";
-import Navbar from "@/Components/contexts/Navbar";
-import Footer from "@/Components/contexts/Footer";
+import Navbar from "@/Components/Navbar";
+import Footer from "@/Components/Footer";
 import { ArrowLeft, Shield, Eye, Lock, Database } from "lucide-react";
 
 const Privacy = () => {

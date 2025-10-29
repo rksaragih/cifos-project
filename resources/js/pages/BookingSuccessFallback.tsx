@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import Navbar from "@/Components/Navbar";
 import Footer from "@/Components/Footer";
 import { Button } from "@/Components/ui/button";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Check } from "lucide-react";
 
 const BookingSuccessFallback = () => {

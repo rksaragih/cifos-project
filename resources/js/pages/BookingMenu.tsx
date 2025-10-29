@@ -1,12 +1,12 @@
 import React, { useState, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Navbar from "@/Components/contexts/Navbar";
-import Footer from "@/Components/contexts/Footer";
+import Navbar from "@/Components/Navbar";
+import Footer from "@/Components/Footer";
 import { Button } from "@/Components/ui/button";
 import { ChevronLeft, ChevronRight, ShoppingBag } from "lucide-react";
-import MenuCard from "@/Components/contexts/MenuCard";
-import { useToast } from "@/Components/hooks/use-toast";
-import { useBooking } from "@/Components/contexts/BookingContext";
+import MenuCard from "@/Components/MenuCard";
+import { useToast } from "@/hooks/use-toast";
+import { useBooking } from "@/Components/BookingContext";
 import useEmblaCarousel from 'embla-carousel-react';
 
 const BookingMenu = () => {

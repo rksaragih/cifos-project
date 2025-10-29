@@ -1,12 +1,12 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/Components/ui/button";
 import { Input } from "@/Components/ui/input";
 import { Label } from "@/Components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/Components/ui/card";
 import { Alert, AlertDescription } from "@/Components/ui/alert";
-import Navbar from "@/Components/contexts/Navbar";
-import Footer from "@/Components/contexts/Footer";
+import Navbar from "@/Components/Navbar";
+import Footer from "@/Components/Footer";
 import { Mail, AlertCircle, CheckCircle, ArrowLeft } from "lucide-react";
 
 const ForgotPassword = () => {

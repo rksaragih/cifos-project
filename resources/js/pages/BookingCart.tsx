@@ -1,12 +1,12 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import Navbar from "@/Components/contexts/Navbar";
-import Footer from "@/Components/contexts/Footer";
+import Navbar from "@/Components/Navbar";
+import Footer from "@/Components/Footer";
 import { Button } from "@/Components/ui/button";
 import { Input } from "@/Components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/Components/ui/tabs";
-import { useCart } from "@/Components/contexts/CartContext";
-import { useOrderHistory } from "@/Components/contexts/OrderHistoryContext";
+import { useCart } from "@/Components/CartContext";
+import { useOrderHistory } from "@/Components/OrderHistoryContext";
 import { Minus, Plus, Heart, X, ArrowLeft, Check, History } from "lucide-react";
 
 const BookingCart = () => {
