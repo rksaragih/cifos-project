@@ -96,13 +96,13 @@ class MenuController extends Controller
 
     public function getRecommendedMenus()
     {
-        $menus = Menu::where('rekomendasi', true)->get();
+        $menus = Menu::where('rekomendasi', true)->with('category')->get();
         return response()->json($menus);
     }
 
     public function getBestSellerMenus()
     {
-        $menus = Menu::where('best_seller', true)->get();
+        $menus = Menu::where('best_seller', true)->with('category')->get();
         return response()->json($menus);
     }
 }
