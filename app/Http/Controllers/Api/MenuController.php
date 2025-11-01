@@ -105,4 +105,28 @@ class MenuController extends Controller
         $menus = Menu::where('best_seller', true)->with('category')->get();
         return response()->json($menus);
     }
+
+    public function getRecommendedMenusByCategory(Request $request)
+    {
+        $query = Menu::where('rekomendasi', true)->with('category');
+
+        if ($request->has('category_id')) {
+            $query->where('kategori_id', $request->input('category_id'));
+        }
+
+        $menus = $query->get();
+        return response()->json($menus);
+    }
+
+    public function getBestSellerMenusByCategory(Request $request)
+    {
+        $query = Menu::where('best_seller', true)->with('category');
+
+        if ($request->has('category_id')) {
+            $query->where('kategori_id', $request->input('category_id'));
+        }
+
+        $menus = $query->get();
+        return response()->json($menus);
+    }
 }

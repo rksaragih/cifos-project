@@ -48,9 +48,15 @@ const Menu = () => {
         }
     };
 
-    const fetchRecommendedMenus = async () => {
+    const fetchRecommendedMenus = async (
+        categoryId: number | string = "Semua"
+    ) => {
         try {
-            const response = await fetch("/api/menus/recommended");
+            let url = "/api/menus/recommended";
+            if (categoryId !== "Semua" && typeof categoryId === "number") {
+                url = `/api/menus/recommended-by-category?category_id=${categoryId}`;
+            }
+            const response = await fetch(url);
             if (!response.ok) {
                 throw new Error("Failed to fetch recommended menus");
             }
@@ -61,9 +67,15 @@ const Menu = () => {
         }
     };
 
-    const fetchBestSellerMenus = async () => {
+    const fetchBestSellerMenus = async (
+        categoryId: number | string = "Semua"
+    ) => {
         try {
-            const response = await fetch("/api/menus/best-seller");
+            let url = "/api/menus/best-seller";
+            if (categoryId !== "Semua" && typeof categoryId === "number") {
+                url = `/api/menus/best-seller-by-category?category_id=${categoryId}`;
+            }
+            const response = await fetch(url);
             if (!response.ok) {
                 throw new Error("Failed to fetch best seller menus");
             }
@@ -85,6 +97,12 @@ const Menu = () => {
             (cat) => cat.nama === selectedCategory
         )?.id;
         fetchMenus(selectedCategory === "Semua" ? "Semua" : selectedCategoryId);
+        fetchRecommendedMenus(
+            selectedCategory === "Semua" ? "Semua" : selectedCategoryId
+        );
+        fetchBestSellerMenus(
+            selectedCategory === "Semua" ? "Semua" : selectedCategoryId
+        );
     }, [selectedCategory, categories]);
 
     // Handle category from URL parameter
