@@ -10,7 +10,7 @@ const Navbar = () => {
   const navLinks = [
     { to: "/", label: "Home" },
     { to: "/menu", label: "Menu" },
-    { to: "/booking/menu", label: "Booking" },
+  { to: "/reservasi", label: "Reservation" },
     { to: "/tentang-kami", label: "About Us" },
     { to: "/contact", label: "Contact" },
   ];

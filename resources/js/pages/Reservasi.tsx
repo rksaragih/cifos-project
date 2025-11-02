@@ -63,20 +63,8 @@ const Reservasi = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       
-      {/* Header */}
-      <section className="bg-gradient-hero py-20 mt-16">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-primary-foreground">
-            Reservasi
-          </h1>
-          <p className="text-xl text-primary-foreground/90 max-w-2xl mx-auto">
-            Pesan meja Anda sekarang untuk pengalaman bersantap yang tak terlupakan
-          </p>
-        </div>
-      </section>
-
-      {/* Reservation Form */}
-      <section className="py-12 flex-1">
+  {/* Reservation Form (moved up, header removed to reduce top whitespace) */}
+  <section className="pt-20 pb-8">
         <div className="container mx-auto px-4 max-w-3xl">
           <Card className="shadow-elegant">
             <CardHeader>

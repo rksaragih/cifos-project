@@ -1,9 +1,9 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React from "react";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // CSS
-import '../css/app.css';
+import "../css/app.css";
 
 // Pages
 import Index from './pages/Index';
@@ -22,7 +22,10 @@ import OrderHistory from './pages/OrderHistory';
 import NotFound from './pages/NotFound';
 
 // Context Providers
-import { BookingProvider } from './Components/BookingContext';
+import { BookingProvider } from "./Components/BookingContext";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 // Komponen utama aplikasi
 const App = () => {
@@ -51,12 +54,14 @@ const App = () => {
 };
 
 // Mount React app
-const container = document.getElementById('app');
+const container = document.getElementById("app");
 if (container) {
-  const root = createRoot(container);
-  root.render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  );
+    const root = createRoot(container);
+    root.render(
+        <React.StrictMode>
+            <QueryClientProvider client={queryClient}>
+                <App />
+            </QueryClientProvider>
+        </React.StrictMode>
+    );
 }

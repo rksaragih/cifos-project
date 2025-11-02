@@ -40,16 +40,26 @@ const MenuCard = ({
             onClick={onClick}
         >
             <div className="relative">
-                <div className="h-36 bg-[rgba(31,138,59,0.95)] flex items-center justify-center">
+                {/* Image area with overlay text to match design */}
+                <div className="h-44 bg-gray-100 overflow-hidden">
                     <img
                         src={
                             foto_menu ||
                             "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?auto=format&fit=crop&w=1000&q=80"
                         }
                         alt={nama_menu}
-                        className="h-full w-full object-cover opacity-90"
+                        className="h-full w-full object-cover"
                     />
+                    {/* gradient overlay and title on image */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex items-end">
+                        <div className="p-3">
+                            <h3 className="text-white font-semibold text-sm drop-shadow">
+                                {nama_menu}
+                            </h3>
+                        </div>
+                    </div>
                 </div>
+
                 {!tersedia && (
                     <div className="absolute inset-0 bg-foreground/60 flex items-center justify-center">
                         <Badge variant="destructive" className="text-sm">
@@ -74,10 +84,7 @@ const MenuCard = ({
                 )}
             </div>
 
-            <CardContent className="p-5 pb-6 relative bg-white">
-                <h3 className="font-semibold text-sm mb-3 text-foreground">
-                    {nama_menu}
-                </h3>
+            <CardContent className="p-4 pb-5 relative bg-white">
                 <div className="flex items-center justify-between">
                     <p className="text-primary font-bold text-lg">
                         Rp {harga_menu.toLocaleString("id-ID")}

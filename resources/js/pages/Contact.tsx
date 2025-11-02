@@ -50,7 +50,7 @@ const Contact = () => {
             <div className="space-y-6">
               <div>
                 <h1 className="text-4xl font-bold mb-3">Contact us</h1>
-                <p className="text-secondary text-lg">We'd love to hear from you — questions, feedback or booking requests, send us a message and we'll get back as soon as possible.</p>
+                <p className="text-secondary text-lg">We'd love to hear from you — questions, feedback or reservation requests, send us a message and we'll get back as soon as possible.</p>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-5">

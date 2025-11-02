@@ -119,7 +119,7 @@ const BookingInfo = () => {
 
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="tanggal" className="text-xs font-semibold mb-2 block uppercase">Booking Day</Label>
+                      <Label htmlFor="tanggal" className="text-xs font-semibold mb-2 block uppercase">Reservation Day</Label>
                       <Input
                         id="bookingDay"
                         type="date"

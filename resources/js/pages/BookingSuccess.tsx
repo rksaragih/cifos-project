@@ -12,48 +12,43 @@ const BookingSuccess = () => {
   const [orderDetails, setOrderDetails] = useState<any>(null);
   const [countdown, setCountdown] = useState(3);
   const { booking, clearBooking } = useBooking();
-  
+
   useEffect(() => {
     // Generate order number immediately
     const generatedOrderNumber = `#${Date.now().toString().slice(-6)}`;
     setOrderNumber(generatedOrderNumber);
-    
+
     // Get order details from localStorage (simulating order data)
-    const savedOrder = localStorage.getItem('bookingOrder');
-    if (savedOrder) {
-      setOrderDetails(JSON.parse(savedOrder));
+    try {
+      const savedOrder = localStorage.getItem('bookingOrder');
+      if (savedOrder) {
+        setOrderDetails(JSON.parse(savedOrder));
+      }
+    } catch (e) {
+      // ignore parse errors
     }
-    
+
     // Set loading to false after a short delay to show the success page
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 1000);
-    
+    }, 800);
+
     return () => clearTimeout(timer);
   }, []);
 
-  // Auto redirect to new booking after showing success
   useEffect(() => {
     // Countdown timer
     const countdownInterval = setInterval(() => {
-      setCountdown(prev => {
-        if (prev <= 1) {
-          clearInterval(countdownInterval);
-          return 0;
-        }
-        return prev - 1;
-      });
+      setCountdown(prev => Math.max(0, prev - 1));
     }, 1000);
 
-    // Clear booking data and redirect to new booking after showing success
+    // Clear booking data and redirect to reservation page after showing success
     const redirectTimer = setTimeout(() => {
       clearBooking();
-      // Clear any other related data
       localStorage.removeItem('bookingOrder');
-      // Redirect to booking info for new booking
-      window.location.href = '/booking/info';
+      window.location.href = '/reservasi';
     }, 3000); // Redirect after 3 seconds to allow user to see the success page
-    
+
     return () => {
       clearTimeout(redirectTimer);
       clearInterval(countdownInterval);
@@ -82,7 +77,7 @@ const BookingSuccess = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      
+
       <main className="flex-1 pt-20 pb-12">
         <div className="container mx-auto px-4 max-w-4xl">
           {/* Success Header */}
@@ -96,9 +91,9 @@ const BookingSuccess = () => {
             </div>
 
             <p className="text-sm text-green-600 uppercase tracking-wider mb-2 font-semibold">
-              BOOKING BERHASIL
+              RESERVATION BERHASIL
             </p>
-            
+
             <h1 className="text-4xl md:text-5xl font-bold mb-6 text-gray-800">
               Terima kasih atas pesanan Anda!
             </h1>
@@ -108,11 +103,11 @@ const BookingSuccess = () => {
             </p>
           </div>
 
-          {/* Booking Details */}
+          {/* Reservation Details */}
           <div className="grid md:grid-cols-2 gap-8 mb-12">
-            {/* Booking Information */}
+            {/* Reservation Information */}
             <div className="bg-white rounded-lg border p-6">
-              <h2 className="text-2xl font-bold mb-6 text-gray-800">Detail Booking</h2>
+              <h2 className="text-2xl font-bold mb-6 text-gray-800">Detail Reservation</h2>
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
                   <Users className="w-5 h-5 text-gray-500" />
@@ -197,7 +192,7 @@ const BookingSuccess = () => {
               </Button>
             </div>
             <p className="text-sm text-gray-500 mt-4">
-              Otomatis redirect ke halaman booking baru dalam <span className="font-bold text-green-600">{countdown}</span> detik...
+              Otomatis redirect ke halaman reservation baru dalam <span className="font-bold text-green-600">{countdown}</span> detik...
             </p>
           </div>
         </div>

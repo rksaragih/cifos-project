@@ -6,107 +6,106 @@ import MenuCard from "@/Components/MenuCard";
 import { Button } from "@/Components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import useEmblaCarousel from "embla-carousel-react";
+import { useQuery } from "@tanstack/react-query";
 
 const Menu = () => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const [selectedCategory, setSelectedCategory] = useState<string>("Semua");
-    const [categories, setCategories] = useState<
-        { id: number; nama: string }[]
-    >([]);
-    const [menus, setMenus] = useState<any[]>([]);
-    const [recommendedMenus, setRecommendedMenus] = useState<any[]>([]);
-    const [bestSellerMenus, setBestSellerMenus] = useState<any[]>([]);
 
     const fetchCategories = async () => {
-        try {
-            const response = await fetch("/api/categories");
-            if (!response.ok) {
-                throw new Error("Failed to fetch categories");
-            }
-            const data = await response.json();
-            setCategories([{ id: 0, nama: "Semua" }, ...data]);
-        } catch (error) {
-            console.error("Error fetching categories:", error);
+        const response = await fetch("/api/categories");
+        if (!response.ok) {
+            throw new Error("Failed to fetch categories");
         }
+        const data = await response.json();
+        return [{ id: 0, nama: "Semua" }, ...data];
     };
 
+    const { data: categories = [], isLoading: isLoadingCategories } = useQuery({
+        queryKey: ["categories"],
+        queryFn: fetchCategories,
+    });
+
     const fetchMenus = async (categoryId: number | string = "Semua") => {
-        try {
-            let url = "/api/menus";
-            if (categoryId !== "Semua" && typeof categoryId === "number") {
-                url = `/api/menus/filter-by-category?category_id=${categoryId}`;
-            }
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error("Failed to fetch menus");
-            }
-            const data = await response.json();
-            setMenus(data);
-        } catch (error) {
-            console.error("Error fetching menus:", error);
+        let url = "/api/menus";
+        if (categoryId !== "Semua" && typeof categoryId === "number") {
+            url = `/api/menus/filter-by-category?category_id=${categoryId}`;
         }
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error("Failed to fetch menus");
+        }
+        const data = await response.json();
+        return data;
     };
 
     const fetchRecommendedMenus = async (
         categoryId: number | string = "Semua"
     ) => {
-        try {
-            let url = "/api/menus/recommended";
-            if (categoryId !== "Semua" && typeof categoryId === "number") {
-                url = `/api/menus/recommended-by-category?category_id=${categoryId}`;
-            }
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error("Failed to fetch recommended menus");
-            }
-            const data = await response.json();
-            setRecommendedMenus(data);
-        } catch (error) {
-            console.error("Error fetching recommended menus:", error);
+        let url = "/api/menus/recommended";
+        if (categoryId !== "Semua" && typeof categoryId === "number") {
+            url = `/api/menus/recommended-by-category?category_id=${categoryId}`;
         }
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error("Failed to fetch recommended menus");
+        }
+        const data = await response.json();
+        return data;
     };
 
     const fetchBestSellerMenus = async (
         categoryId: number | string = "Semua"
     ) => {
-        try {
-            let url = "/api/menus/best-seller";
-            if (categoryId !== "Semua" && typeof categoryId === "number") {
-                url = `/api/menus/best-seller-by-category?category_id=${categoryId}`;
-            }
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error("Failed to fetch best seller menus");
-            }
-            const data = await response.json();
-            setBestSellerMenus(data);
-        } catch (error) {
-            console.error("Error fetching best seller menus:", error);
+        let url = "/api/menus/best-seller";
+        if (categoryId !== "Semua" && typeof categoryId === "number") {
+            url = `/api/menus/best-seller-by-category?category_id=${categoryId}`;
         }
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error("Failed to fetch best seller menus");
+        }
+        const data = await response.json();
+        return data;
     };
 
-    useEffect(() => {
-        fetchCategories();
-        fetchRecommendedMenus();
-        fetchBestSellerMenus();
-    }, []);
+    const selectedCategoryId = categories.find(
+        (cat) => cat.nama === selectedCategory
+    )?.id;
+
+    const { data: menus = [], isLoading: isLoadingMenus } = useQuery({
+        queryKey: ["menus", selectedCategoryId],
+        queryFn: () =>
+            fetchMenus(
+                selectedCategory === "Semua" ? "Semua" : selectedCategoryId
+            ),
+        enabled: !!categories.length, // Only fetch if categories are loaded
+    });
+
+    const {
+        data: recommendedMenus = [],
+        isLoading: isLoadingRecommendedMenus,
+    } = useQuery({
+        queryKey: ["recommendedMenus", selectedCategoryId],
+        queryFn: () =>
+            fetchRecommendedMenus(
+                selectedCategory === "Semua" ? "Semua" : selectedCategoryId
+            ),
+        enabled: !!categories.length,
+    });
+
+    const { data: bestSellerMenus = [], isLoading: isLoadingBestSellerMenus } =
+        useQuery({
+            queryKey: ["bestSellerMenus", selectedCategoryId],
+            queryFn: () =>
+                fetchBestSellerMenus(
+                    selectedCategory === "Semua" ? "Semua" : selectedCategoryId
+                ),
+            enabled: !!categories.length,
+        });
 
     useEffect(() => {
-        const selectedCategoryId = categories.find(
-            (cat) => cat.nama === selectedCategory
-        )?.id;
-        fetchMenus(selectedCategory === "Semua" ? "Semua" : selectedCategoryId);
-        fetchRecommendedMenus(
-            selectedCategory === "Semua" ? "Semua" : selectedCategoryId
-        );
-        fetchBestSellerMenus(
-            selectedCategory === "Semua" ? "Semua" : selectedCategoryId
-        );
-    }, [selectedCategory, categories]);
-
-    // Handle category from URL parameter
-    React.useEffect(() => {
         const categoryIdParam = searchParams.get("category_id");
         if (categoryIdParam) {
             const category = categories.find(
@@ -150,7 +149,29 @@ const Menu = () => {
     );
 
     // Show filtered menus in All Product section when category is selected
-    const displayMenus = menus;
+    const INITIAL_DISPLAY_COUNT = 12;
+    const [visibleCount, setVisibleCount] = useState<number>(INITIAL_DISPLAY_COUNT);
+
+    useEffect(() => {
+        // Reset visible count when category changes
+        setVisibleCount(INITIAL_DISPLAY_COUNT);
+    }, [selectedCategory]);
+
+    const displayMenus =
+        selectedCategory === "Semua" ? menus.slice(0, visibleCount) : menus;
+
+    const hasMore = selectedCategory === "Semua" && menus.length > visibleCount;
+    const isShowingAll = selectedCategory === "Semua" && menus.length <= visibleCount;
+
+    const onLoadMore = () => {
+        if (hasMore) {
+            setVisibleCount((c) => Math.min(menus.length, c + INITIAL_DISPLAY_COUNT));
+        } else {
+            // Collapse back to initial
+            setVisibleCount(INITIAL_DISPLAY_COUNT);
+            // optional: scroll to top of all products
+        }
+    };
 
     return (
         <div className="min-h-screen flex flex-col">
@@ -187,6 +208,7 @@ const Menu = () => {
                             ))}
                         </div>
                     </div>
+
                     {/* Recommended (carousel) */}
                     <div className="mb-10">
                         <div className="flex items-center justify-between mb-6">
@@ -321,9 +343,11 @@ const Menu = () => {
                     </div>
 
                     <div className="text-center mt-8">
-                        <Button variant="outline" className="mx-auto">
-                            Load more 100+
-                        </Button>
+                        {menus.length > 0 && selectedCategory === "Semua" && (
+                            <Button variant="outline" className="mx-auto" onClick={onLoadMore}>
+                                {hasMore ? `Load more ${Math.max(100, menus.length)}+` : "Show less"}
+                            </Button>
+                        )}
                     </div>
                 </div>
             </main>
