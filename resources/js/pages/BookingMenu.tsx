@@ -237,7 +237,7 @@ const BookingMenu = () => {
             <div>
               <h1 className="text-4xl font-bold">Pick Your Menu</h1>
               <p className="text-gray-600 mt-2">
-                Booking untuk: <span className="font-semibold">{booking.name}</span> • 
+                Reservation untuk: <span className="font-semibold">{booking.name}</span> • 
                 {booking.bookingDay && ` ${booking.bookingDay}`} • 
                 {booking.persons && ` ${booking.persons} orang`}
               </p>

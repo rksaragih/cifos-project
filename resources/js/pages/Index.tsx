@@ -244,7 +244,7 @@ const Index = () => {
               <Button asChild className="rounded-full bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2">
                 <Link to="/menu">Discover Menu</Link>
               </Button>
-              <Button variant="outline" size="lg" className="border-white text-white hover:bg-white/10" onClick={() => { setBooking({ name: '', phone: '', email: '', bookingDay: '', time: '', kategori_jumlah: 'Kecil', jumlah_orang: '', catatan: '' }); navigate('/booking/info'); }}>
+              <Button variant="outline" size="lg" className="border-white text-white hover:bg-white/10" onClick={() => { setBooking({ name: '', phone: '', email: '', bookingDay: '', time: '', kategori_jumlah: 'Kecil', jumlah_orang: '', catatan: '' }); navigate('/reservasi'); }}>
                 Reservasi Sekarang
               </Button>
             </div>
@@ -482,13 +482,13 @@ const Index = () => {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center">
-            <p className="text-green-400 text-sm font-medium mb-2">Booking</p>
-            <h2 className="text-3xl md:text-4xl font-bold text-green-800 mb-8">
-              Buat momen spesialmu lebih berkesan, booking meja hari ini!
+              <p className="text-green-400 text-3x1 font-medium mb-2">Reservation</p>
+              <h2 className="text-3xl md:text-10xl font-bold text-green-800 mb-8">
+                Buat momen spesialmu lebih berkesan, reservation meja hari ini!
             </h2>
-            <Button 
+              <Button 
               size="lg" 
-              className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg text-lg font-medium"
+              className="bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-lg text-lg font-medium"
               onClick={() => { 
                 setBooking({ 
                   name: '', 
@@ -500,7 +500,7 @@ const Index = () => {
                   jumlah_orang: '', 
                   catatan: '' 
                 }); 
-                navigate('/booking/info'); 
+                navigate('/reservasi'); 
               }}
             >
               Book

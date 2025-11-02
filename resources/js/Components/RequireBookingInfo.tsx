@@ -9,7 +9,7 @@ const RequireBookingInfo: React.FC<{ children: React.ReactNode }> = ({ children 
   const hasInfo = Boolean(booking && (booking.name || booking.email || booking.phone));
 
   if (!hasInfo) {
-    return <Navigate to="/booking/info" replace />;
+    return <Navigate to="/reservasi" replace />;
   }
 
   return <>{children}</>;
