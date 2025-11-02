@@ -149,7 +149,29 @@ const Menu = () => {
     );
 
     // Show filtered menus in All Product section when category is selected
-    const displayMenus = menus;
+    const INITIAL_DISPLAY_COUNT = 12;
+    const [visibleCount, setVisibleCount] = useState<number>(INITIAL_DISPLAY_COUNT);
+
+    useEffect(() => {
+        // Reset visible count when category changes
+        setVisibleCount(INITIAL_DISPLAY_COUNT);
+    }, [selectedCategory]);
+
+    const displayMenus =
+        selectedCategory === "Semua" ? menus.slice(0, visibleCount) : menus;
+
+    const hasMore = selectedCategory === "Semua" && menus.length > visibleCount;
+    const isShowingAll = selectedCategory === "Semua" && menus.length <= visibleCount;
+
+    const onLoadMore = () => {
+        if (hasMore) {
+            setVisibleCount((c) => Math.min(menus.length, c + INITIAL_DISPLAY_COUNT));
+        } else {
+            // Collapse back to initial
+            setVisibleCount(INITIAL_DISPLAY_COUNT);
+            // optional: scroll to top of all products
+        }
+    };
 
     return (
         <div className="min-h-screen flex flex-col">
@@ -321,9 +343,11 @@ const Menu = () => {
                     </div>
 
                     <div className="text-center mt-8">
-                        <Button variant="outline" className="mx-auto">
-                            Load more 100+
-                        </Button>
+                        {menus.length > 0 && selectedCategory === "Semua" && (
+                            <Button variant="outline" className="mx-auto" onClick={onLoadMore}>
+                                {hasMore ? `Load more ${Math.max(100, menus.length)}+` : "Show less"}
+                            </Button>
+                        )}
                     </div>
                 </div>
             </main>
