@@ -17,6 +17,8 @@ Route::get('/menus/recommended', [MenuController::class, 'getRecommendedMenus'])
 Route::get('/menus/best-seller', [MenuController::class, 'getBestSellerMenus']);
 Route::get('/menus/search', [MenuController::class, 'search']);
 Route::get('/menus/filter-by-category', [MenuController::class, 'filterByCategory']);
+Route::get('/menus/recommended-by-category', [MenuController::class, 'getRecommendedMenusByCategory']);
+Route::get('/menus/best-seller-by-category', [MenuController::class, 'getBestSellerMenusByCategory']);
 Route::get('/menus/{menu}', [MenuController::class, 'show']);
 
 // Admin-only routes for Menu

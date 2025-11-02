@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Menu;
 use Illuminate\Http\Request;
 
+//test  
 class MenuController extends Controller
 {
     public function index()
@@ -96,13 +97,37 @@ class MenuController extends Controller
 
     public function getRecommendedMenus()
     {
-        $menus = Menu::where('rekomendasi', true)->get();
+        $menus = Menu::where('rekomendasi', true)->with('category')->get();
         return response()->json($menus);
     }
 
     public function getBestSellerMenus()
     {
-        $menus = Menu::where('best_seller', true)->get();
+        $menus = Menu::where('best_seller', true)->with('category')->get();
+        return response()->json($menus);
+    }
+
+    public function getRecommendedMenusByCategory(Request $request)
+    {
+        $query = Menu::where('rekomendasi', true)->with('category');
+
+        if ($request->has('category_id')) {
+            $query->where('kategori_id', $request->input('category_id'));
+        }
+
+        $menus = $query->get();
+        return response()->json($menus);
+    }
+
+    public function getBestSellerMenusByCategory(Request $request)
+    {
+        $query = Menu::where('best_seller', true)->with('category');
+
+        if ($request->has('category_id')) {
+            $query->where('kategori_id', $request->input('category_id'));
+        }
+
+        $menus = $query->get();
         return response()->json($menus);
     }
 }
