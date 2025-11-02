@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Menu;
 use Illuminate\Http\Request;
-use App\Models\Category;
 
 //test  
 class MenuController extends Controller
@@ -129,19 +128,6 @@ class MenuController extends Controller
         }
 
         $menus = $query->get();
-        return response()->json($menus);
-    }
-
-    public function getSpecialityMenus()
-    {
-        $specialityCategory = Category::where('nama', 'Speciality')->first();
-
-        if (!$specialityCategory) {
-            return response()->json([], 404);
-        }
-
-        $menus = Menu::where('kategori_id', $specialityCategory->id)->with('category')->get();
-
         return response()->json($menus);
     }
 }
