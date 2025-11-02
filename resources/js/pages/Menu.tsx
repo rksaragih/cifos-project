@@ -149,11 +149,7 @@ const Menu = () => {
     );
 
     // Show filtered menus in All Product section when category is selected
-    const INITIAL_DISPLAY_COUNT = 6; // number of items to show initially for 'Semua'
-    const displayMenus =
-        selectedCategory === "Semua"
-            ? menus.slice(0, visibleCount)
-            : menus;
+    const displayMenus = menus;
 
     return (
         <div className="min-h-screen flex flex-col">
@@ -161,60 +157,33 @@ const Menu = () => {
 
             <main className="flex-1 pt-20 pb-12">
                 <div className="container mx-auto px-4">
-                    {/* Hero / banner similar to design */}
-                    <div className="w-full mb-8">
-                        <div
-                            className="w-full h-80 md:h-[400px] rounded overflow-hidden relative bg-cover bg-center"
-                            style={{
-                                backgroundImage:
-                                    "url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1400&q=80')",
-                            }}
-                        >
-                            <div className="absolute inset-0 bg-black/40" />
-                            <div className="absolute inset-0 flex items-center justify-end pr-6">
-                                <div className="max-w-xl text-right text-white">
-                                    <h2 className="text-2xl md:text-4xl font-bold">
-                                        Best sellers, people favorites!
-                                    </h2>
-                                    <p className="mt-2 text-sm md:text-base text-white/90">
-                                        Lorem ipsum dolor sit amet, consectetur
-                                        adipiscing elit. Sed in, varius.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     {/* Header */}
                     <div className="flex items-center justify-between mb-8">
-                        <h1 className="text-4xl font-bold">Menu</h1>
+                        <h1 className="text-4xl font-bold">Pick Your Menu</h1>
                     </div>
 
                     {/* Category Filter */}
                     <div className="mb-8">
                         <div className="flex flex-wrap gap-3">
-                            {categories.map((category) => {
-                                const isActive =
-                                    selectedCategory === category.nama;
-                                return (
-                                    <button
-                                        key={category.id}
-                                        onClick={() => {
-                                            setSelectedCategory(category.nama);
-                                            navigate(
-                                                `/menu?category_id=${category.id}`
-                                            );
-                                        }}
-                                        className={
-                                            `rounded-full px-4 py-2 text-sm font-medium transition ` +
-                                            (isActive
-                                                ? "bg-green-700 text-white border border-green-700"
-                                                : "bg-white text-green-700 border-2 border-green-700")
-                                        }
-                                    >
-                                        {category.nama}
-                                    </button>
-                                );
-                            })}
+                            {categories.map((category) => (
+                                <Button
+                                    key={category.id}
+                                    variant={
+                                        selectedCategory === category.nama
+                                            ? "default"
+                                            : "outline"
+                                    }
+                                    onClick={() => {
+                                        setSelectedCategory(category.nama);
+                                        navigate(
+                                            `/menu?category_id=${category.id}`
+                                        );
+                                    }}
+                                    className="rounded-full"
+                                >
+                                    {category.nama}
+                                </Button>
+                            ))}
                         </div>
                     </div>
 
@@ -352,22 +321,9 @@ const Menu = () => {
                     </div>
 
                     <div className="text-center mt-8">
-                        {selectedCategory === "Semua" && menus.length > INITIAL_DISPLAY_COUNT && (
-                            <Button
-                                variant="outline"
-                                className="mx-auto"
-                                onClick={() => {
-                                    // if not all visible, increase visibleCount; otherwise collapse
-                                    if (visibleCount < menus.length) {
-                                        setVisibleCount((c) => Math.min(menus.length, c + INITIAL_DISPLAY_COUNT));
-                                    } else {
-                                        setVisibleCount(INITIAL_DISPLAY_COUNT);
-                                    }
-                                }}
-                            >
-                                {visibleCount < menus.length ? "Load more 100+" : "Show less"}
-                            </Button>
-                        )}
+                        <Button variant="outline" className="mx-auto">
+                            Load more 100+
+                        </Button>
                     </div>
                 </div>
             </main>
