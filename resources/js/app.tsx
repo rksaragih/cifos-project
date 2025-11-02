@@ -13,7 +13,9 @@ import ArtikelDetail from './pages/ArtikelDetail';
 import Contact from './pages/Contact';
 import TentangKami from './pages/TentangKami';
 import Reservasi from './pages/Reservasi';
-import Login from './pages/Login';
+import Login from './pages/AdminLogin';
+import Dashboard from './pages/AdminDashboard';
+import Admin from './pages/Admin';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
 import OrderHistory from './pages/OrderHistory';
@@ -36,6 +38,8 @@ const App = () => {
           <Route path="/tentang-kami" element={<TentangKami />} />
           <Route path="/reservasi" element={<Reservasi />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/admin" element={<Admin />} />
           <Route path="/register" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/order-history" element={<OrderHistory />} />
