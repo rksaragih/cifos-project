@@ -126,7 +126,7 @@ const Index: React.FC = () => {
           <div className="relative mb-8">
             <div className="text-center">
               <p className="text-green-500 text-xl md:text-2xl font-medium mb-1">Menu</p>
-              <h2 className="text-4xl md:text-6xl lg:text-4xl font-extrabold text-green-800">Our Exclusive Food</h2>
+              <h2 className="text-4xl md:text-6xl lg:text-4xl font-extrabold text-green-800">Makanan Eksklusif Kami</h2>
             </div>
 
             <div className="absolute right-0 top-1/2 transform -translate-y-1/2 flex gap-3">
@@ -176,8 +176,8 @@ const Index: React.FC = () => {
       <section className="py-16 bg-green-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <p className="text-green-500 text-xl md:text-2xl font-medium mb-2">Our Feature</p>
-            <h2 className="text-4xl md:text-6xl lg:text-4xl font-bold text-green-800">Quality is Our First Priority</h2>
+            <p className="text-green-500 text-xl md:text-2xl font-medium mb-2">Fitur kami</p>
+            <h2 className="text-4xl md:text-6xl lg:text-4xl font-bold text-green-800">Kualitas adalah Prioritas Utama Kami</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, idx) => (
@@ -185,8 +185,8 @@ const Index: React.FC = () => {
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-800 mb-4">
                   <feature.icon className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-lg font-bold text-green-800 mb-3">{feature.title}</h3>
-                <p className="text-green-600 text-sm leading-relaxed">{feature.description}</p>
+                <h3 className="text-2xl md:text-2xl lg:text-2xl font-bold text-green-800 mb-3">{feature.title}</h3>
+                <p className="text-green-600 text-1xl md:text-1xl lg:text-1xl leading-relaxed">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -197,8 +197,8 @@ const Index: React.FC = () => {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-8">
-            <p className="text-green-500 text-xl md:text-2xl font-medium mb-2">The reasons</p>
-            <h2 className="text-4xl md:text-6xl lg:text-4xl font-bold text-green-800">Why Choose Us?</h2>
+            <p className="text-green-500 text-xl md:text-2xl font-medium mb-2">Alasan</p>
+            <h2 className="text-4xl md:text-6xl lg:text-4xl font-bold text-green-800">Mengapa Memilih Kami?</h2>
           </div>
 
           <div className="max-w-4xl mx-auto">
@@ -213,10 +213,10 @@ const Index: React.FC = () => {
       {/* Image strip - full width gallery above footer (matches provided example) */}
       <div className="w-full">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-0">
-          <img src={cifosBarbershop} alt="CIFOS Barbershop" className="w-full h-28 md:h-36 lg:h-44 object-cover" />
-          <img src={kopiTemanAkrab} alt="Kopi Teman Akrab" className="w-full h-28 md:h-36 lg:h-44 object-cover" />
-          <img src={sizzleImg} alt="Sizzle" className="w-full h-28 md:h-36 lg:h-44 object-cover" />
-          <img src={kopitiamImg} alt="Kopitiam" className="w-full h-28 md:h-36 lg:h-44 object-cover" />
+          <img src={cifosBarbershop} alt="CIFOS Barbershop" className="w-full h-28 md:h-36 lg:h-60 object-cover" />
+          <img src={kopiTemanAkrab} alt="Kopi Teman Akrab" className="w-full h-28 md:h-36 lg:h-60 object-cover" />
+          <img src={sizzleImg} alt="Sizzle" className="w-full h-28 md:h-36 lg:h-60 object-cover" />
+          <img src={kopitiamImg} alt="Kopitiam" className="w-full h-28 md:h-36 lg:h-60 object-cover" />
         </div>
       </div>
 

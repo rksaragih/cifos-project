@@ -10,9 +10,9 @@ const Navbar = () => {
   const navLinks = [
     { to: "/", label: "Home" },
     { to: "/menu", label: "Menu" },
-  { to: "/reservasi", label: "Reservation" },
-    { to: "/tentang-kami", label: "About Us" },
-    { to: "/contact", label: "Contact" },
+  { to: "/reservasi", label: "Reservasi" },
+    { to: "/tentang-kami", label: "Tentang Kami" },
+    { to: "/contact", label: "Kontak Kami" },
   ];
 
   const isActive = (path: string) => location.pathname === path;
