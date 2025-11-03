@@ -74,12 +74,12 @@ const Menu = () => {
         (cat) => cat.nama === selectedCategory
     )?.id;
 
+    const categoryIdForFetch =
+        selectedCategory === "Semua" ? "Semua" : selectedCategoryId;
+
     const { data: menus = [], isLoading: isLoadingMenus } = useQuery({
         queryKey: ["menus", selectedCategoryId],
-        queryFn: () =>
-            fetchMenus(
-                selectedCategory === "Semua" ? "Semua" : selectedCategoryId
-            ),
+        queryFn: () => fetchMenus(categoryIdForFetch as number | "Semua"),
         enabled: !!categories.length, // Only fetch if categories are loaded
     });
 
@@ -89,9 +89,7 @@ const Menu = () => {
     } = useQuery({
         queryKey: ["recommendedMenus", selectedCategoryId],
         queryFn: () =>
-            fetchRecommendedMenus(
-                selectedCategory === "Semua" ? "Semua" : selectedCategoryId
-            ),
+            fetchRecommendedMenus(categoryIdForFetch as number | "Semua"),
         enabled: !!categories.length,
     });
 
@@ -99,9 +97,7 @@ const Menu = () => {
         useQuery({
             queryKey: ["bestSellerMenus", selectedCategoryId],
             queryFn: () =>
-                fetchBestSellerMenus(
-                    selectedCategory === "Semua" ? "Semua" : selectedCategoryId
-                ),
+                fetchBestSellerMenus(categoryIdForFetch as number | "Semua"),
             enabled: !!categories.length,
         });
 
@@ -150,7 +146,9 @@ const Menu = () => {
 
     // Show filtered menus in All Product section when category is selected
     const INITIAL_DISPLAY_COUNT = 12;
-    const [visibleCount, setVisibleCount] = useState<number>(INITIAL_DISPLAY_COUNT);
+    const [visibleCount, setVisibleCount] = useState<number>(
+        INITIAL_DISPLAY_COUNT
+    );
 
     useEffect(() => {
         // Reset visible count when category changes
@@ -161,11 +159,14 @@ const Menu = () => {
         selectedCategory === "Semua" ? menus.slice(0, visibleCount) : menus;
 
     const hasMore = selectedCategory === "Semua" && menus.length > visibleCount;
-    const isShowingAll = selectedCategory === "Semua" && menus.length <= visibleCount;
+    const isShowingAll =
+        selectedCategory === "Semua" && menus.length <= visibleCount;
 
     const onLoadMore = () => {
         if (hasMore) {
-            setVisibleCount((c) => Math.min(menus.length, c + INITIAL_DISPLAY_COUNT));
+            setVisibleCount((c) =>
+                Math.min(menus.length, c + INITIAL_DISPLAY_COUNT)
+            );
         } else {
             // Collapse back to initial
             setVisibleCount(INITIAL_DISPLAY_COUNT);
@@ -210,101 +211,112 @@ const Menu = () => {
                     </div>
 
                     {/* Recommended (carousel) */}
-                    <div className="mb-10">
-                        <div className="flex items-center justify-between mb-6">
-                            <h2 className="text-2xl font-bold">Recommended</h2>
-                            <div className="flex gap-2">
-                                <Button
-                                    variant="outline"
-                                    size="icon"
-                                    onClick={scrollRecommendedPrev}
-                                >
-                                    <ChevronLeft className="w-5 h-5" />
-                                </Button>
-                                <Button
-                                    variant="outline"
-                                    size="icon"
-                                    onClick={scrollRecommendedNext}
-                                >
-                                    <ChevronRight className="w-5 h-5" />
-                                </Button>
-                            </div>
-                        </div>
-
-                        <div
-                            className="overflow-hidden"
-                            ref={recommendedRef as any}
-                        >
-                            <div className="flex gap-5">
-                                {recommendedMenus.map((m: any) => (
-                                    <div
-                                        className="min-w-[260px] flex-shrink-0"
-                                        key={m.id}
+                    {recommendedMenus.length > 0 && (
+                        <div className="mb-10">
+                            <div className="flex items-center justify-between mb-6">
+                                <h2 className="text-2xl font-bold">
+                                    Recommended
+                                </h2>
+                                <div className="flex gap-2">
+                                    <Button
+                                        variant="outline"
+                                        size="icon"
+                                        onClick={scrollRecommendedPrev}
                                     >
-                                        <MenuCard
-                                            nama_menu={m.nama_menu}
-                                            harga_menu={m.harga_menu}
-                                            foto_menu={m.image}
-                                            tersedia={m.tersedia}
-                                            kategori={
-                                                m.kategori
-                                                    ? m.kategori.nama
-                                                    : ""
-                                            }
-                                            onClick={() => {}}
-                                        />
-                                    </div>
-                                ))}
+                                        <ChevronLeft className="w-5 h-5" />
+                                    </Button>
+                                    <Button
+                                        variant="outline"
+                                        size="icon"
+                                        onClick={scrollRecommendedNext}
+                                    >
+                                        <ChevronRight className="w-5 h-5" />
+                                    </Button>
+                                </div>
+                            </div>
+
+                            <div
+                                className="overflow-hidden"
+                                ref={recommendedRef as any}
+                            >
+                                <div className="flex gap-5">
+                                    {recommendedMenus.map((m: any) => (
+                                        <div
+                                            className="min-w-[260px] flex-shrink-0"
+                                            key={m.id}
+                                        >
+                                            <MenuCard
+                                                nama_menu={m.nama_menu}
+                                                harga_menu={m.harga_menu}
+                                                foto_menu={m.image}
+                                                tersedia={m.tersedia}
+                                                kategori={
+                                                    m.kategori
+                                                        ? m.kategori.nama
+                                                        : ""
+                                                }
+                                                onClick={() => {}}
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    )}
 
                     {/* Best Seller (carousel) */}
-                    <div className="mb-10">
-                        <div className="flex items-center justify-between mb-6">
-                            <h2 className="text-2xl font-bold">Best Seller</h2>
-                            <div className="flex gap-2">
-                                <Button
-                                    variant="outline"
-                                    size="icon"
-                                    onClick={scrollBestPrev}
-                                >
-                                    <ChevronLeft className="w-5 h-5" />
-                                </Button>
-                                <Button
-                                    variant="outline"
-                                    size="icon"
-                                    onClick={scrollBestNext}
-                                >
-                                    <ChevronRight className="w-5 h-5" />
-                                </Button>
-                            </div>
-                        </div>
-
-                        <div className="overflow-hidden" ref={bestRef as any}>
-                            <div className="flex gap-5">
-                                {bestSellerMenus.map((m: any) => (
-                                    <div
-                                        className="min-w-[260px] flex-shrink-0"
-                                        key={m.id}
+                    {bestSellerMenus.length > 0 && (
+                        <div className="mb-10">
+                            <div className="flex items-center justify-between mb-6">
+                                <h2 className="text-2xl font-bold">
+                                    Best Seller
+                                </h2>
+                                <div className="flex gap-2">
+                                    <Button
+                                        variant="outline"
+                                        size="icon"
+                                        onClick={scrollBestPrev}
                                     >
-                                        <MenuCard
-                                            nama_menu={m.nama_menu}
-                                            harga_menu={m.harga_menu}
-                                            foto_menu={m.image}
-                                            tersedia={m.tersedia}
-                                            kategori={
-                                                m.kategori
-                                                    ? m.kategori.nama
-                                                    : ""
-                                            }
-                                            onClick={() => {}}
-                                        />
-                                    </div>
-                                ))}
+                                        <ChevronLeft className="w-5 h-5" />
+                                    </Button>
+                                    <Button
+                                        variant="outline"
+                                        size="icon"
+                                        onClick={scrollBestNext}
+                                    >
+                                        <ChevronRight className="w-5 h-5" />
+                                    </Button>
+                                </div>
+                            </div>
+
+                            <div
+                                className="overflow-hidden"
+                                ref={bestRef as any}
+                            >
+                                <div className="flex gap-5">
+                                    {bestSellerMenus.map((m: any) => (
+                                        <div
+                                            className="min-w-[260px] flex-shrink-0"
+                                            key={m.id}
+                                        >
+                                            <MenuCard
+                                                nama_menu={m.nama_menu}
+                                                harga_menu={m.harga_menu}
+                                                foto_menu={m.image}
+                                                tersedia={m.tersedia}
+                                                kategori={
+                                                    m.kategori
+                                                        ? m.kategori.nama
+                                                        : ""
+                                                }
+                                                onClick={() => {}}
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    )}
 
                     {/* All Product */}
                     <div className="mb-8">
@@ -344,8 +356,17 @@ const Menu = () => {
 
                     <div className="text-center mt-8">
                         {menus.length > 0 && selectedCategory === "Semua" && (
-                            <Button variant="outline" className="mx-auto" onClick={onLoadMore}>
-                                {hasMore ? `Load more ${Math.max(100, menus.length)}+` : "Show less"}
+                            <Button
+                                variant="outline"
+                                className="mx-auto"
+                                onClick={onLoadMore}
+                            >
+                                {hasMore
+                                    ? `Load more ${Math.max(
+                                          100,
+                                          menus.length
+                                      )}+`
+                                    : "Show less"}
                             </Button>
                         )}
                     </div>
