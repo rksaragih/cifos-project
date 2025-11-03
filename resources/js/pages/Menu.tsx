@@ -248,7 +248,7 @@ const Menu = () => {
                                             <MenuCard
                                                 nama_menu={m.nama_menu}
                                                 harga_menu={m.harga_menu}
-                                                foto_menu={m.image}
+                                                foto_menu={m.foto_menu}
                                                 tersedia={m.tersedia}
                                                 kategori={
                                                     m.category
@@ -302,7 +302,7 @@ const Menu = () => {
                                             <MenuCard
                                                 nama_menu={m.nama_menu}
                                                 harga_menu={m.harga_menu}
-                                                foto_menu={m.image}
+                                                foto_menu={m.foto_menu}
                                                 tersedia={m.tersedia}
                                                 kategori={
                                                     m.category
@@ -332,7 +332,7 @@ const Menu = () => {
                                         key={m.id}
                                         nama_menu={m.nama_menu}
                                         harga_menu={m.harga_menu}
-                                        foto_menu={m.image}
+                                        foto_menu={m.foto_menu}
                                         tersedia={m.tersedia}
                                         kategori={
                                             m.category ? m.category.nama : ""
