@@ -17,9 +17,9 @@ const AdminSidebar: React.FC = () => {
     <aside className="w-64 bg-white border-r min-h-screen sticky top-0">
       <div className="p-6">
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-12 h-12 rounded-lg bg-emerald-800 flex items-center justify-center text-white font-bold">K</div>
+          <div className="w-12 h-12 rounded-lg bg-emerald-800 flex items-center justify-center text-white font-bold">C</div>
           <div>
-            <div className="text-sm font-semibold">KOPIKU</div>
+            <div className="text-sm font-semibold">CIFOS</div>
             <div className="text-xs text-muted-foreground">Dashboard</div>
           </div>
         </div>

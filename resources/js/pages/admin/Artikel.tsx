@@ -90,44 +90,50 @@ const ArtikelAdmin = () => {
 
       <div className="bg-white border rounded-md p-4">
         {showForm && (
-          <div className="bg-gray-50 border rounded-md p-4 mb-4">
-            <div className="flex items-center justify-between mb-3">
-              <div className="font-semibold">{editingId ? `Mengedit article #${editingId}` : 'Tambah Artikel'}</div>
-              {editingId && <div className="text-sm text-muted-foreground">ID: {editingId}</div>}
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label className="text-sm">Date</label>
-                <input type="date" className="w-full border rounded-md p-2" value={form.date} onChange={(e) => setForm(f => ({ ...f, date: e.target.value }))} />
-              </div>
-              <div>
-                <label className="text-sm">Status</label>
-                <select className="w-full border rounded-md p-2" value={form.status} onChange={(e) => setForm(f => ({ ...f, status: e.target.value }))}>
-                  <option value="PUBLISHED">PUBLISHED</option>
-                  <option value="DRAFT">DRAFT</option>
-                </select>
-              </div>
-              <div>
-                <label className="text-sm">Featured</label>
+          <div className="fixed inset-0 z-50 flex items-center justify-center">
+            <div className="absolute inset-0 bg-black opacity-40" onClick={() => { setShowForm(false); setEditingId(null); }} />
+            <div className="relative bg-white w-11/12 md:w-3/4 lg:w-2/3 rounded-md shadow-lg p-6 z-10">
+              <div className="flex items-center justify-between mb-3">
+                <div className="text-lg font-semibold">{editingId ? `Mengedit article #${editingId}` : 'Tambah Artikel'}</div>
                 <div className="flex items-center gap-2">
-                  <input id="featured" type="checkbox" checked={form.featured} onChange={(e) => setForm(f => ({ ...f, featured: e.target.checked }))} />
-                  <label htmlFor="featured">Featured</label>
+                  {editingId && <div className="text-sm text-muted-foreground">ID: {editingId}</div>}
+                  <button className="text-gray-500" onClick={() => { setShowForm(false); setEditingId(null); }}>✕</button>
                 </div>
               </div>
-              <div className="md:col-span-3">
-                <label className="text-sm">Title</label>
-                <input className="w-full border rounded-md p-2" value={form.judul} onChange={(e) => setForm(f => ({ ...f, judul: e.target.value }))} />
-              </div>
-              <div className="md:col-span-3">
-                <label className="text-sm">Category</label>
-                <input className="w-full border rounded-md p-2" value={form.category} onChange={(e) => setForm(f => ({ ...f, category: e.target.value }))} />
-              </div>
-            </div>
 
-            <div className="mt-4 flex items-center gap-2">
-              <Button onClick={handleSave}>Save</Button>
-              <Button variant="outline" onClick={() => { setShowForm(false); setEditingId(null); setForm({ date: '', status: 'DRAFT', judul: '', featured: false, category: '' }); }}>Cancel</Button>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label className="text-sm">Date</label>
+                  <input type="date" className="w-full border rounded-md p-2" value={form.date} onChange={(e) => setForm(f => ({ ...f, date: e.target.value }))} />
+                </div>
+                <div>
+                  <label className="text-sm">Status</label>
+                  <select className="w-full border rounded-md p-2" value={form.status} onChange={(e) => setForm(f => ({ ...f, status: e.target.value }))}>
+                    <option value="PUBLISHED">PUBLISHED</option>
+                    <option value="DRAFT">DRAFT</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-sm">Featured</label>
+                  <div className="flex items-center gap-2">
+                    <input id="featured" type="checkbox" checked={form.featured} onChange={(e) => setForm(f => ({ ...f, featured: e.target.checked }))} />
+                    <label htmlFor="featured">Featured</label>
+                  </div>
+                </div>
+                <div className="md:col-span-3">
+                  <label className="text-sm">Title</label>
+                  <input className="w-full border rounded-md p-2" value={form.judul} onChange={(e) => setForm(f => ({ ...f, judul: e.target.value }))} />
+                </div>
+                <div className="md:col-span-3">
+                  <label className="text-sm">Category</label>
+                  <input className="w-full border rounded-md p-2" value={form.category} onChange={(e) => setForm(f => ({ ...f, category: e.target.value }))} />
+                </div>
+              </div>
+
+              <div className="mt-4 flex items-center gap-2">
+                <Button onClick={handleSave}>Save</Button>
+                <Button variant="outline" onClick={() => { setShowForm(false); setEditingId(null); setForm({ date: '', status: 'DRAFT', judul: '', featured: false, category: '' }); }}>Cancel</Button>
+              </div>
             </div>
           </div>
         )}

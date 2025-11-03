@@ -35,6 +35,13 @@ const MenuAdmin = () => {
   const [uploading, setUploading] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
 
+  const openCreateForm = () => {
+    setEditingId(null);
+    setForm({ kategori_id: '', nama_menu: '', harga_menu: '', foto_menu: '', tersedia: true, rekomendasi: false, best_seller: false });
+    setShowForm(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   useEffect(() => {
     // load categories
     fetch('/api/categories')
@@ -104,7 +111,7 @@ const MenuAdmin = () => {
 
     input.addEventListener('change', handler);
     return () => input.removeEventListener('change', handler);
-  }, [toast]);
+  }, [toast, showForm]);
 
   const handleChange = (key: string, value: any) => setForm((f) => ({ ...f, [key]: value }));
 
@@ -222,63 +229,69 @@ const MenuAdmin = () => {
           <div className="flex items-center bg-white border rounded-md px-2 py-1">
             <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search menu..." className="outline-none text-sm w-48" />
           </div>
-          <Button onClick={() => setShowForm((s) => !s)}>{showForm ? 'Batal' : 'Tambah'}</Button>
-          <Button variant="outline">Export</Button>
+          <Button onClick={openCreateForm}>Tambah</Button>
         </div>
       </div>
 
       {showForm && (
-        <form onSubmit={handleSubmit} className="bg-white border rounded-md p-4 mb-6">
-          <div className="flex items-center justify-between mb-3">
-            <div className="text-sm text-muted-foreground">{editingId ? `Mengedit menu #${editingId}` : 'Tambah menu'}</div>
-            {editingId && !form.tersedia && (
-              <div className="inline-block px-3 py-1 text-sm bg-red-100 text-red-800 rounded-md">Tidak tersedia</div>
-            )}
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <Label>Foto</Label>
-              <div className="flex items-center gap-3">
-                <input id="menu-file-input" type="file" accept="image/*" className="hidden" />
-                <Button type="button" onClick={() => {
-                  const el = document.getElementById('menu-file-input') as HTMLInputElement | null;
-                  el?.click();
-                }}>Tambah Foto</Button>
-                {form.foto_menu && (
-                  <div className="w-28 h-20 overflow-hidden rounded-md border">
-                    <img src={form.foto_menu} alt="preview" className="w-full h-full object-cover" />
-                  </div>
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black opacity-40" onClick={() => { setShowForm(false); setEditingId(null); }} />
+          <div className="relative bg-white w-11/12 md:w-3/4 lg:w-2/3 rounded-md shadow-lg p-6 z-10">
+            <div className="flex items-center justify-between mb-3">
+              <div className="text-lg font-semibold">{editingId ? `Mengedit menu #${editingId}` : 'Tambah menu'}</div>
+              <div className="flex items-center gap-2">
+                {editingId && !form.tersedia && (
+                  <div className="inline-block px-3 py-1 text-sm bg-red-100 text-red-800 rounded-md">Tidak tersedia</div>
                 )}
+                <button className="text-gray-500" onClick={() => { setShowForm(false); setEditingId(null); }}>✕</button>
               </div>
             </div>
-            <div>
-              <Label>Kategori</Label>
-              <select className="w-full border rounded-md p-2" value={form.kategori_id} onChange={(e) => handleChange('kategori_id', e.target.value)}>
-                <option value="">Pilih kategori</option>
-                {categories.map((c) => (
-                  <option key={c.id} value={c.id}>{c.nama}</option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <Label>Nama Menu</Label>
-              <Input value={form.nama_menu} onChange={(e) => handleChange('nama_menu', e.target.value)} />
-            </div>
-            <div>
-              <Label>Harga</Label>
-              <Input type="number" value={form.harga_menu} onChange={(e) => handleChange('harga_menu', e.target.value)} />
-            </div>
-            <div className="flex items-center gap-4 md:col-span-2">
-              <label className="flex items-center gap-2"><input type="checkbox" checked={form.tersedia} onChange={(e) => handleChange('tersedia', e.target.checked)} /> Tersedia</label>
-              <label className="flex items-center gap-2"><input type="checkbox" checked={form.rekomendasi} onChange={(e) => handleChange('rekomendasi', e.target.checked)} /> Rekomendasi</label>
-              <label className="flex items-center gap-2"><input type="checkbox" checked={form.best_seller} onChange={(e) => handleChange('best_seller', e.target.checked)} /> Best Seller</label>
-            </div>
-          </div>
 
-          <div className="mt-4">
-            <Button type="submit">Simpan</Button>
+            <form onSubmit={handleSubmit}>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <Label>Foto</Label>
+                  <div className="flex items-center gap-3">
+                    <input id="menu-file-input" type="file" accept="image/*" className="hidden" />
+                    <Button type="button" onClick={() => { const el = document.getElementById('menu-file-input') as HTMLInputElement | null; el?.click(); }}>Tambah Foto</Button>
+                    {form.foto_menu && (
+                      <div className="w-28 h-20 overflow-hidden rounded-md border">
+                        <img src={form.foto_menu} alt="preview" className="w-full h-full object-cover" />
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div>
+                  <Label>Kategori</Label>
+                  <select className="w-full border rounded-md p-2" value={form.kategori_id} onChange={(e) => handleChange('kategori_id', e.target.value)}>
+                    <option value="">Pilih kategori</option>
+                    {categories.map((c) => (
+                      <option key={c.id} value={c.id}>{c.nama}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <Label>Nama Menu</Label>
+                  <Input value={form.nama_menu} onChange={(e) => handleChange('nama_menu', e.target.value)} />
+                </div>
+                <div>
+                  <Label>Harga</Label>
+                  <Input type="number" value={form.harga_menu} onChange={(e) => handleChange('harga_menu', e.target.value)} />
+                </div>
+                <div className="flex items-center gap-4 md:col-span-2">
+                  <label className="flex items-center gap-2"><input type="checkbox" checked={form.tersedia} onChange={(e) => handleChange('tersedia', e.target.checked)} /> Tersedia</label>
+                  <label className="flex items-center gap-2"><input type="checkbox" checked={form.rekomendasi} onChange={(e) => handleChange('rekomendasi', e.target.checked)} /> Rekomendasi</label>
+                  <label className="flex items-center gap-2"><input type="checkbox" checked={form.best_seller} onChange={(e) => handleChange('best_seller', e.target.checked)} /> Best Seller</label>
+                </div>
+              </div>
+
+              <div className="mt-4 flex items-center gap-2">
+                <Button type="submit">Simpan</Button>
+                <Button variant="outline" onClick={() => { setShowForm(false); setEditingId(null); setForm({ kategori_id: '', nama_menu: '', harga_menu: '', foto_menu: '', tersedia: true, rekomendasi: false, best_seller: false }); }}>Batal</Button>
+              </div>
+            </form>
           </div>
-        </form>
+        </div>
       )}
 
       <div className="bg-white border rounded-lg overflow-auto">
