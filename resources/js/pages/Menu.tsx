@@ -251,8 +251,8 @@ const Menu = () => {
                                                 foto_menu={m.image}
                                                 tersedia={m.tersedia}
                                                 kategori={
-                                                    m.kategori
-                                                        ? m.kategori.nama
+                                                    m.category
+                                                        ? m.category.nama
                                                         : ""
                                                 }
                                                 onClick={() => {}}
@@ -305,8 +305,8 @@ const Menu = () => {
                                                 foto_menu={m.image}
                                                 tersedia={m.tersedia}
                                                 kategori={
-                                                    m.kategori
-                                                        ? m.kategori.nama
+                                                    m.category
+                                                        ? m.category.nama
                                                         : ""
                                                 }
                                                 onClick={() => {}}
@@ -335,7 +335,7 @@ const Menu = () => {
                                         foto_menu={m.image}
                                         tersedia={m.tersedia}
                                         kategori={
-                                            m.kategori ? m.kategori.nama : ""
+                                            m.category ? m.category.nama : ""
                                         }
                                         onClick={() => {}}
                                     />
