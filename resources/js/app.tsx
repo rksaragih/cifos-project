@@ -18,6 +18,12 @@ import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import OrderHistory from "./pages/OrderHistory";
 import NotFound from "./pages/NotFound";
+import AdminLayout from './pages/admin/AdminLayout';
+import AdminDashboard from './pages/admin/Dashboard';
+import AdminReservasi from './pages/admin/Reservasi';
+import AdminMenu from './pages/admin/Menu';
+import AdminKategori from './pages/admin/Kategori';
+import AdminArtikel from './pages/admin/Artikel';
 
 // Context Providers
 import { BookingProvider } from "./Components/BookingContext";
@@ -42,6 +48,14 @@ const App = () => {
                     <Route path="/register" element={<Register />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/order-history" element={<OrderHistory />} />
+                    {/* Admin routes */}
+                    <Route path="/admin" element={<AdminLayout />}>
+                        <Route index element={<AdminDashboard />} />
+                        <Route path="reservasi" element={<AdminReservasi />} />
+                        <Route path="menu" element={<AdminMenu />} />
+                        <Route path="kategori" element={<AdminKategori />} />
+                        <Route path="artikel" element={<AdminArtikel />} />
+                    </Route>
                     <Route path="*" element={<NotFound />} />
                 </Routes>
             </BookingProvider>

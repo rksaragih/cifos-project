@@ -9,9 +9,13 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/Com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/Components/ui/select";
 import { Calendar, Clock, Users, Phone, MessageSquare } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
+import { useBooking } from "@/Components/BookingContext";
 
 const Reservasi = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
+  const { setBooking } = useBooking();
   const [formData, setFormData] = useState({
     nama_pelanggan: "",
     nomor_wa: "",
@@ -35,24 +39,27 @@ const Reservasi = () => {
       return;
     }
 
-    // Di sini akan dihubungkan dengan API Laravel
-    console.log("Reservasi data:", formData);
-    
+    // Map local form fields to booking context shape and navigate to booking menu
+    const bookingPayload = {
+      name: formData.nama_pelanggan,
+      phone: formData.nomor_wa,
+      bookingDay: formData.tanggal,
+      time: formData.jam,
+      kategori_jumlah: formData.kategori_jumlah,
+      jumlah_orang: formData.jumlah_orang,
+      catatan: formData.catatan,
+    };
+
+    // Save to booking context (which also persists to localStorage)
+    setBooking(bookingPayload);
+
     toast({
       title: "Berhasil!",
-      description: "Reservasi Anda telah diterima. Kami akan menghubungi Anda segera.",
+      description: "Reservasi Anda telah diterima. Silakan pilih menu untuk dipesan.",
     });
 
-    // Reset form
-    setFormData({
-      nama_pelanggan: "",
-      nomor_wa: "",
-      tanggal: "",
-      jam: "",
-      kategori_jumlah: "Kecil",
-      jumlah_orang: "",
-      catatan: "",
-    });
+    // Navigate to booking menu to allow ordering
+    navigate('/booking/menu');
   };
 
   const handleChange = (field: string, value: string) => {

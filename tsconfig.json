@@ -13,7 +13,7 @@
         "isolatedModules": true,
         "noEmit": true,
         "jsx": "react",
-        "types": ["vite/client", "axios"],
+    "types": ["vite/client", "axios", "node"],
 
         /* ===== Linting & Keamanan ===== */
         "strict": false,
