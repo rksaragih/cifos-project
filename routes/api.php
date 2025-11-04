@@ -5,9 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\MenuController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\ArticleController;
 
-//test
-// Admin route
 Route::post('/admin/login', [AdminController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/admin/logout', [AdminController::class, 'logout']);
 
@@ -38,4 +37,16 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::post('/categories', [CategoryController::class, 'store']);
     Route::put('/categories/{category}', [CategoryController::class, 'update']);
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
+});
+
+// Publicly accessible routes for Article
+Route::get('/articles', [ArticleController::class, 'index']);
+Route::get('/articles/{article}', [ArticleController::class, 'show']);
+Route::get('/articles/search', [ArticleController::class, 'search']);
+
+// Admin-only routes for Article
+Route::middleware(['auth:sanctum', 'admin'])->group(function () {
+    Route::post('/articles', [ArticleController::class, 'store']);
+    Route::put('/articles/{article}', [ArticleController::class, 'update']);
+    Route::delete('/articles/{article}', [ArticleController::class, 'destroy']);
 });
