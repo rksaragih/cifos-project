@@ -4,7 +4,8 @@ import Navbar from "@/Components/Navbar";
 import Footer from "@/Components/Footer";
 import MenuCard from "@/Components/MenuCard";
 import { Button } from "@/Components/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Input } from "@/Components/ui/input";
+import { ChevronLeft, ChevronRight, Search } from "lucide-react";
 import useEmblaCarousel from "embla-carousel-react";
 import { useQuery } from "@tanstack/react-query";
 
@@ -12,6 +13,7 @@ const Menu = () => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const [selectedCategory, setSelectedCategory] = useState<string>("Semua");
+    const [searchQuery, setSearchQuery] = useState<string>("");
 
     const fetchCategories = async () => {
         const response = await fetch("/api/categories");
@@ -70,6 +72,16 @@ const Menu = () => {
         return data;
     };
 
+    const fetchSearchResults = async (query: string) => {
+        if (!query) return [];
+        const response = await fetch(`/api/menus/search?name=${query}`);
+        if (!response.ok) {
+            throw new Error("Failed to fetch search results");
+        }
+        const data = await response.json();
+        return data;
+    };
+
     const selectedCategoryId = categories.find(
         (cat) => cat.nama === selectedCategory
     )?.id;
@@ -80,7 +92,7 @@ const Menu = () => {
     const { data: menus = [], isLoading: isLoadingMenus } = useQuery({
         queryKey: ["menus", selectedCategoryId],
         queryFn: () => fetchMenus(categoryIdForFetch as number | "Semua"),
-        enabled: !!categories.length, // Only fetch if categories are loaded
+        enabled: !!categories.length && !searchQuery, // Only fetch if categories are loaded and no search query
     });
 
     const {
@@ -90,7 +102,7 @@ const Menu = () => {
         queryKey: ["recommendedMenus", selectedCategoryId],
         queryFn: () =>
             fetchRecommendedMenus(categoryIdForFetch as number | "Semua"),
-        enabled: !!categories.length,
+        enabled: !!categories.length && !searchQuery,
     });
 
     const { data: bestSellerMenus = [], isLoading: isLoadingBestSellerMenus } =
@@ -98,7 +110,14 @@ const Menu = () => {
             queryKey: ["bestSellerMenus", selectedCategoryId],
             queryFn: () =>
                 fetchBestSellerMenus(categoryIdForFetch as number | "Semua"),
-            enabled: !!categories.length,
+            enabled: !!categories.length && !searchQuery,
+        });
+
+    const { data: searchResults = [], isLoading: isLoadingSearchResults } =
+        useQuery({
+            queryKey: ["searchResults", searchQuery],
+            queryFn: () => fetchSearchResults(searchQuery),
+            enabled: !!searchQuery, // Only fetch if there's a search query
         });
 
     useEffect(() => {
@@ -155,12 +174,20 @@ const Menu = () => {
         setVisibleCount(INITIAL_DISPLAY_COUNT);
     }, [selectedCategory]);
 
-    const displayMenus =
-        selectedCategory === "Semua" ? menus.slice(0, visibleCount) : menus;
+    const displayMenus = searchQuery
+        ? searchResults
+        : selectedCategory === "Semua"
+        ? menus.slice(0, visibleCount)
+        : menus;
 
-    const hasMore = selectedCategory === "Semua" && menus.length > visibleCount;
+    const hasMore =
+        !searchQuery &&
+        selectedCategory === "Semua" &&
+        menus.length > visibleCount;
     const isShowingAll =
-        selectedCategory === "Semua" && menus.length <= visibleCount;
+        !searchQuery &&
+        selectedCategory === "Semua" &&
+        menus.length <= visibleCount;
 
     const onLoadMore = () => {
         if (hasMore) {
@@ -185,8 +212,8 @@ const Menu = () => {
                         <h1 className="text-4xl font-bold">Pick Your Menu</h1>
                     </div>
 
-                    {/* Category Filter */}
-                    <div className="mb-8">
+                    {/* Category Filter and Search Bar */}
+                    <div className="flex flex-wrap items-center justify-between mb-8 gap-3">
                         <div className="flex flex-wrap gap-3">
                             {categories.map((category) => (
                                 <Button
@@ -198,6 +225,7 @@ const Menu = () => {
                                     }
                                     onClick={() => {
                                         setSelectedCategory(category.nama);
+                                        setSearchQuery(""); // Clear search when category changes
                                         navigate(
                                             `/menu?category_id=${category.id}`
                                         );
@@ -208,10 +236,20 @@ const Menu = () => {
                                 </Button>
                             ))}
                         </div>
+                        <div className="relative flex-grow max-w-xs">
+                            <Input
+                                type="text"
+                                placeholder="Search menu..."
+                                className="rounded-full pl-10 pr-4 py-2"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                        </div>
                     </div>
 
                     {/* Recommended (carousel) */}
-                    {recommendedMenus.length > 0 && (
+                    {!searchQuery && recommendedMenus.length > 0 && (
                         <div className="mb-10">
                             <div className="flex items-center justify-between mb-6">
                                 <h2 className="text-2xl font-bold">
@@ -265,7 +303,7 @@ const Menu = () => {
                     )}
 
                     {/* Best Seller (carousel) */}
-                    {bestSellerMenus.length > 0 && (
+                    {!searchQuery && bestSellerMenus.length > 0 && (
                         <div className="mb-10">
                             <div className="flex items-center justify-between mb-6">
                                 <h2 className="text-2xl font-bold">
@@ -318,10 +356,12 @@ const Menu = () => {
                         </div>
                     )}
 
-                    {/* All Product */}
+                    {/* All Product / Search Results */}
                     <div className="mb-8">
                         <h2 className="text-2xl font-bold mb-6">
-                            {selectedCategory === "Semua"
+                            {searchQuery
+                                ? `Search Results for "${searchQuery}"`
+                                : selectedCategory === "Semua"
                                 ? "All Product"
                                 : selectedCategory}
                         </h2>
@@ -344,31 +384,36 @@ const Menu = () => {
                         ) : (
                             <div className="text-center py-12">
                                 <p className="text-gray-500 text-lg">
-                                    Tidak ada menu untuk kategori "
-                                    {selectedCategory}"
+                                    {searchQuery
+                                        ? `Tidak ada menu ditemukan untuk "${searchQuery}"`
+                                        : `Tidak ada menu untuk kategori "${selectedCategory}"`}
                                 </p>
                                 <p className="text-gray-400 text-sm mt-2">
-                                    Silakan pilih kategori lain
+                                    {searchQuery
+                                        ? "Coba kata kunci lain"
+                                        : "Silakan pilih kategori lain"}
                                 </p>
                             </div>
                         )}
                     </div>
 
                     <div className="text-center mt-8">
-                        {menus.length > 0 && selectedCategory === "Semua" && (
-                            <Button
-                                variant="outline"
-                                className="mx-auto"
-                                onClick={onLoadMore}
-                            >
-                                {hasMore
-                                    ? `Load more ${Math.max(
-                                          100,
-                                          menus.length
-                                      )}+`
-                                    : "Show less"}
-                            </Button>
-                        )}
+                        {menus.length > 0 &&
+                            selectedCategory === "Semua" &&
+                            !searchQuery && (
+                                <Button
+                                    variant="outline"
+                                    className="mx-auto"
+                                    onClick={onLoadMore}
+                                >
+                                    {hasMore
+                                        ? `Load more ${Math.max(
+                                              100,
+                                              menus.length
+                                          )}+`
+                                        : "Show less"}
+                                </Button>
+                            )}
                     </div>
                 </div>
             </main>

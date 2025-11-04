@@ -33,8 +33,8 @@ class MenuController extends Controller
     {
         $query = Menu::with('category');
 
-        if ($request->has('search')) {
-            $searchTerm = $request->input('search');
+        if ($request->has('name')) {
+            $searchTerm = $request->input('name');
             $query->where(function ($q) use ($searchTerm) {
                 $q->where('nama_menu', 'like', '%' . $searchTerm . '%')
                   ->orWhereHas('category', function ($q2) use ($searchTerm) {
