@@ -41,8 +41,8 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 
 // Publicly accessible routes for Article
 Route::get('/articles', [ArticleController::class, 'index']);
-Route::get('/articles/{article}', [ArticleController::class, 'show']);
 Route::get('/articles/search', [ArticleController::class, 'search']);
+Route::get('/articles/{article}', [ArticleController::class, 'show']);
 
 // Admin-only routes for Article
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {
