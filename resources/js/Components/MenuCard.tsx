@@ -36,12 +36,12 @@ const MenuCard = ({
 
     return (
         <Card
-            className="rounded-lg border border-border bg-card overflow-hidden shadow-sm hover:shadow-md transition-transform duration-200"
+            className="w-[365px] h-[290px] rounded-lg border border-border bg-card overflow-hidden shadow-sm hover:shadow-md transition-transform duration-200"
             onClick={onClick}
         >
-            <div className="relative">
+            <div className="relative h-[176px]">
                 {/* Image area with overlay text to match design */}
-                <div className="h-44 bg-gray-100 overflow-hidden">
+                <div className="h-full bg-gray-100 overflow-hidden">
                     <img
                         src={
                             foto_menu ||
@@ -53,7 +53,7 @@ const MenuCard = ({
                     {/* gradient overlay and title on image */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex items-end">
                         <div className="p-3">
-                            <h3 className="text-white font-semibold text-sm drop-shadow">
+                            <h3 className="text-white font-semibold text-sm drop-shadow line-clamp-2">
                                 {nama_menu}
                             </h3>
                         </div>

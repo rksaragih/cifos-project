@@ -180,25 +180,14 @@ const Menu = () => {
         ? menus.slice(0, visibleCount)
         : menus;
 
-    const hasMore =
+    const showLoadMoreButton =
         !searchQuery &&
         selectedCategory === "Semua" &&
-        menus.length > visibleCount;
-    const isShowingAll =
-        !searchQuery &&
-        selectedCategory === "Semua" &&
-        menus.length <= visibleCount;
+        menus.length > INITIAL_DISPLAY_COUNT &&
+        visibleCount < menus.length;
 
     const onLoadMore = () => {
-        if (hasMore) {
-            setVisibleCount((c) =>
-                Math.min(menus.length, c + INITIAL_DISPLAY_COUNT)
-            );
-        } else {
-            // Collapse back to initial
-            setVisibleCount(INITIAL_DISPLAY_COUNT);
-            // optional: scroll to top of all products
-        }
+        setVisibleCount(menus.length);
     };
 
     return (
@@ -213,8 +202,8 @@ const Menu = () => {
                     </div>
 
                     {/* Category Filter and Search Bar */}
-                    <div className="flex flex-wrap items-center justify-between mb-8 gap-3">
-                        <div className="flex flex-wrap gap-3">
+                    <div className="flex flex-col-reverse md:flex-row md:items-center md:justify-between mb-8 gap-3">
+                        <div className="flex overflow-x-auto whitespace-nowrap py-2 gap-3 scrollbar-hide">
                             {categories.map((category) => (
                                 <Button
                                     key={category.id}
@@ -236,7 +225,7 @@ const Menu = () => {
                                 </Button>
                             ))}
                         </div>
-                        <div className="relative flex-grow max-w-xs">
+                        <div className="w-full md:max-w-xs mb-4 md:mb-0 relative">
                             <Input
                                 type="text"
                                 placeholder="Search menu..."
@@ -277,7 +266,7 @@ const Menu = () => {
                                 className="overflow-hidden"
                                 ref={recommendedRef as any}
                             >
-                                <div className="flex gap-5">
+                                <div className="flex gap-4">
                                     {recommendedMenus.map((m: any) => (
                                         <div
                                             className="min-w-[260px] flex-shrink-0"
@@ -331,7 +320,7 @@ const Menu = () => {
                                 className="overflow-hidden"
                                 ref={bestRef as any}
                             >
-                                <div className="flex gap-5">
+                                <div className="flex gap-4">
                                     {bestSellerMenus.map((m: any) => (
                                         <div
                                             className="min-w-[260px] flex-shrink-0"
@@ -366,7 +355,7 @@ const Menu = () => {
                                 : selectedCategory}
                         </h2>
                         {displayMenus.length > 0 ? (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                                 {displayMenus.map((m: any) => (
                                     <MenuCard
                                         key={m.id}
@@ -398,22 +387,15 @@ const Menu = () => {
                     </div>
 
                     <div className="text-center mt-8">
-                        {menus.length > 0 &&
-                            selectedCategory === "Semua" &&
-                            !searchQuery && (
-                                <Button
-                                    variant="outline"
-                                    className="mx-auto"
-                                    onClick={onLoadMore}
-                                >
-                                    {hasMore
-                                        ? `Load more ${Math.max(
-                                              100,
-                                              menus.length
-                                          )}+`
-                                        : "Show less"}
-                                </Button>
-                            )}
+                        {showLoadMoreButton && (
+                            <Button
+                                variant="outline"
+                                className="mx-auto"
+                                onClick={onLoadMore}
+                            >
+                                Load more
+                            </Button>
+                        )}
                     </div>
                 </div>
             </main>
