@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import { Button } from "@/Components/ui/button";
 import Navbar from "@/Components/Navbar";
@@ -16,12 +17,48 @@ import sizzleImg from "@/assets/sizzle.jpg";
 import kopitiamImg from "@/assets/kopitiam.jpg";
 import MenuCard from "@/Components/MenuCard";
 
+interface MenuItem {
+    id: number;
+    nama_menu: string;
+    harga_menu: number;
+    foto_menu: string;
+    tersedia: boolean;
+}
+
 const Index: React.FC = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
     const [canScrollPrev, setCanScrollPrev] = useState(false);
     const [canScrollNext, setCanScrollNext] = useState(false);
     const navigate = useNavigate();
     const { setBooking } = useBooking();
+
+    const [specialityMenus, setSpecialityMenus] = useState<MenuItem[]>([]);
+    const [loadingSpeciality, setLoadingSpeciality] = useState(true);
+    const [errorSpeciality, setErrorSpeciality] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchSpecialityMenus = async () => {
+            try {
+                const response = await axios.get("/api/menus/speciality");
+                if (Array.isArray(response.data)) {
+                    setSpecialityMenus(response.data);
+                } else {
+                    console.error(
+                        "API returned non-array data for speciality menus:",
+                        response.data
+                    );
+                    setErrorSpeciality("Invalid data format from API.");
+                }
+            } catch (error) {
+                console.error("Error fetching speciality menus:", error);
+                setErrorSpeciality("Failed to load speciality menus.");
+            } finally {
+                setLoadingSpeciality(false);
+            }
+        };
+
+        fetchSpecialityMenus();
+    }, []);
 
     // Embla for Exclusive Food (one item per click)
     const [emblaRef, emblaApi] = useEmblaCarousel({
@@ -62,51 +99,7 @@ const Index: React.FC = () => {
         if (emblaApi) emblaApi.scrollNext();
     }, [emblaApi]);
 
-    // Mock data (kept small for demo)
-    const featuredMenus = [
-        {
-            id: 1,
-            nama_menu: "Nasi Goreng Special",
-            harga_menu: 45000,
-            deskripsi: "Nasi goreng dengan potongan ayam, udang, dan telur.",
-            image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=1000&q=80",
-        },
-        {
-            id: 2,
-            nama_menu: "Sate Ayam Madura",
-            harga_menu: 50000,
-            deskripsi: "Sate ayam khas Madura dengan bumbu kacang.",
-            image: "https://images.unsplash.com/photo-1563379091339-03246963d96a?auto=format&fit=crop&w=1000&q=80",
-        },
-        {
-            id: 3,
-            nama_menu: "Mie Goreng Seafood",
-            harga_menu: 48000,
-            deskripsi: "Mie goreng dengan aneka seafood segar.",
-            image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=1000&q=80",
-        },
-        {
-            id: 4,
-            nama_menu: "Lumpia Semarang",
-            harga_menu: 35000,
-            deskripsi: "Lumpia khas Semarang dengan isian rebung dan udang.",
-            image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?auto=format&fit=crop&w=1000&q=80",
-        },
-        {
-            id: 5,
-            nama_menu: "Tahu Isi",
-            harga_menu: 25000,
-            deskripsi: "Tahu isi goreng krispi.",
-            image: "https://images.unsplash.com/photo-1571091718767-18b5b1457add?auto=format&fit=crop&w=1000&q=80",
-        },
-        {
-            id: 6,
-            nama_menu: "Es Teh Manis",
-            harga_menu: 10000,
-            deskripsi: "Teh manis dingin yang menyegarkan.",
-            image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=1000&q=80",
-        },
-    ];
+    const featuredMenus: MenuItem[] = specialityMenus;
 
     const features = [
         {
@@ -275,42 +268,50 @@ const Index: React.FC = () => {
                         className="embla overflow-hidden"
                         ref={emblaRef as any}
                     >
-                        <div className="flex gap-4">
-                            {featuredMenus.map((menu) => (
-                                <div
-                                    key={menu.id}
-                                    className="flex-shrink-0 min-w-full sm:min-w-[47%] md:min-w-[48%] lg:min-w-[31%]"
-                                >
-                                    <MenuCard
-                                        nama_menu={menu.nama_menu}
-                                        harga_menu={menu.harga_menu}
-                                        foto_menu={menu.image}
-                                        tersedia={true} // Assuming exclusive menus are always available
-                                        onClick={() => {}}
-                                    />
-                                </div>
-                            ))}
-                        </div>
+                        {loadingSpeciality ? (
+                            <p>Loading speciality menus...</p>
+                        ) : errorSpeciality ? (
+                            <p className="text-red-500">{errorSpeciality}</p>
+                        ) : (
+                            <div className="flex gap-2">
+                                {Array.isArray(featuredMenus) &&
+                                    featuredMenus.map((menu: MenuItem) => (
+                                        <div
+                                            key={menu.id}
+                                            className="flex-shrink-0 min-w-full sm:min-w-[calc(50%-0.25rem)] md:min-w-[calc(50%-0.25rem)] lg:min-w-[calc(33.333%-0.33rem)]"
+                                        >
+                                            <MenuCard
+                                                nama_menu={menu.nama_menu}
+                                                harga_menu={menu.harga_menu}
+                                                foto_menu={menu.foto_menu}
+                                                tersedia={menu.tersedia} // Assuming exclusive menus are always available
+                                                onClick={() => {}}
+                                            />
+                                        </div>
+                                    ))}
+                            </div>
+                        )}
                     </div>
 
                     {/* Pagination dots */}
                     <div className="flex justify-center gap-2 mt-6">
-                        {featuredMenus.map((_, index) => (
-                            <button
-                                key={index}
-                                onClick={() => {
-                                    if (emblaApi) {
-                                        emblaApi.scrollTo(index);
-                                        setCurrentSlide(index);
-                                    }
-                                }}
-                                className={`w-2 h-2 rounded-full transition-colors ${
-                                    index === currentSlide
-                                        ? "bg-green-600"
-                                        : "bg-gray-300"
-                                }`}
-                            />
-                        ))}
+                        {Array.isArray(specialityMenus) &&
+                            specialityMenus.map((_, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => {
+                                        if (emblaApi) {
+                                            emblaApi.scrollTo(index);
+                                            setCurrentSlide(index);
+                                        }
+                                    }}
+                                    className={`w-2 h-2 rounded-full transition-colors ${
+                                        index === currentSlide
+                                            ? "bg-green-600"
+                                            : "bg-gray-300"
+                                    }`}
+                                />
+                            ))}
                     </div>
                 </div>
             </section>

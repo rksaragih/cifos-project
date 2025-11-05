@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Menu;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Support\Facades\Log;
 
 //test  
 class MenuController extends Controller
@@ -134,14 +135,20 @@ class MenuController extends Controller
 
     public function getSpecialityMenus()
     {
-        $specialityCategory = Category::where('nama', 'Speciality')->first();
+        try {
+            $specialityCategory = Category::where('nama', 'Speciality')->first();
 
-        if (!$specialityCategory) {
-            return response()->json([], 404);
+            if (!$specialityCategory) {
+                return response()->json([], 404);
+            }
+
+            $menus = Menu::where('kategori_id', $specialityCategory->id)->with('category')->get();
+
+            return response()->json($menus);
+        } catch (\Exception $e) {
+            // Log the error for debugging purposes
+            \Illuminate\Support\Facades\Log::error('Error in getSpecialityMenus: ' . $e->getMessage());
+            return response()->json(['message' => 'Internal Server Error'], 500);
         }
-
-        $menus = Menu::where('kategori_id', $specialityCategory->id)->with('category')->get();
-
-        return response()->json($menus);
     }
 }
