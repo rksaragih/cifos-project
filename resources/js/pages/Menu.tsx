@@ -197,9 +197,7 @@ const Menu = () => {
             <main className="flex-1 pt-20 pb-12">
                 <div className="container mx-auto px-4">
                     {/* Header */}
-                    <div className="flex items-center justify-between mb-8">
-                        <h1 className="text-4xl font-bold">Pick Your Menu</h1>
-                    </div>
+                    <div className="flex items-center justify-between mb-8"></div>
 
                     {/* Category Filter and Search Bar */}
                     <div className="flex flex-col-reverse md:flex-row md:items-center md:justify-between mb-8 gap-3">
