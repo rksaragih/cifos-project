@@ -15,7 +15,7 @@ import cifosBarbershop from "@/assets/cifos-barbershop.jpg";
 import kopiTemanAkrab from "@/assets/kopi-teman-akrab.jpg";
 import sizzleImg from "@/assets/sizzle.jpg";
 import kopitiamImg from "@/assets/kopitiam.jpg";
-import MenuCard from "@/Components/MenuCard";
+import SpecialMenuCard from "@/Components/SpecialMenuCard";
 
 interface MenuItem {
     id: number;
@@ -280,7 +280,7 @@ const Index: React.FC = () => {
                                             key={menu.id}
                                             className="flex-shrink-0 min-w-full sm:min-w-[calc(50%-0.25rem)] md:min-w-[calc(50%-0.25rem)] lg:min-w-[calc(33.333%-0.33rem)]"
                                         >
-                                            <MenuCard
+                                            <SpecialMenuCard
                                                 nama_menu={menu.nama_menu}
                                                 harga_menu={menu.harga_menu}
                                                 foto_menu={menu.foto_menu}

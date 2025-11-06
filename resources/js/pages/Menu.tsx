@@ -264,7 +264,7 @@ const Menu = () => {
                                 className="overflow-hidden"
                                 ref={recommendedRef as any}
                             >
-                                <div className="flex gap-4">
+                                <div className="flex gap-3.5">
                                     {recommendedMenus.map((m: any) => (
                                         <div
                                             className="min-w-[260px] flex-shrink-0"
@@ -318,7 +318,7 @@ const Menu = () => {
                                 className="overflow-hidden"
                                 ref={bestRef as any}
                             >
-                                <div className="flex gap-4">
+                                <div className="flex gap-3.5">
                                     {bestSellerMenus.map((m: any) => (
                                         <div
                                             className="min-w-[260px] flex-shrink-0"

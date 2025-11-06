@@ -4,7 +4,7 @@ import { Badge } from "@/Components/ui/badge";
 import { Button } from "@/Components/ui/button";
 import { Minus, Plus } from "lucide-react";
 
-export interface MenuCardProps {
+export interface SpecialMenuCardProps {
     nama_menu: string;
     harga_menu: number;
     foto_menu?: string;
@@ -17,7 +17,7 @@ export interface MenuCardProps {
     best_seller?: boolean;
 }
 
-const MenuCard = ({
+const SpecialMenuCard = ({
     nama_menu,
     harga_menu,
     foto_menu,
@@ -28,7 +28,7 @@ const MenuCard = ({
     onQuantityChange,
     rekomendasi,
     best_seller,
-}: MenuCardProps) => {
+}: SpecialMenuCardProps) => {
     const handleQuantityChange = (newQuantity: number) => {
         if (newQuantity < 0) return;
         onQuantityChange?.(newQuantity);
@@ -36,11 +36,11 @@ const MenuCard = ({
 
     return (
         <Card
-            className="w-[365px] h-[290px] rounded-lg border border-border bg-card overflow-hidden shadow-sm hover:shadow-md transition-transform duration-200"
+            className="w-[450px] h-[450px] rounded-lg border border-border bg-card overflow-hidden shadow-sm hover:shadow-md transition-transform duration-200"
             onClick={onClick}
         >
             {/* Area gambar */}
-            <div className="relative h-[176px] bg-gray-100 overflow-hidden">
+            <div className="relative h-[280px] bg-gray-100 overflow-hidden">
                 <img
                     src={
                         foto_menu ||
@@ -78,7 +78,7 @@ const MenuCard = ({
             {/* Konten bawah */}
             <CardContent className="p-4 pb-5 relative bg-white">
                 {/* Nama menu dengan tinggi tetap */}
-                <h3 className="text-gray-800 font-semibold text-sm mb-2 line-clamp-2 min-h-[40px]">
+                <h3 className="text-gray-800 font-semibold text-base mb-2 line-clamp-2">
                     {nama_menu}
                 </h3>
 
@@ -125,4 +125,4 @@ const MenuCard = ({
     );
 };
 
-export default MenuCard;
+export default SpecialMenuCard;
