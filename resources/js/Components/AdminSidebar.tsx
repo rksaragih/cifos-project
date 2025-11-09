@@ -33,17 +33,15 @@ const AdminSidebar: React.FC = () => {
     };
 
     return (
-        <aside className="w-64 bg-white border-r min-h-screen sticky top-0 flex flex-col">
-            <div className="p-6 flex-1">
+        <aside className="fixed top-0 left-0 h-screen w-64 bg-white border-r shadow-sm flex flex-col justify-between z-20">
+            <div className="p-6 flex-1 overflow-y-auto">
                 <div className="flex items-center gap-3 mb-6">
                     <div className="w-12 h-12 rounded-lg bg-emerald-800 flex items-center justify-center text-white font-bold">
                         C
                     </div>
                     <div>
                         <div className="text-sm font-semibold">CIFOS</div>
-                        <div className="text-xs text-muted-foreground">
-                            Dashboard
-                        </div>
+                        <div className="text-xs text-muted-foreground">Dashboard</div>
                     </div>
                 </div>
 
@@ -52,8 +50,7 @@ const AdminSidebar: React.FC = () => {
                         const Icon = l.icon as any;
                         const active =
                             location.pathname === l.to ||
-                            (l.to === "/admin" &&
-                                location.pathname === "/admin");
+                            (l.to === "/admin" && location.pathname === "/admin");
                         return (
                             <Link
                                 key={l.to}
@@ -72,23 +69,7 @@ const AdminSidebar: React.FC = () => {
                 </nav>
             </div>
 
-            {/* User info and logout button */}
             <div className="p-6 border-t">
-                {adminUser && (
-                    <div className="mb-3 px-3 py-2 rounded-md bg-gray-50">
-                        <div className="flex items-center gap-2 text-sm text-gray-700">
-                            <User className="w-4 h-4" />
-                            <span className="font-medium">
-                                {adminUser.username}
-                            </span>
-                        </div>
-                        <div className="text-xs text-gray-500 mt-1 ml-6">
-                            {adminUser.role === "admin"
-                                ? "Administrator"
-                                : "User"}
-                        </div>
-                    </div>
-                )}
                 <button
                     onClick={handleLogout}
                     disabled={isLoggingOut}
@@ -99,6 +80,7 @@ const AdminSidebar: React.FC = () => {
                 </button>
             </div>
         </aside>
+
     );
 };
 
