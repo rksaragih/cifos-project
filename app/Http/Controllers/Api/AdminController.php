@@ -45,7 +45,6 @@ class AdminController extends Controller
 
     public function logout(Request $request)
     {
-
         $user = $request->user();
 
         if ($user && $user->currentAccessToken()) {
@@ -54,11 +53,10 @@ class AdminController extends Controller
             return response()->json([
                 'message' => 'Logout Successful',
             ]);
-
-            return respone()->json([
-                'message' => 'No active session or token found'
-            ], 401);
         }
 
+        return response()->json([
+            'message' => 'No active session or token found'
+        ], 401);
     }
 }
