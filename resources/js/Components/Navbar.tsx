@@ -10,7 +10,8 @@ const Navbar = () => {
   const navLinks = [
     { to: "/", label: "Home" },
     { to: "/menu", label: "Menu" },
-  { to: "/reservasi", label: "Reservasi" },
+    { to: "/reservasi", label: "Reservasi" },
+    { to: "/artikel", label: "Artikel" },
     { to: "/tentang-kami", label: "Tentang Kami" },
     { to: "/contact", label: "Kontak Kami" },
   ];

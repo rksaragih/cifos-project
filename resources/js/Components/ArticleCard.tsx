@@ -11,7 +11,7 @@ interface ArticleCardProps {
   isi: string;
   foto?: string;
   author?: string;
-  tanggal?: string;
+  tanggal?: Date;
 }
 
 const ArticleCard = ({ id, judul, topik, isi, foto, author, tanggal }: ArticleCardProps) => {
