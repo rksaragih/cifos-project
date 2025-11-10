@@ -106,18 +106,28 @@ class ArticleController extends Controller{
     public function search(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|min:1',
+            'title' => 'sometimes|required|string|min:1',
+            'topic' => 'sometimes|required|string|min:1',
         ]);
 
-        $title = $request->input('title');
-        $articles = Article::with('user')
-                            ->where('judul', 'like', '%' . $title . '%')
-                            ->get();
+        $query = Article::with('user');
+
+        if ($request->has('title')) {
+            $title = $request->input('title');
+            $query->where('judul', 'like', '%' . $title . '%');
+        }
+
+        if ($request->has('topic')) {
+            $topic = $request->input('topic');
+            $query->where('topik', $topic);
+        }
+
+        $articles = $query->get();
 
         if ($articles->isEmpty()) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'No articles found with the given title.',
+                'message' => 'No articles found with the given criteria.',
                 'data' => []
             ], 404);
         }

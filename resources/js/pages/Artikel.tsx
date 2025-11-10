@@ -18,13 +18,18 @@ const Artikel = () => {
             setLoading(true);
             try {
                 const params = new URLSearchParams();
+                let apiUrl = "/api/articles";
+
                 if (searchQuery) {
-                    params.append("query", searchQuery);
+                    params.append("title", searchQuery);
+                    apiUrl = "/api/articles/search";
                 }
                 if (selectedTopic !== "Semua") {
                     params.append("topic", selectedTopic);
+                    apiUrl = "/api/articles/search";
                 }
-                const url = `/api/articles${
+
+                const url = `${apiUrl}${
                     params.toString() ? `?${params.toString()}` : ""
                 }`;
                 const response = await fetch(url);
@@ -32,9 +37,10 @@ const Artikel = () => {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const data = await response.json();
-                setArticles(data);
+                setArticles(data.data || data); // Adjust based on API response structure
             } catch (error) {
                 console.error("Error fetching articles:", error);
+                setArticles([]); // Clear articles on error
             } finally {
                 setLoading(false);
             }
@@ -52,7 +58,7 @@ const Artikel = () => {
             <section className="pt-20 pb-2">
                 <div className="container mx-auto px-4">
                     <div className="flex items-center justify-between mb-8"></div>
-                    <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+                    <div className="flex flex-col md:flex-row gap-4 items-center justify-center">
                         {/* Search */}
                         <div className="relative w-full md:w-96">
                             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />

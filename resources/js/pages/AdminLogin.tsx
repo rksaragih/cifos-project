@@ -146,14 +146,6 @@ const AdminLogin = () => {
                                 disabled={isLoading}
                                 autoComplete="current-password"
                             />
-                            <div className="text-right mt-2">
-                                <a
-                                    href="#"
-                                    className="text-sm text-green-600 hover:text-green-700 hover:underline"
-                                >
-                                    Lupa Password?
-                                </a>
-                            </div>
                         </div>
 
                         <button
