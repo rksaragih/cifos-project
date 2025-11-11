@@ -162,10 +162,7 @@ const KategoriAdmin = () => {
         <div className="max-w-4xl mx-auto">
             <div className="flex items-center justify-between mb-4">
                 <div>
-                    <h1 className="text-2xl font-semibold">Kategori</h1>
-                    <p className="text-sm text-muted-foreground">
-                        Daftar kategori menu
-                    </p>
+                    <h1 className="text-2xl font-semibold">Daftar Kategori</h1>
                 </div>
                 <div className="flex items-center gap-3">
                     <div className="flex items-center bg-white border rounded-md px-2 py-1">

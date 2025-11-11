@@ -1,202 +1,463 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { Button } from '@/Components/ui/button';
+import React, { useEffect, useState } from "react";
+import { Button } from "@/Components/ui/button";
+import { Input } from "@/Components/ui/input";
+import { Label } from "@/Components/ui/label";
+import { useToast } from "@/hooks/use-toast";
 
-type ArtikelRow = { id: number; date: string; status: 'PUBLISHED' | 'DRAFT'; judul: string; featured: boolean; category: string };
-
-const sample: ArtikelRow[] = [
-  { id: 1, date: '12 July 2016', status: 'PUBLISHED', judul: 'Another article', featured: false, category: 'Siete' },
-  { id: 2, date: '24 July 2016', status: 'PUBLISHED', judul: 'Some article', featured: true, category: 'Cinco' },
-  { id: 3, date: '24 July 2016', status: 'PUBLISHED', judul: 'Some article', featured: true, category: 'Cinco' },
-  { id: 4, date: '24 July 2016', status: 'PUBLISHED', judul: 'Some article', featured: true, category: 'Cinco' },
-  { id: 5, date: '24 July 2016', status: 'PUBLISHED', judul: 'Some article', featured: true, category: 'Cinco' },
-];
+type ArtikelRow = {
+    id: number;
+    foto: string;
+    judul: string;
+    isi: string;
+};
 
 const ArtikelAdmin = () => {
-  const [rows, setRows] = useState<ArtikelRow[]>(() => {
-    try { const raw = localStorage.getItem('admin_artikel'); if (raw) return JSON.parse(raw); } catch {}
-    return sample;
-  });
+    const { toast } = useToast();
+    const [items, setItems] = useState<ArtikelRow[]>([]);
+    const [search, setSearch] = useState("");
+    const [showForm, setShowForm] = useState(false);
 
-  const [perPage, setPerPage] = useState(10);
-  const [page, setPage] = useState(1);
-  const [search, setSearch] = useState('');
-  const [showForm, setShowForm] = useState(false);
-  const [editingId, setEditingId] = useState<number | null>(null);
-  const [form, setForm] = useState({ date: '', status: 'DRAFT', judul: '', featured: false, category: '' });
+    const [form, setForm] = useState<{
+        judul: string;
+        foto: File | string | null;
+        isi: string;
+    }>({
+        judul: "",
+        foto: null,
+        isi: "",
+    });
+    const [uploading, setUploading] = useState(false);
+    const [editingId, setEditingId] = useState<number | null>(null);
+    const [showFullContent, setShowFullContent] = useState<
+        Record<number, boolean>
+    >({});
 
-  useEffect(() => { try { localStorage.setItem('admin_artikel', JSON.stringify(rows)); } catch {} }, [rows]);
+    const toggleShowMore = (id: number) => {
+        setShowFullContent((prev) => ({
+            ...prev,
+            [id]: !prev[id],
+        }));
+    };
 
-  const filtered = useMemo(() => {
-    if (!search) return rows;
-    const q = search.toLowerCase();
-    return rows.filter(r => r.judul.toLowerCase().includes(q) || r.category.toLowerCase().includes(q));
-  }, [rows, search]);
+    const fetchArticles = async () => {
+        try {
+            const res = await fetch("/api/articles");
+            if (!res.ok) throw new Error("Failed to fetch articles");
+            const data = await res.json();
+            const mapped = data.map((m: any) => ({
+                id: m.id,
+                foto: m.foto || "",
+                judul: m.judul,
+                isi: m.isi,
+            }));
+            setItems(mapped);
+        } catch (error) {
+            console.error("Error fetching articles:", error);
+        }
+    };
 
-  const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
-  const visible = filtered.slice((page - 1) * perPage, (page - 1) * perPage + perPage);
+    useEffect(() => {
+        fetchArticles(); // Initial fetch
 
-  const openCreateForm = () => {
-    setEditingId(null);
-    setForm({ date: new Date().toISOString().slice(0,10), status: 'DRAFT', judul: '', featured: false, category: '' });
-    setShowForm(true);
-    setPage(1);
-  };
+        const intervalId = setInterval(fetchArticles, 5000); // Poll every 5 seconds
 
-  const handleDelete = (id: number) => setRows(prev => prev.filter(r => r.id !== id));
+        return () => clearInterval(intervalId); // Cleanup on unmount
+    }, []);
 
-  const handleEdit = (row: ArtikelRow) => {
-    setEditingId(row.id);
-    // try to normalize date to yyyy-mm-dd for input
-    let iso = '';
-    try { iso = new Date(row.date).toISOString().slice(0,10); } catch { iso = '' }
-    setForm({ date: iso || new Date().toISOString().slice(0,10), status: row.status, judul: row.judul, featured: !!row.featured, category: row.category });
-    setShowForm(true);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+    const openCreateForm = () => {
+        setEditingId(null);
+        setForm({
+            judul: "",
+            foto: null,
+            isi: "",
+        });
+        setShowForm(true);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
 
-  const handleSave = () => {
-    if (!form.judul) {
-      alert('Judul harus diisi');
-      return;
-    }
+    const handleChange = (key: string, value: any) =>
+        setForm((f) => ({ ...f, [key]: value }));
 
-    if (editingId) {
-      setRows(prev => prev.map(r => r.id === editingId ? { ...r, date: form.date, status: form.status as any, judul: form.judul, featured: form.featured, category: form.category } : r));
-    } else {
-      const newItem: ArtikelRow = { id: Date.now(), date: form.date, status: form.status as any, judul: form.judul, featured: form.featured, category: form.category };
-      setRows(prev => [newItem, ...prev]);
-      setPage(1);
-    }
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
 
-    // close form
-    setShowForm(false);
-    setEditingId(null);
-    setForm({ date: '', status: 'DRAFT', judul: '', featured: false, category: '' });
-  };
+        // Basic validation
+        if (!form.judul) {
+            toast({
+                title: "Error",
+                description: "Lengkapi judul",
+                variant: "destructive",
+            });
+            return;
+        }
 
-  useEffect(() => { if (page > totalPages) setPage(totalPages); }, [totalPages]);
+        setUploading(true); // Indicate that an upload is in progress
 
-  return (
-    <div className="max-w-6xl mx-auto">
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <h1 className="text-2xl font-semibold">Articles</h1>
-          <p className="text-sm text-muted-foreground">All articles in the database.</p>
-        </div>
-        <div className="flex items-center gap-3">
-          <Button className="bg-purple-600 text-white" onClick={openCreateForm}>+ Add article</Button>
-        </div>
-      </div>
+        const formData = new FormData();
+        formData.append("judul", form.judul);
+        formData.append("isi", form.isi);
 
-      <div className="bg-white border rounded-md p-4">
-        {showForm && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center">
-            <div className="absolute inset-0 bg-black opacity-40" onClick={() => { setShowForm(false); setEditingId(null); }} />
-            <div className="relative bg-white w-11/12 md:w-3/4 lg:w-2/3 rounded-md shadow-lg p-6 z-10">
-              <div className="flex items-center justify-between mb-3">
-                <div className="text-lg font-semibold">{editingId ? `Mengedit article #${editingId}` : 'Tambah Artikel'}</div>
-                <div className="flex items-center gap-2">
-                  {editingId && <div className="text-sm text-muted-foreground">ID: {editingId}</div>}
-                  <button className="text-gray-500" onClick={() => { setShowForm(false); setEditingId(null); }}>✕</button>
-                </div>
-              </div>
+        if (form.foto instanceof File) {
+            formData.append("foto", form.foto);
+        } else if (typeof form.foto === "string" && form.foto) {
+            // If it's an existing image URL, send it as a string
+            formData.append("foto_url", form.foto); // Backend should handle this
+        }
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        try {
+            let res;
+            const token = localStorage.getItem("admin_token");
+            const headers = {
+                Accept: "application/json",
+                Authorization: `Bearer ${token}`,
+                // Do NOT set Content-Type for FormData, browser sets it automatically
+            };
+
+            if (editingId) {
+                // For PUT requests with FormData, use _method=PUT
+                formData.append("_method", "PUT");
+                res = await fetch(`/api/articles/${editingId}`, {
+                    method: "POST", // Use POST for FormData with _method=PUT
+                    headers: headers,
+                    body: formData,
+                });
+            } else {
+                res = await fetch("/api/articles", {
+                    method: "POST",
+                    headers: headers,
+                    body: formData,
+                });
+            }
+
+            if (!res.ok) {
+                const err = await res.json().catch(() => ({}));
+                throw new Error(err.message || "Failed to save article");
+            }
+
+            const raw = await res.json();
+            const created = raw?.data ?? raw;
+
+            const newItem: ArtikelRow = {
+                id: created.id,
+                foto: created.foto || "",
+                judul: created.judul,
+                isi: created.isi,
+            };
+
+            setItems((prev) => {
+                if (editingId) {
+                    return prev.map((p) => (p.id === editingId ? newItem : p));
+                }
+                return [newItem, ...prev];
+            });
+
+            toast({
+                title: "Berhasil",
+                description: editingId
+                    ? "Artikel berhasil diupdate"
+                    : "Artikel berhasil ditambahkan",
+            });
+            setShowForm(false);
+            setForm({
+                judul: "",
+                foto: null,
+                isi: "",
+            });
+            setEditingId(null);
+        } catch (err: any) {
+            toast({
+                title: "Error",
+                description: err?.message || "Gagal menyimpan artikel",
+                variant: "destructive",
+            });
+        } finally {
+            setUploading(false); // Reset uploading state
+        }
+    };
+
+    const handleEdit = (item: ArtikelRow) => {
+        setEditingId(item.id);
+        setForm({
+            judul: item.judul,
+            foto: item.foto || null, // Ensure foto is string or null for existing images
+            isi: item.isi,
+        });
+        setShowForm(true);
+        // scroll to form
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    const handleDelete = async (id: number) => {
+        if (!confirm("Hapus artikel ini?")) return;
+        try {
+            const token = localStorage.getItem("admin_token");
+            const res = await fetch(`/api/articles/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            if (!res.ok) throw new Error("Gagal menghapus artikel");
+            setItems((prev) => prev.filter((p) => p.id !== id));
+            toast({
+                title: "Deleted",
+                description: "Artikel berhasil dihapus",
+            });
+        } catch (err: any) {
+            toast({
+                title: "Error",
+                description: err?.message || "Gagal menghapus artikel",
+                variant: "destructive",
+            });
+        }
+    };
+
+    return (
+        <div className="w-full">
+            <div className="flex items-center justify-between mb-4">
                 <div>
-                  <label className="text-sm">Date</label>
-                  <input type="date" className="w-full border rounded-md p-2" value={form.date} onChange={(e) => setForm(f => ({ ...f, date: e.target.value }))} />
+                    <h1 className="text-2xl font-semibold">Daftar Artikel</h1>
                 </div>
-                <div>
-                  <label className="text-sm">Status</label>
-                  <select className="w-full border rounded-md p-2" value={form.status} onChange={(e) => setForm(f => ({ ...f, status: e.target.value }))}>
-                    <option value="PUBLISHED">PUBLISHED</option>
-                    <option value="DRAFT">DRAFT</option>
-                  </select>
+                <div className="flex items-center gap-3">
+                    <div className="flex items-center bg-white border rounded-md px-2 py-1">
+                        <input
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            placeholder="Search artikel..."
+                            className="outline-none text-sm w-48"
+                        />
+                    </div>
+                    <Button onClick={openCreateForm}>Tambah</Button>
                 </div>
-                <div>
-                  <label className="text-sm">Featured</label>
-                  <div className="flex items-center gap-2">
-                    <input id="featured" type="checkbox" checked={form.featured} onChange={(e) => setForm(f => ({ ...f, featured: e.target.checked }))} />
-                    <label htmlFor="featured">Featured</label>
-                  </div>
-                </div>
-                <div className="md:col-span-3">
-                  <label className="text-sm">Title</label>
-                  <input className="w-full border rounded-md p-2" value={form.judul} onChange={(e) => setForm(f => ({ ...f, judul: e.target.value }))} />
-                </div>
-                <div className="md:col-span-3">
-                  <label className="text-sm">Category</label>
-                  <input className="w-full border rounded-md p-2" value={form.category} onChange={(e) => setForm(f => ({ ...f, category: e.target.value }))} />
-                </div>
-              </div>
-
-              <div className="mt-4 flex items-center gap-2">
-                <Button onClick={handleSave}>Save</Button>
-                <Button variant="outline" onClick={() => { setShowForm(false); setEditingId(null); setForm({ date: '', status: 'DRAFT', judul: '', featured: false, category: '' }); }}>Cancel</Button>
-              </div>
             </div>
-          </div>
-        )}
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-3">
-            <label className="text-sm">Show</label>
-            <select value={perPage} onChange={(e) => { setPerPage(Number(e.target.value)); setPage(1); }} className="border rounded-md p-1">
-              <option value={5}>5</option>
-              <option value={10}>10</option>
-              <option value={25}>25</option>
-            </select>
-            <label className="text-sm">records per page</label>
-          </div>
 
-          <div className="flex items-center gap-2">
-            <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search:" className="border rounded-md p-1 text-sm" />
-          </div>
-        </div>
+            {showForm && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center">
+                    <div
+                        className="absolute inset-0 bg-black opacity-40"
+                        onClick={() => {
+                            setShowForm(false);
+                            setEditingId(null);
+                        }}
+                    />
+                    <div className="relative bg-white w-11/12 md:w-3/4 lg:w-2/3 rounded-md shadow-lg p-6 z-10">
+                        <div className="flex items-center justify-between mb-3">
+                            <div className="text-lg font-semibold">
+                                {editingId
+                                    ? `Mengedit artikel #${editingId}`
+                                    : "Tambah Artikel"}
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <button
+                                    className="text-gray-500"
+                                    onClick={() => {
+                                        setShowForm(false);
+                                        setEditingId(null);
+                                    }}
+                                >
+                                    ✕
+                                </button>
+                            </div>
+                        </div>
 
-        <div className="overflow-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="bg-gray-100 text-left">
-                <th className="p-2">Date</th>
-                <th className="p-2">Status</th>
-                <th className="p-2">Title</th>
-                <th className="p-2">Featured</th>
-                <th className="p-2">Category</th>
-                <th className="p-2 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {visible.map(r => (
-                <tr key={r.id} className="border-t even:bg-gray-50">
-                  <td className="p-2 align-top">{(() => { try { return new Date(r.date).toLocaleDateString('en-GB'); } catch { return r.date; } })()}</td>
-                  <td className="p-2 align-top"><span className="text-sm font-semibold">{r.status}</span></td>
-                  <td className="p-2 align-top">{r.judul}</td>
-                  <td className="p-2 align-top text-center">{r.featured ? '✓' : ''}</td>
-                  <td className="p-2 align-top">{r.category}</td>
-                  <td className="p-2 align-top text-right">
-                    <Button size="sm" variant="outline" onClick={() => handleEdit(r)}>Edit</Button>
-                    <Button size="sm" className="ml-2" onClick={() => handleDelete(r.id)}>Delete</Button>
-                  </td>
-                </tr>
-              ))}
-              {visible.length === 0 && (
-                <tr><td colSpan={6} className="p-4 text-center text-sm text-muted-foreground">No records found</td></tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+                        <form onSubmit={handleSubmit}>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div>
+                                    <Label>Foto Artikel</Label>
+                                    <div className="flex items-center gap-3">
+                                        <input
+                                            id="artikel-file-input"
+                                            type="file"
+                                            accept="image/*"
+                                            className="hidden"
+                                            onChange={(e) =>
+                                                handleChange(
+                                                    "foto",
+                                                    e.target.files?.[0] || null
+                                                )
+                                            }
+                                        />
+                                        <Button
+                                            type="button"
+                                            onClick={() => {
+                                                const el =
+                                                    document.getElementById(
+                                                        "artikel-file-input"
+                                                    ) as HTMLInputElement | null;
+                                                el?.click();
+                                            }}
+                                        >
+                                            Tambah Foto
+                                        </Button>
+                                        {form.foto && (
+                                            <div className="w-28 h-20 overflow-hidden rounded-md border">
+                                                <img
+                                                    src={
+                                                        typeof form.foto ===
+                                                        "string"
+                                                            ? form.foto
+                                                            : URL.createObjectURL(
+                                                                  form.foto
+                                                              )
+                                                    }
+                                                    alt="preview"
+                                                    className="w-full h-full object-cover"
+                                                />
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                                <div className="md:col-span-2">
+                                    <Label>Judul</Label>
+                                    <Input
+                                        value={form.judul}
+                                        onChange={(e) =>
+                                            handleChange(
+                                                "judul",
+                                                e.target.value
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <div className="md:col-span-3">
+                                    <Label>Isi Artikel</Label>
+                                    <textarea
+                                        value={form.isi}
+                                        onChange={(e) =>
+                                            handleChange("isi", e.target.value)
+                                        }
+                                        className="w-full border rounded-md p-2 h-32"
+                                    />
+                                </div>
+                            </div>
 
-        <div className="flex items-center justify-between mt-4">
-          <div className="text-sm text-muted-foreground">Showing {visible.length} of {filtered.length} records</div>
-          <div className="flex items-center gap-2">
-            <Button size="sm" onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}>Prev</Button>
-            <div className="px-2">Page {page} / {totalPages}</div>
-            <Button size="sm" onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages}>Next</Button>
-          </div>
+                            <div className="mt-4 flex items-center gap-2">
+                                <Button type="submit" disabled={uploading}>
+                                    Simpan
+                                </Button>
+                                {uploading && (
+                                    <span className="text-sm text-gray-500">
+                                        Uploading...
+                                    </span>
+                                )}
+                                <Button
+                                    variant="outline"
+                                    onClick={() => {
+                                        setShowForm(false);
+                                        setEditingId(null);
+                                        setForm({
+                                            judul: "",
+                                            foto: null,
+                                            isi: "",
+                                        });
+                                    }}
+                                >
+                                    Batal
+                                </Button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
+            <div className="bg-white border rounded-lg overflow-auto mt-4">
+                <table className="w-full text-sm">
+                    <thead>
+                        <tr className="bg-gray-900 text-white">
+                            <th className="p-3 text-left w-1/8">Foto</th>
+                            <th className="p-3 text-left w-1/4">Judul</th>
+                            <th className="p-3 text-left w-1/2">Isi</th>
+                            <th className="p-3 text-right w-1/8">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {items
+                            .filter((it) => {
+                                if (!search) return true;
+                                const q = search.toLowerCase();
+                                return (
+                                    String(it.judul)
+                                        .toLowerCase()
+                                        .includes(q) ||
+                                    String(it.isi).toLowerCase().includes(q)
+                                );
+                            })
+                            .map((it) => (
+                                <tr
+                                    key={it.id}
+                                    className="border-t even:bg-gray-50"
+                                >
+                                    <td className="p-3 w-20">
+                                        {it.foto ? (
+                                            <img
+                                                src={it.foto}
+                                                alt={it.judul}
+                                                className="w-16 h-12 object-cover rounded-md"
+                                            />
+                                        ) : (
+                                            <div className="w-16 h-12 bg-gray-100 rounded-md" />
+                                        )}
+                                    </td>
+                                    <td className="p-3">{it.judul}</td>
+                                    <td className="p-3">
+                                        {showFullContent[it.id] ? (
+                                            <p>{it.isi}</p>
+                                        ) : (
+                                            <p className="line-clamp-2">
+                                                {it.isi}
+                                            </p>
+                                        )}
+                                        {it.isi.length > 100 && (
+                                            <button
+                                                onClick={() =>
+                                                    toggleShowMore(it.id)
+                                                }
+                                                className="text-blue-500 hover:underline text-xs mt-1"
+                                            >
+                                                {showFullContent[it.id]
+                                                    ? "Show Less"
+                                                    : "Show More"}
+                                            </button>
+                                        )}
+                                    </td>
+                                    <td className="p-3 text-right">
+                                        <Button
+                                            size="sm"
+                                            variant="outline"
+                                            onClick={() => handleEdit(it)}
+                                        >
+                                            Edit
+                                        </Button>
+                                        <Button
+                                            size="sm"
+                                            className="ml-2"
+                                            onClick={() => handleDelete(it.id)}
+                                        >
+                                            Delete
+                                        </Button>
+                                    </td>
+                                </tr>
+                            ))}
+                        {items.length === 0 && (
+                            <tr>
+                                <td
+                                    colSpan={4}
+                                    className="p-4 text-center text-sm text-muted-foreground"
+                                >
+                                    No records found
+                                </td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+                <div className="p-3 bg-gray-50 text-sm text-muted-foreground">
+                    Showing {items.length} items
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default ArtikelAdmin;

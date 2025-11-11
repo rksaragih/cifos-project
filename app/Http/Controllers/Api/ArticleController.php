@@ -25,19 +25,20 @@ class ArticleController extends Controller{
         $request->validate([
             'judul' => 'required|string|max:255',
             'isi' => 'required|string',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'foto' => 'nullable|string',
         ]);
 
-        $fotoPath = null;
+        $data = $request->all();
+        $data['author_id'] = auth()->id();
+
         if ($request->hasFile('foto')) {
             $fotoPath = $request->file('foto')->store('public/articles');
-            $fotoPath = Storage::url($fotoPath);
+            $data['foto'] = Storage::url($fotoPath);
+        } else {
+            $data['foto'] = null; // Ensure foto is explicitly null if no file is uploaded
         }
 
-        $article = Article::create(array_merge($request->all(), [
-            'foto' => $fotoPath,
-            'author_id' => auth()->id()
-        ]));
+        $article = Article::create($data);
         return response()->json([
             'status' => 'success',
             'message' => 'Article created successfully',
@@ -58,8 +59,7 @@ class ArticleController extends Controller{
         $request->validate([
             'judul' => 'sometimes|required|string|max:255',
             'isi' => 'sometimes|required|string',
-            // 'foto' => 'nullable|string',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'foto' => 'nullable|string',
         ]);
 
         $data = $request->all();
@@ -71,6 +71,12 @@ class ArticleController extends Controller{
             }
             $fotoPath = $request->file('foto')->store('public/articles');
             $data['foto'] = Storage::url($fotoPath);
+        } else if ($request->has('foto_url')) {
+            // If foto_url is present, it means an existing image is being kept
+            $data['foto'] = $request->input('foto_url');
+        } else {
+            // If no new file and no foto_url, assume foto should be cleared
+            $data['foto'] = null;
         }
 
         $article->update($data);

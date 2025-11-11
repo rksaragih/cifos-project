@@ -289,11 +289,7 @@ const MenuAdmin = () => {
         <div className="w-full">
             <div className="flex items-center justify-between mb-4">
                 <div>
-                    <h1 className="text-2xl font-semibold">Menu</h1>
-                    <p className="text-sm text-muted-foreground">
-                        Kelola daftar menu — foto, kategori, harga, dan status
-                        ketersediaan
-                    </p>
+                    <h1 className="text-2xl font-semibold">Daftar Menu</h1>
                 </div>
                 <div className="flex items-center gap-3">
                     <div className="flex items-center bg-white border rounded-md px-2 py-1">

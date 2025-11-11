@@ -13,42 +13,46 @@ const Artikel = () => {
     const [loading, setLoading] = useState(true);
     const [topics, setTopics] = useState(["Semua"]);
 
-    useEffect(() => {
-        const fetchArticles = async () => {
-            setLoading(true);
-            try {
-                const params = new URLSearchParams();
-                let apiUrl = "/api/articles";
+    const fetchArticles = async () => {
+        setLoading(true);
+        try {
+            const params = new URLSearchParams();
+            let apiUrl = "/api/articles";
 
-                if (searchQuery) {
-                    params.append("title", searchQuery);
-                    apiUrl = "/api/articles/search";
-                }
-                if (selectedTopic !== "Semua") {
-                    params.append("topic", selectedTopic);
-                    apiUrl = "/api/articles/search";
-                }
-
-                const url = `${apiUrl}${
-                    params.toString() ? `?${params.toString()}` : ""
-                }`;
-                const response = await fetch(url);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-                setArticles(data.data || data); // Adjust based on API response structure
-            } catch (error) {
-                console.error("Error fetching articles:", error);
-                setArticles([]); // Clear articles on error
-            } finally {
-                setLoading(false);
+            // Apply search and filter only if they are active
+            if (searchQuery) {
+                params.append("title", searchQuery);
+                apiUrl = "/api/articles/search";
             }
-        };
+            if (selectedTopic !== "Semua") {
+                params.append("topic", selectedTopic);
+                apiUrl = "/api/articles/search";
+            }
 
-        fetchArticles();
-        // fetchCategories();
-    }, [searchQuery, selectedTopic]);
+            const url = `${apiUrl}${
+                params.toString() ? `?${params.toString()}` : ""
+            }`;
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            setArticles(data.data || data); // Adjust based on API response structure
+        } catch (error) {
+            console.error("Error fetching articles:", error);
+            setArticles([]); // Clear articles on error
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchArticles(); // Initial fetch when component mounts
+
+        const intervalId = setInterval(fetchArticles, 5000); // Poll every 5 seconds
+
+        return () => clearInterval(intervalId); // Cleanup on unmount
+    }, [searchQuery, selectedTopic]); // Re-run effect if search query or selected topic changes
 
     return (
         <div className="min-h-screen flex flex-col">

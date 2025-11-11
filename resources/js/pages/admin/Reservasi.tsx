@@ -42,8 +42,7 @@ const ReservasiAdmin = () => {
     <div className="max-w-6xl mx-auto">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <h1 className="text-2xl font-semibold">Reservasi</h1>
-          <p className="text-sm text-muted-foreground">Kelola reservasi pelanggan — lihat kode, kontak, jumlah, tanggal, dan status pembayaran</p>
+          <h1 className="text-2xl font-semibold">Daftar Reservasi</h1>
         </div>
         <div className="flex items-center gap-3">
           <div className="hidden sm:flex items-center bg-white border rounded-md px-2 py-1">
