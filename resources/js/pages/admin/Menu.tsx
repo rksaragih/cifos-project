@@ -164,24 +164,23 @@ const MenuAdmin = () => {
 
         try {
             let res;
+            const token = localStorage.getItem("admin_token");
+            const headers = {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: `Bearer ${token}`,
+            };
+
             if (editingId) {
                 res = await fetch(`/api/menus/${editingId}`, {
                     method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Accept: "application/json",
-                    },
-                    credentials: "include",
+                    headers: headers,
                     body: JSON.stringify(payload),
                 });
             } else {
                 res = await fetch("/api/menus", {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Accept: "application/json",
-                    },
-                    credentials: "include",
+                    headers: headers,
                     body: JSON.stringify(payload),
                 });
             }
@@ -265,10 +264,14 @@ const MenuAdmin = () => {
     const handleDelete = async (id: number) => {
         if (!confirm("Hapus menu ini?")) return;
         try {
+            const token = localStorage.getItem("admin_token");
             const res = await fetch(`/api/menus/${id}`, {
                 method: "DELETE",
-                credentials: "include",
-                headers: { Accept: "application/json" },
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
             });
             if (!res.ok) throw new Error("Gagal menghapus menu");
             setItems((prev) => prev.filter((p) => p.id !== id));
