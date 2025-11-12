@@ -1,75 +1,56 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Facebook, Instagram, Twitter, Linkedin, Globe } from "lucide-react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/Components/ui/select";
+import footerBg from "@/assets/ciawi-food-station.jpg";
 
 const Footer = () => {
   return (
-    <footer className="bg-green-800 text-white">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
-          <div>
-            <h3 className="font-bold text-xl mb-4">CIFOS</h3>
-            <h4 className="font-semibold mb-3">Contact us</h4>
-            <ul className="space-y-2 text-sm text-white/90">
-              <li>sweetdeli@gmail.com</li>
-              <li>+1-2345-6789</li>
-              <li>123 Ave, New York, USA</li>
-            </ul>
-          </div>
+    <footer className="text-white bg-green-800">
+      <div className="relative overflow-hidden">
 
-          <div>
-            <h4 className="font-semibold mb-3">Products</h4>
-            <ul className="space-y-2 text-sm text-white/90">
-              {["Auctor volutpat.", "Fermentum turpis.", "Mi consequat.", "Amet venenatis.", "Convallis porttitor."].map((item, i) => (
-                <li key={i}><Link to="#" className="hover:text-white transition-colors">{item}</Link></li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-semibold mb-3">About</h4>
-            <ul className="space-y-2 text-sm text-white/90">
-              {["Egestas vitae.", "Viverra lorem ac.", "Eget ac tellus.", "Erat nulla.", "Vulputate proin."].map((item, i) => (
-                <li key={i}><Link to="#" className="hover:text-white transition-colors">{item}</Link></li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-semibold mb-3">Get the app</h4>
-            <div className="space-y-3">
-              <a href="#" className="block">
-                <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="App Store" className="h-10"/>
-              </a>
-              <a href="#" className="block">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Google Play" className="h-10"/>
-              </a>
+        <div className="relative container mx-auto px-10 py-12 md:py-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 text-white">
+            {/* Column 1: About Company + Opening Hours */}
+            <div>
+              <div className="mb-8">
+                <h3 className="text-lg md:text-xl font-semibold mb-4">About Company</h3>
+                <p className="text-sm text-white/90 leading-relaxed max-w-md">
+                  CIFOS (Ciawi Food Station) adalah tempat makan di Ciawi, Bogor yang menghadirkan berbagai hidangan lezat dengan cita rasa khas dan suasana nyaman.
+                </p>
+              </div>
+              
+              <div>
+                <h3 className="text-lg md:text-xl font-semibold mb-4">Opening Hours</h3>
+                <div className="text-sm text-white/90 space-y-1">
+                  <p>Monday - Thursday : 10:00 AM - 21:00 PM</p>
+                  <p>Friday - Sunday : 10:00 AM - 22:00 PM</p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        <div className="pt-8 border-t border-white/20">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="flex items-center gap-4">
-              <a href="#" className="hover:text-white transition-colors"><Facebook className="w-5 h-5" /></a>
-              <a href="#" className="hover:text-white transition-colors"><Linkedin className="w-5 h-5" /></a>
-              <a href="#" className="hover:text-white transition-colors"><Twitter className="w-5 h-5" /></a>
-              <a href="#" className="hover:text-white transition-colors"><Instagram className="w-5 h-5" /></a>
+            {/* Column 2: Useful Links */}
+            <div className="flex flex-col items-center text-center">
+              <h3 className="text-lg md:text-xl font-semibold mb-4">Links</h3>
+              <ul className="space-y-2 text-sm text-white/90">
+                <li><Link to="/" className="hover:text-white">Home</Link></li>
+                <li><Link to="/menu" className="hover:text-white">Menu</Link></li>
+                <li><Link to="/reservasi" className="hover:text-white">Reservasi</Link></li>
+                <li><Link to="/artikel" className="hover:text-white">Artikel</Link></li>
+                <li><Link to="/tentang-kami" className="hover:text-white">Tentang Kami</Link></li>
+                <li><Link to="/contact" className="hover:text-white">Kontak Kami</Link></li>
+              </ul>
             </div>
-            <div className="flex items-center gap-2">
-              <Globe className="w-4 h-4" />
-              <Select defaultValue="english">
-                <SelectTrigger className="w-[130px] bg-transparent border-white/30 text-white">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="english">English</SelectItem>
-                  <SelectItem value="indonesian">Indonesian</SelectItem>
-                </SelectContent>
-              </Select>
+            
+            {/* Column 3: Contact Us */}
+            <div>
+              <h3 className="text-lg md:text-xl font-semibold mb-4">Contact us</h3>
+              <div className="text-sm text-white/90 space-y-2">
+                <p>sweetdeli@gmail.com</p>
+                <p>+62 877-4601-0838</p>
+                <p className="leading-relaxed">
+                  Puncak Rd No.477, Bendungan, Ciawi Bogor Regency, West Java 16720
+                </p>
+              </div>
             </div>
-            <p className="text-sm text-white/80">Copyright © 2020. All rights reserved.</p>
           </div>
         </div>
       </div>

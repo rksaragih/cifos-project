@@ -215,7 +215,7 @@ const Index: React.FC = () => {
                                 Menu
                             </p>
                             <h2 className="text-4xl md:text-6xl lg:text-4xl font-extrabold text-green-800">
-                                Makanan Eksklusif Kami
+                                Menu Eksklusif
                             </h2>
                         </div>
 
@@ -344,58 +344,6 @@ const Index: React.FC = () => {
                     </div>
                 </div>
             </section>
-
-            {/* Why Choose Us? (video/banner) */}
-            <section className="py-16 bg-white">
-                <div className="container mx-auto px-4">
-                    <div className="text-center mb-8">
-                        <p className="text-green-500 text-xl md:text-2xl font-medium mb-2">
-                            Alasan
-                        </p>
-                        <h2 className="text-4xl md:text-6xl lg:text-4xl font-bold text-green-800">
-                            Mengapa Memilih Kami?
-                        </h2>
-                    </div>
-
-                    <div className="max-w-4xl mx-auto">
-                        <div className="relative rounded-2xl overflow-hidden shadow-lg">
-                            {/* Using bundler-managed asset (imported above) */}
-                            <img
-                                src={ciawiFoodStation}
-                                alt="Ciawi Food Station"
-                                className="w-full h-56 md:h-72 lg:h-96 object-cover"
-                            />
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Image strip - full width gallery above footer (matches provided example) */}
-            <div className="w-full">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-0">
-                    <img
-                        src={cifosBarbershop}
-                        alt="CIFOS Barbershop"
-                        className="w-full h-28 md:h-36 lg:h-60 object-cover"
-                    />
-                    <img
-                        src={kopiTemanAkrab}
-                        alt="Kopi Teman Akrab"
-                        className="w-full h-28 md:h-36 lg:h-60 object-cover"
-                    />
-                    <img
-                        src={sizzleImg}
-                        alt="Sizzle"
-                        className="w-full h-28 md:h-36 lg:h-60 object-cover"
-                    />
-                    <img
-                        src={kopitiamImg}
-                        alt="Kopitiam"
-                        className="w-full h-28 md:h-36 lg:h-60 object-cover"
-                    />
-                </div>
-            </div>
-
             <Footer />
         </div>
     );

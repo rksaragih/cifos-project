@@ -216,8 +216,8 @@ const Reservasi = () => {
                   Jam Operasional
                 </h3>
                 <div className="text-sm text-muted-foreground space-y-1">
-                  <p>Senin - Jumat: 10:00 - 22:00</p>
-                  <p>Sabtu - Minggu: 09:00 - 23:00</p>
+                  <p>Senin - Kamis: 10:00 - 21:00</p>
+                  <p>Jumat - Minggu: 10:00 - 22:00</p>
                 </div>
               </CardContent>
             </Card>
