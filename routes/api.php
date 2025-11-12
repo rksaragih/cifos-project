@@ -19,6 +19,7 @@ Route::get('/menus/filter-by-category', [MenuController::class, 'filterByCategor
 Route::get('/menus/recommended-by-category', [MenuController::class, 'getRecommendedMenusByCategory']);
 Route::get('/menus/best-seller-by-category', [MenuController::class, 'getBestSellerMenusByCategory']);
 Route::get('/menus/speciality', [MenuController::class, 'getSpecialityMenus']);
+Route::get('/menus/count', [MenuController::class, 'countAllMenus']);
 Route::get('/menus/{menu}', [MenuController::class, 'show']);
 
 // Admin-only routes for Menu
@@ -42,6 +43,7 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
 // Publicly accessible routes for Article
 Route::get('/articles', [ArticleController::class, 'index']);
 Route::get('/articles/search', [ArticleController::class, 'search']);
+Route::get('/articles/count', [ArticleController::class, 'countAllArticles']);
 Route::get('/articles/{article}', [ArticleController::class, 'show']);
 
 // Admin-only routes for Article

@@ -144,4 +144,10 @@ class ArticleController extends Controller{
             'data' => $articles
         ]);
     }
+
+    public function countAllArticles()
+    {
+        $count = Article::count();
+        return response()->json(['total_articles' => $count]);
+    }
 }

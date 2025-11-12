@@ -151,4 +151,10 @@ class MenuController extends Controller
             return response()->json(['message' => 'Internal Server Error'], 500);
         }
     }
+
+    public function countAllMenus()
+    {
+        $count = Menu::count();
+        return response()->json(['total_menus' => $count]);
+    }
 }
