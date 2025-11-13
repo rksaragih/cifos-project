@@ -1,7 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Star } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import cifosLogo from "@/assets/Cifos Logo.jpg";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -22,11 +23,12 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-green-800 backdrop-blur-md">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          <Link to="/" className="flex items-center gap-2 text-white font-bold">
-            <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-              <Star className="w-5 h-5 text-green-800" fill="currentColor" />
-            </div>
-            <span className="text-lg">LOGO</span>
+          <Link to="/" className="flex items-center text-white font-bold">
+            <img 
+              src={cifosLogo} 
+              alt="CIFOS Logo"  
+              className="h-16 w-16 object-cover rounded-full"
+            />
           </Link>
 
           <div className="hidden md:flex items-center space-x-8">

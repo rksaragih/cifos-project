@@ -57,14 +57,14 @@ const Contact = () => {
                 <div>
                   <Label htmlFor="topic" className="text-sm font-medium mb-2 block">Topic</Label>
                   <Select value={formData.topic} onValueChange={(value) => setFormData({...formData, topic: value})}>
-                    <SelectTrigger className="w-full">
+                    <SelectTrigger className="w-full bg-white text-gray-900">
                       <SelectValue placeholder="Select a topic" />
                     </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="general">General Inquiry</SelectItem>
-                      <SelectItem value="reservation">Reservation</SelectItem>
-                      <SelectItem value="feedback">Feedback</SelectItem>
-                      <SelectItem value="complaint">Complaint</SelectItem>
+                    <SelectContent className="bg-white text-gray-900 border border-gray-200 shadow-lg z-50">
+                      <SelectItem value="general" className="focus:bg-gray-100 data-[highlighted]:bg-gray-100">General Inquiry</SelectItem>
+                      <SelectItem value="reservation" className="focus:bg-gray-100 data-[highlighted]:bg-gray-100">Reservation</SelectItem>
+                      <SelectItem value="feedback" className="focus:bg-gray-100 data-[highlighted]:bg-gray-100">Feedback</SelectItem>
+                      <SelectItem value="complaint" className="focus:bg-gray-100 data-[highlighted]:bg-gray-100">Complaint</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -104,7 +104,7 @@ const Contact = () => {
                   />
                 </div>
 
-                <Button type="submit" className="bg-secondary hover:bg-secondary/90 text-white px-8">
+                <Button type="submit" className="bg-green-600 hover:bg-green-700 text-white px-8">
                   SEND REQUEST
                 </Button>
               </form>

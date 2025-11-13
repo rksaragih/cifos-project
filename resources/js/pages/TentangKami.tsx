@@ -7,10 +7,10 @@ import { Button } from "@/Components/ui/button";
 
 const TentangKami = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen flex flex-col bg-background">
       <Navbar />
 
-      <main className="container mx-auto px-4 pt-24 pb-16">
+      <main className="flex-1 container mx-auto px-4 pt-24 pb-16">
         <div className="max-w-3xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">Tentang Kami</h1>
           <p className="text-lg text-muted-foreground mb-6">
