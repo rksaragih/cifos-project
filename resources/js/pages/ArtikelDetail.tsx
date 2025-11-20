@@ -109,64 +109,10 @@ const ArtikelDetail = () => {
 
                     {/* Content */}
                     <div className="prose prose-lg max-w-none">
-                        {article.isi.split("\n\n").map((paragraph, index) => {
-                            if (paragraph.startsWith("## ")) {
-                                return (
-                                    <h2
-                                        key={index}
-                                        className="text-2xl font-bold mt-8 mb-4 text-primary"
-                                    >
-                                        {paragraph.replace("## ", "")}
-                                    </h2>
-                                );
-                            } else if (paragraph.includes("\n- ")) {
-                                const items = paragraph
-                                    .split("\n")
-                                    .filter((line) => line.startsWith("- "));
-                                return (
-                                    <ul
-                                        key={index}
-                                        className="list-disc pl-6 space-y-2 mb-6"
-                                    >
-                                        {items.map((item, i) => (
-                                            <li
-                                                key={i}
-                                                className="text-muted-foreground"
-                                            >
-                                                {item.replace("- ", "")}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                );
-                            } else if (paragraph.match(/^\d+\./)) {
-                                const items = paragraph
-                                    .split("\n")
-                                    .filter((line) => line.match(/^\d+\./));
-                                return (
-                                    <ol
-                                        key={index}
-                                        className="list-decimal pl-6 space-y-2 mb-6"
-                                    >
-                                        {items.map((item, i) => (
-                                            <li
-                                                key={i}
-                                                className="text-muted-foreground"
-                                            >
-                                                {item.replace(/^\d+\.\s*/, "")}
-                                            </li>
-                                        ))}
-                                    </ol>
-                                );
-                            }
-                            return (
-                                <p
-                                    key={index}
-                                    className="mb-4 text-muted-foreground leading-relaxed"
-                                >
-                                    {paragraph}
-                                </p>
-                            );
-                        })}
+                        <div 
+                            className="article-content"
+                            dangerouslySetInnerHTML={{ __html: article.isi }}
+                        />
                     </div>
 
                 </div>

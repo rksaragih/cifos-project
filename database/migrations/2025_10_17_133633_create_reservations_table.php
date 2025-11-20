@@ -21,9 +21,8 @@ return new class extends Migration
             $table->integer('jumlah_orang');
             $table->text('catatan')->nullable();
             $table->decimal('total_dp', 12, 2);
-            $table->enum('status_dp', ['belum_bayar', 'sudah_bayar'])->default('belum_bayar');
-            $table->enum('status_reservasi', ['pending', 'confirmed', 'cancelled'])->default('pending');
-            $table->foreignId('payment_id')->nullable()->constrained('payments')->onDelete('set null');
+            $table->enum('status_dp', ['pending', 'paid', 'failed'])->default('pending');
+            $table->enum('status_reservasi', ['pending', 'confirmed', 'completed', 'cancelled'])->default('pending');
             $table->timestamps();
         });
     }

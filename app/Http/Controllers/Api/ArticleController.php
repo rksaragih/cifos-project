@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 class ArticleController extends Controller{
     public function index()
     {
-        $articles = Article::with('user')->get();
+        $articles = Article::with('user')->orderBy('created_at', 'desc')->get();
         return response()->json($articles);
     }
 
@@ -25,24 +25,23 @@ class ArticleController extends Controller{
         $request->validate([
             'judul' => 'required|string|max:255',
             'isi' => 'required|string',
-            'foto' => 'nullable|string',
+            'foto' => 'nullable|string', // URL dari upload terpisah
         ]);
 
         $data = $request->all();
         $data['author_id'] = auth()->id();
-
-        if ($request->hasFile('foto')) {
-            $fotoPath = $request->file('foto')->store('public/articles');
-            $data['foto'] = Storage::url($fotoPath);
-        } else {
-            $data['foto'] = null; // Ensure foto is explicitly null if no file is uploaded
+        
+        // Foto sudah berupa URL dari endpoint /api/uploads/artikel
+        // Tidak perlu proses upload lagi di sini
+        if (!isset($data['foto']) || empty($data['foto'])) {
+            $data['foto'] = null;
         }
 
         $article = Article::create($data);
         return response()->json([
             'status' => 'success',
             'message' => 'Article created successfully',
-            'data' => $article
+            'data' => $article->load('user')
         ], 201);
     }
 
@@ -59,31 +58,42 @@ class ArticleController extends Controller{
         $request->validate([
             'judul' => 'sometimes|required|string|max:255',
             'isi' => 'sometimes|required|string',
-            'foto' => 'nullable|string',
+            'foto' => 'nullable|string', // URL string
         ]);
 
-        $data = $request->all();
+        $data = $request->only(['judul', 'isi']);
 
-        if ($request->hasFile('foto')) {
-            // Delete old photo if it exists
-            if ($article->foto) {
-                Storage::delete(str_replace('/storage', 'public', $article->foto));
+        // Handle foto update
+        $newFoto = $request->input('foto');
+        $oldFoto = $article->foto;
+
+        // Cek apakah foto berubah (termasuk dari ada ke null, atau dari null ke ada, atau ganti URL)
+        if ($newFoto !== $oldFoto) {
+            // Hapus foto lama jika ada
+            if ($oldFoto) {
+                // Extract path from URL (supports full URL or /storage/...)
+                $parsedPath = parse_url($oldFoto, PHP_URL_PATH);
+                if ($parsedPath) {
+                    // Remove leading /storage/ if present
+                    $relative = preg_replace('#^/storage/#', '', $parsedPath);
+                } else {
+                    // Fallback: strip any leading /storage/ or /storage
+                    $relative = preg_replace('#^/storage/?#', '', $oldFoto);
+                }
+
+                if ($relative && Storage::disk('public')->exists($relative)) {
+                    Storage::disk('public')->delete($relative);
+                }
             }
-            $fotoPath = $request->file('foto')->store('public/articles');
-            $data['foto'] = Storage::url($fotoPath);
-        } else if ($request->has('foto_url')) {
-            // If foto_url is present, it means an existing image is being kept
-            $data['foto'] = $request->input('foto_url');
-        } else {
-            // If no new file and no foto_url, assume foto should be cleared
-            $data['foto'] = null;
+            // Set foto baru (bisa null atau URL baru)
+            $data['foto'] = $newFoto;
         }
 
         $article->update($data);
         return response()->json([
             'status' => 'success',
             'message' => 'Article updated successfully',
-            'data' => $article
+            'data' => $article->load('user')
         ]);
     }
 
@@ -99,7 +109,16 @@ class ArticleController extends Controller{
 
         // Delete the associated photo if it exists
         if ($article->foto) {
-            Storage::delete(str_replace('/storage', 'public', $article->foto));
+            $parsedPath = parse_url($article->foto, PHP_URL_PATH);
+            if ($parsedPath) {
+                $relative = preg_replace('#^/storage/#', '', $parsedPath);
+            } else {
+                $relative = preg_replace('#^/storage/?#', '', $article->foto);
+            }
+
+            if ($relative && Storage::disk('public')->exists($relative)) {
+                Storage::disk('public')->delete($relative);
+            }
         }
 
         $article->delete();

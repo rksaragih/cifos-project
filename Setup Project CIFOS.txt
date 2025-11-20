@@ -1,0 +1,36 @@
+1. Setup Project CIFOS
+
+2. Prerequisites
+- Node.js v20+
+- PHP 8.1+
+- Composer
+- MySQL
+
+# Frontend
+npm install
+
+# Backend
+composer install
+
+# WhatsApp Server 
+install Node.js v20+
+
+3. Run Development Server
+
+# Terminal 1 - PHP Server
+php artisan serve
+
+# Terminal 2 - Frontend Dev Server
+npm run dev
+
+# Terminal 3 - WhatsApp Server (Disarankan melalui CMD)
+cd whatsapp-server
+node server.js
+
+4. Access
+- Frontend: http://localhost:8000
+
+## Important Notes
+- Pastikan MySQL running
+- Setup `.env` dengan database credentials yang benar
+- WhatsApp Server memerlukan QR code scanning untuk testing

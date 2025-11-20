@@ -13,6 +13,9 @@ import ArtikelDetail from "./pages/ArtikelDetail";
 import Contact from "./pages/Contact";
 import TentangKami from "./pages/TentangKami";
 import Reservasi from "./pages/Reservasi";
+import ReservasiMenu from './pages/ReservasiMenu';
+import ReservasiReview from './pages/ReservasiInfo';
+import ReservasiSuccess from './pages/ReservasiSuccess';
 import Profile from "./pages/Profile";
 import OrderHistory from "./pages/OrderHistory";
 import NotFound from "./pages/NotFound";
@@ -24,6 +27,7 @@ import AdminKategori from './pages/admin/Kategori';
 import AdminArtikel from './pages/admin/Artikel';
 import AdminLogin from './pages/AdminLogin';
 import AdminRegister from './pages/AdminRegister';
+import AdminBlackout from './pages/admin/Blackout';
 
 // Context Providers
 import { BookingProvider } from "./Components/BookingContext";
@@ -44,6 +48,9 @@ const App = () => {
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/tentang-kami" element={<TentangKami />} />
                     <Route path="/reservasi" element={<Reservasi />} />
+                    <Route path="/reservasi/menu" element={<ReservasiMenu />} />
+                    <Route path="/reservasi/review" element={<ReservasiReview />} />
+                    <Route path="/reservasi/success/:kode_reservasi" element={<ReservasiSuccess />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/order-history" element={<OrderHistory />} />
 
@@ -58,6 +65,7 @@ const App = () => {
                         <Route path="menu" element={<AdminMenu />} />
                         <Route path="kategori" element={<AdminKategori />} />
                         <Route path="artikel" element={<AdminArtikel />} />
+                        <Route path="blackout" element={<AdminBlackout />} />
                     </Route>
                     <Route path="*" element={<NotFound />} />
                 </Routes>

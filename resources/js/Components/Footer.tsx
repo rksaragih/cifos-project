@@ -19,7 +19,7 @@ const Footer = () => {
                 alt="CIFOS Barbershop"
                 className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
               />
-              <div className="pointer-events-none absolute inset-0 bg-black/35 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="pointer-events-none absolute inset-0 bg-black/35 opacity-0 transition-opacity duration-300" />
             </div>
             <div className="relative group h-36 sm:h-44 md:h-56 lg:h-60 xl:h-64 overflow-hidden">
               <img
@@ -27,7 +27,7 @@ const Footer = () => {
                 alt="Kopi Teman Akrab"
                 className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
               />
-              <div className="pointer-events-none absolute inset-0 bg-black/35 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="pointer-events-none absolute inset-0 bg-black/35 opacity-0 transition-opacity duration-300" />
             </div>
             <div className="relative group h-36 sm:h-44 md:h-56 lg:h-60 xl:h-64 overflow-hidden">
               <img
@@ -35,7 +35,7 @@ const Footer = () => {
                 alt="Kopitiam"
                 className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
               />
-              <div className="pointer-events-none absolute inset-0 bg-black/35 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="pointer-events-none absolute inset-0 bg-black/35 opacity-0 transition-opacity duration-300" />
             </div>
             <div className="relative group h-36 sm:h-44 md:h-56 lg:h-60 xl:h-64 overflow-hidden">
               <img
@@ -43,7 +43,7 @@ const Footer = () => {
                 alt="Sizzle"
                 className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
               />
-              <div className="pointer-events-none absolute inset-0 bg-black/35 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="pointer-events-none absolute inset-0 bg-black/35 opacity-0 transition-opacity duration-300" />
             </div>
           </div>
         </div>
@@ -68,8 +68,8 @@ const Footer = () => {
               <div>
                 <h3 className="text-lg md:text-xl font-semibold mb-4">Opening Hours</h3>
                 <div className="text-sm text-white/90 space-y-1">
-                  <p>Monday - Thursday : 10:00 AM - 21:00 PM</p>
-                  <p>Friday - Sunday : 10:00 AM - 22:00 PM</p>
+                  <p>Senin - Kamis : 10:00 - 21:00</p>
+                  <p>Jumat - Minggu : 10:00 - 22:00</p>
                 </div>
               </div>
             </div>
@@ -110,7 +110,7 @@ const Footer = () => {
                 <p>sweetdeli@gmail.com</p>
                 <p>+62 877-4601-0838</p>
                 <p className="leading-relaxed">
-                  Puncak Rd No.477, Bendungan, Ciawi Bogor Regency, West Java 16720
+                  Jl. Raya Puncak No.477, Bendungan, Kec. Ciawi, Kabupaten Bogor, Jawa Barat 16720
                 </p>
               </div>
               

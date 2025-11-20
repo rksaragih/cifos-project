@@ -35,7 +35,6 @@ const ArticleCard = ({ id, judul, topik, isi, foto, author, tanggal }: ArticleCa
           <h3 className="font-bold text-xl mb-2 text-foreground group-hover:text-primary transition-colors line-clamp-2">
             {judul}
           </h3>
-          <p className="text-muted-foreground text-sm mb-4 line-clamp-3">{preview}</p>
           <div className="flex items-center gap-4 text-xs text-muted-foreground">
             {author && (
               <div className="flex items-center gap-1">

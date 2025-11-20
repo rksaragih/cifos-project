@@ -3,6 +3,17 @@ import { Button } from "@/Components/ui/button";
 import { Input } from "@/Components/ui/input";
 import { Label } from "@/Components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { Trash } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogCancel
+} from "@/Components/ui/alert-dialog";
 
 type CategoryRow = {
     id: number;
@@ -18,6 +29,11 @@ const KategoriAdmin = () => {
         nama: "",
     });
     const [editingId, setEditingId] = useState<number | null>(null);
+    const [deleteDialog, setDeleteDialog] = useState({
+        open: false,
+        id: null as number | null,
+        name: "",
+    });
 
     const openCreateForm = () => {
         setEditingId(null);
@@ -119,30 +135,29 @@ const KategoriAdmin = () => {
         window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
-    const handleDelete = async (id: number) => {
-        if (!confirm("Hapus kategori ini?")) return;
+    const handleDelete = async () => {
+        if (!deleteDialog.id) return;
+
         try {
             const token = localStorage.getItem("admin_token");
-            const headers = {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-                Authorization: `Bearer ${token}`,
-            };
-
-            const res = await fetch(`/api/categories/${id}`, {
+            const res = await fetch(`/api/categories/${deleteDialog.id}`, {
                 method: "DELETE",
-                headers: headers,
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
             });
 
-            if (!res.ok) {
-                throw new Error("Gagal menghapus kategori");
-            }
+            if (!res.ok) throw new Error("Gagal menghapus kategori");
+
+            // update tampilan
+            setItems((prev) => prev.filter((p) => p.id !== deleteDialog.id));
 
             toast({
                 title: "Deleted",
-                description: "Kategori berhasil dihapus",
+                description: `${deleteDialog.name} berhasil dihapus`,
             });
-            fetchCategories(); // Refresh list
         } catch (err: any) {
             toast({
                 title: "Error",
@@ -150,6 +165,9 @@ const KategoriAdmin = () => {
                 variant: "destructive",
             });
         }
+
+        // tutup modal
+        setDeleteDialog({ open: false, id: null, name: "" });
     };
 
     const filteredItems = items.filter((it) => {
@@ -160,6 +178,43 @@ const KategoriAdmin = () => {
 
     return (
         <div className="max-w-4xl mx-auto">
+
+            <AlertDialog open={deleteDialog.open} onOpenChange={(v) => {
+                if (!v) setDeleteDialog({ open: false, id: null, name: "" });
+            }}>
+            <AlertDialogContent className="max-w-md bg-white">
+                <AlertDialogHeader>
+                <div className="flex justify-center mb-4">
+                    <div className="rounded-full bg-red-100 p-3">
+                    <Trash className="h-12 w-12 text-red-600" />
+                    </div>
+                </div>
+
+                <AlertDialogTitle className="text-center text-2xl text-red-700">
+                    Hapus Data?
+                </AlertDialogTitle>
+
+                <AlertDialogDescription className="text-center text-base">
+                    Apakah Anda yakin ingin menghapus kategori <b>{deleteDialog.name}</b>?  
+                    Tindakan ini tidak dapat dibatalkan.
+                </AlertDialogDescription>
+                </AlertDialogHeader>
+
+                <AlertDialogFooter>
+                <AlertDialogCancel className="w-full border border-gray-300">
+                    Batal
+                </AlertDialogCancel>
+
+                <AlertDialogAction
+                    onClick={handleDelete}
+                    className="w-full bg-red-600 hover:bg-red-700"
+                >
+                    Hapus
+                </AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+            </AlertDialog>
+
             <div className="flex items-center justify-between mb-4">
                 <div>
                     <h1 className="text-2xl font-semibold">Daftar Kategori</h1>
@@ -169,8 +224,9 @@ const KategoriAdmin = () => {
                         <input
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            placeholder="Search kategori..."
+                            placeholder="Cari kategori..."
                             className="outline-none text-sm w-48"
+                            maxLength={50}
                         />
                     </div>
                     <Button onClick={openCreateForm}>Tambah</Button>
@@ -213,6 +269,7 @@ const KategoriAdmin = () => {
                                         onChange={(e) =>
                                             handleChange("nama", e.target.value)
                                         }
+                                        maxLength={30}
                                     />
                                 </div>
                             </div>
@@ -241,7 +298,7 @@ const KategoriAdmin = () => {
                         <tr className="bg-gray-900 text-white">
                             <th className="p-3 text-left">#</th>
                             <th className="p-3 text-left">Nama</th>
-                            <th className="p-3 text-right">Actions</th>
+                            <th className="p-3 text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -252,7 +309,7 @@ const KategoriAdmin = () => {
                             >
                                 <td className="p-3">{idx + 1}</td>
                                 <td className="p-3">{it.nama}</td>
-                                <td className="p-3 text-right">
+                                <td className="p-3 text-center">
                                     <Button
                                         size="sm"
                                         variant="outline"
@@ -263,9 +320,15 @@ const KategoriAdmin = () => {
                                     <Button
                                         size="sm"
                                         className="ml-2"
-                                        onClick={() => handleDelete(it.id)}
+                                        onClick={() =>
+                                        setDeleteDialog({
+                                                open: true,
+                                                id: it.id,
+                                                name: it.nama,
+                                            })
+                                        }
                                     >
-                                        Delete
+                                        Hapus
                                     </Button>
                                 </td>
                             </tr>
@@ -273,7 +336,7 @@ const KategoriAdmin = () => {
                     </tbody>
                 </table>
                 <div className="p-3 bg-gray-50 text-sm text-muted-foreground">
-                    Showing {items.length} items
+                    Menampilkan {items.length} kategori
                 </div>
             </div>
         </div>

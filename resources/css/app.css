@@ -7,4 +7,95 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
   }
+
+  body[data-scroll-locked] {
+    overflow: auto !important;
+    padding-right: 0 !important;
+  }
+
+  /* Article Content Styling */
+  .article-content {
+    line-height: 1.8;
+    color: #374151;
+  }
+
+  .article-content h1,
+  .article-content h2,
+  .article-content h3 {
+    font-weight: bold;
+    margin-top: 1.5em;
+    margin-bottom: 0.75em;
+    color: #111827;
+  }
+
+  .article-content h1 {
+    font-size: 2em;
+  }
+
+  .article-content h2 {
+    font-size: 1.5em;
+  }
+
+  .article-content h3 {
+    font-size: 1.25em;
+  }
+
+  .article-content p {
+    margin-bottom: 1em;
+  }
+
+  .article-content strong {
+    font-weight: 600;
+    color: #111827;
+  }
+
+  .article-content em {
+    font-style: italic;
+  }
+
+  .article-content ul,
+  .article-content ol {
+    margin-left: 1.5em;
+    margin-bottom: 1em;
+  }
+
+  .article-content ul {
+    list-style-type: disc;
+  }
+
+  .article-content ol {
+    list-style-type: decimal;
+  }
+
+  .article-content li {
+    margin-bottom: 0.5em;
+  }
+
+  .article-content a {
+    color: #2563eb;
+    text-decoration: underline;
+  }
+
+  .article-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    margin: 1.5em 0;
+  }
+
+  .article-content blockquote {
+    border-left: 4px solid #d1d5db;
+    padding-left: 1em;
+    margin: 1.5em 0;
+    font-style: italic;
+    color: #6b7280;
+  }
+
+  .article-content code {
+    background-color: #f3f4f6;
+    padding: 0.2em 0.4em;
+    border-radius: 0.25rem;
+    font-size: 0.875em;
+    font-family: monospace;
+  }
 }

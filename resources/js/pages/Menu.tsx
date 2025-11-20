@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useRef, useState, useCallback, useEffect } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Navbar from "@/Components/Navbar";
 import Footer from "@/Components/Footer";
@@ -11,9 +11,12 @@ import { useQuery } from "@tanstack/react-query";
 
 const Menu = () => {
     const navigate = useNavigate();
+    const scrollRef = useRef<HTMLDivElement>(null);
     const [searchParams] = useSearchParams();
     const [selectedCategory, setSelectedCategory] = useState<string>("Semua");
     const [searchQuery, setSearchQuery] = useState<string>("");
+    const [showLeft, setShowLeft] = useState(false);
+    const [showRight, setShowRight] = useState(false);
 
     const fetchCategories = async () => {
         const response = await fetch("/api/categories");
@@ -98,11 +101,11 @@ const Menu = () => {
     const {
         data: recommendedMenus = [],
         isLoading: isLoadingRecommendedMenus,
-    } = useQuery({
-        queryKey: ["recommendedMenus", selectedCategoryId],
-        queryFn: () =>
-            fetchRecommendedMenus(categoryIdForFetch as number | "Semua"),
-        enabled: !!categories.length && !searchQuery,
+        } = useQuery({
+            queryKey: ["recommendedMenus", selectedCategoryId],
+            queryFn: () =>
+                fetchRecommendedMenus(categoryIdForFetch as number | "Semua"),
+            enabled: !!categories.length && !searchQuery,
     });
 
     const { data: bestSellerMenus = [], isLoading: isLoadingBestSellerMenus } =
@@ -135,6 +138,34 @@ const Menu = () => {
             setSelectedCategory("Semua");
         }
     }, [searchParams, categories]);
+    
+    // effect untuk update visibilitas panah
+    useEffect(() => {
+        const el = scrollRef.current;
+        if (!el) return;
+
+        const check = () => {
+            setShowLeft(el.scrollLeft > 0);
+            setShowRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
+        };
+
+        // set touch-action supaya horizontal swipe tidak memicu vertical page scroll
+        el.style.touchAction = "pan-x";
+
+        check();
+        el.addEventListener("scroll", check, { passive: true });
+        window.addEventListener("resize", check);
+
+        return () => {
+            el.removeEventListener("scroll", check);
+            window.removeEventListener("resize", check);
+        };
+    }, []);
+
+    // fungsi helper scrollBy
+        const scrollBy = (distance: number) => {
+        scrollRef.current?.scrollBy({ left: distance, behavior: "smooth" });
+    };
 
     // Embla carousel hooks for Recommended & Best sections
     const [recommendedRef, emblaRecommended] = useEmblaCarousel({
@@ -195,43 +226,89 @@ const Menu = () => {
             <Navbar />
 
             <main className="flex-1 pt-20 pb-12">
-                <div className="container mx-auto px-4">
+                <div className="container mx-auto">
                     {/* Header */}
                     <div className="flex items-center justify-between mb-8"></div>
 
                     {/* Category Filter and Search Bar */}
                     <div className="flex flex-col-reverse md:flex-row md:items-center md:justify-between mb-8 gap-3">
-                        <div className="flex overflow-x-auto whitespace-nowrap py-2 gap-3 scrollbar-hide">
+
+                        {/* KATEGORI + PANAH */}
+                        <div className="relative w-full max-w-full overflow-hidden">
+
+                        {/* LEFT ARROW (di-layer atas) */}
+                        {showLeft && (
+                            <button
+                            type="button"
+                            onClick={() => scrollBy(-120)}
+                            className="absolute left-1 top-1/2 -translate-y-1/2 z-30
+                                        bg-white border shadow-sm rounded-full p-1.5
+                                        hover:bg-green-600 hover:text-white transition"
+                            aria-label="Scroll left"
+                            >
+                            <ChevronLeft className="w-4 h-4 pointer-events-none" />
+                            </button>
+                        )}
+
+                        {/* WRAPPER: overflow-hidden untuk mencegah body scroll akibat padding */}
+                        <div className="overflow-hidden">
+                            {/* SCROLL AREA:
+                                - no extra horizontal padding (px) di sini supaya tidak memperbesar scrollWidth
+                                - touch-action diset via JS (di useEffect) untuk mencegah vertical scroll saat swipe
+                                */}
+                            <div
+                            ref={scrollRef}
+                            className="flex gap-2 overflow-x-auto whitespace-nowrap py-2 scrollbar-hide scroll-smooth"
+                            >
+                            {/* small left spacer agar item pertama tidak tertutup panah */}
+                            <div className="flex-shrink-0 w-0.5 md:w-1" />
+
                             {categories.map((category) => (
+                                <div key={category.id} className="flex-shrink-0">
                                 <Button
-                                    key={category.id}
-                                    variant={
-                                        selectedCategory === category.nama
-                                            ? "default"
-                                            : "outline"
-                                    }
+                                    variant={selectedCategory === category.nama ? "default" : "outline"}
                                     onClick={() => {
-                                        setSelectedCategory(category.nama);
-                                        setSearchQuery(""); // Clear search when category changes
-                                        navigate(
-                                            `/menu?category_id=${category.id}`
-                                        );
+                                    setSelectedCategory(category.nama);
+                                    setSearchQuery("");
+                                    navigate(`/menu?category_id=${category.id}`);
                                     }}
                                     className="rounded-full"
                                 >
                                     {category.nama}
                                 </Button>
+                                </div>
                             ))}
+
+                            {/* small right spacer agar item terakhir tidak tertutup panah */}
+                            <div className="flex-shrink-0 w-0.5 md:w-1" />
+                            </div>
                         </div>
-                        <div className="w-full md:max-w-xs mb-4 md:mb-0 relative">
-                            <Input
-                                type="text"
-                                placeholder="Search menu..."
-                                className="rounded-full pl-10 pr-4 py-2"
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                            />
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+
+                        {/* RIGHT ARROW */}
+                        {showRight && (
+                            <button
+                            type="button"
+                            onClick={() => scrollBy(120)}
+                            className="absolute right-1 top-1/2 -translate-y-1/2 z-30
+                                        bg-white border shadow-sm rounded-full p-1.5
+                                        hover:bg-green-600 hover:text-white transition"
+                            aria-label="Scroll right"
+                            >
+                            <ChevronRight className="w-4 h-4 pointer-events-none" />
+                            </button>
+                        )}
+                        </div>
+
+                        {/* SEARCH BAR (fixed width, tidak menyusut) */}
+                        <div className="w-full md:max-w-xs mb-4 md:mb-0 relative flex-shrink-0">
+                        <Input
+                            type="text"
+                            placeholder="Search menu..."
+                            className="rounded-full pl-10 pr-4 py-2"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                         </div>
                     </div>
 

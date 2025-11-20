@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Layout, FileText, Grid, List, Tag, LogOut, User } from "lucide-react";
+import { Layout, FileText, Grid, List, Tag, LogOut, Ban } from "lucide-react";
 import { adminLogout, getAdminUser } from "@/lib/adminAuth";
 
 const AdminSidebar: React.FC = () => {
@@ -15,6 +15,7 @@ const AdminSidebar: React.FC = () => {
         { to: "/admin/menu", label: "Menu", icon: Layout },
         { to: "/admin/kategori", label: "Kategori", icon: Tag },
         { to: "/admin/artikel", label: "Artikel", icon: FileText },
+        { to: "/admin/blackout", label: "Blackout", icon: Ban},
     ];
 
     const handleLogout = async () => {

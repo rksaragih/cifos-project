@@ -26,7 +26,11 @@ class Reservation extends Model
         'total_dp',
         'status_dp',
         'status_reservasi',
-        'payment_id',
+    ];
+
+    protected $casts = [
+        'tanggal' => 'date:Y-m-d',
+        'total_dp' => 'decimal:2',
     ];
 
     protected static function boot()
@@ -52,13 +56,68 @@ class Reservation extends Model
         });
     }
 
+    /**
+     * Relationship: Reservation has many menus
+     */
     public function reservationMenus()
     {
         return $this->hasMany(ReservationMenu::class, 'kode_reservasi', 'kode_reservasi');
     }
 
-    public function payment()
+    /**
+     * Get formatted tanggal (Indonesia format)
+     */
+    public function getFormattedTanggalAttribute()
     {
-        return $this->belongsTo(Payment::class, 'payment_id');
+        return $this->tanggal->format('d F Y');
+    }
+
+    /**
+     * Get total menu price
+     */
+    public function getTotalMenuPriceAttribute()
+    {
+        return $this->reservationMenus->sum('subtotal');
+    }
+
+    /**
+     * Scope: Filter by status
+     */
+    public function scopeByStatus($query, $status)
+    {
+        return $query->where('status_reservasi', $status);
+    }
+
+    /**
+     * Scope: Filter by DP status
+     */
+    public function scopeByDpStatus($query, $status)
+    {
+        return $query->where('status_dp', $status);
+    }
+
+    /**
+     * Scope: Filter by date range
+     */
+    public function scopeBetweenDates($query, $startDate, $endDate)
+    {
+        return $query->whereBetween('tanggal', [$startDate, $endDate]);
+    }
+
+    /**
+     * Scope: Today's reservations
+     */
+    public function scopeToday($query)
+    {
+        return $query->whereDate('tanggal', now()->toDateString());
+    }
+
+    /**
+     * Scope: This month's reservations
+     */
+    public function scopeThisMonth($query)
+    {
+        return $query->whereMonth('tanggal', now()->month)
+                     ->whereYear('tanggal', now()->year);
     }
 }

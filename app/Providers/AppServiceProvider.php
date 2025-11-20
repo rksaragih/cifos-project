@@ -11,7 +11,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(MidtransService::class);
+        $this->app->singleton(WhatsAppService::class);
     }
 
     /**
