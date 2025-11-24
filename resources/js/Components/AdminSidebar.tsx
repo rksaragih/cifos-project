@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Layout, FileText, Grid, List, Tag, LogOut, Ban } from "lucide-react";
 import { adminLogout, getAdminUser } from "@/lib/adminAuth";
+import cifosLogo from "@/assets/Cifos Logo.jpg";
 
 const AdminSidebar: React.FC = () => {
     const location = useLocation();
@@ -37,9 +38,11 @@ const AdminSidebar: React.FC = () => {
         <aside className="fixed top-0 left-0 h-screen w-64 bg-white border-r shadow-sm flex flex-col justify-between z-20">
             <div className="p-6 flex-1 overflow-y-auto">
                 <div className="flex items-center gap-3 mb-6">
-                    <div className="w-12 h-12 rounded-lg bg-emerald-800 flex items-center justify-center text-white font-bold">
-                        C
-                    </div>
+                    <img
+                        src={cifosLogo}
+                        alt="CIFOS Logo"
+                        className="h-16 w-16 object-contain rounded-full"
+                    />
                     <div>
                         <div className="text-sm font-semibold">CIFOS</div>
                         <div className="text-xs text-muted-foreground">Dashboard</div>

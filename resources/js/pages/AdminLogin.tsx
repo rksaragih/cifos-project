@@ -4,7 +4,7 @@ import { Button } from "@/Components/ui/button";
 import { Input } from "@/Components/ui/input";
 import { Label } from "@/Components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { Star } from "lucide-react";
+import cifosLogo from "@/assets/Cifos Logo.jpg";
 
 const AdminLogin = () => {
     const navigate = useNavigate();
@@ -68,15 +68,13 @@ const AdminLogin = () => {
                 <div className="bg-white rounded-2xl shadow-2xl p-8 space-y-8">
                     {/* Logo */}
                     <div className="flex items-center justify-center gap-2">
-                        <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center">
-                            <Star
-                                className="w-6 h-6 text-white"
-                                fill="currentColor"
+                        <div className="w-20 h-20 bg-gray-300 rounded-full flex items-center justify-center shadow-md">
+                            <img
+                                src={cifosLogo}
+                                alt="CIFOS Logo"
+                                className="h-20 w-20 object-contain rounded-full"
                             />
                         </div>
-                        <span className="text-2xl font-bold text-gray-800">
-                            LOGO
-                        </span>
                     </div>
 
                     {/* Header */}

@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller{
+    
     public function index()
     {
         $articles = Article::with('user')->orderBy('created_at', 'desc')->get();

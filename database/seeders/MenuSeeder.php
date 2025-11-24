@@ -25,6 +25,7 @@ class MenuSeeder extends Seeder
                 'kategori_id' => $category->id,
                 'nama_menu' => $record['nama'],
                 'harga_menu' => $record['harga'],
+                'foto_menu' => $record['foto'],
             ]);
         }
     }

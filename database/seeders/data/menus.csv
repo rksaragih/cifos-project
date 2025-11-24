@@ -1,77 +1,77 @@
-kategori,nama,harga
-Makanan,Paket Nasi Daun Jeruk + Ayam Kampung Serundeng,39000
-Makanan,Paket Nasi Kecombrang + Ayam Kampung Serundeng,39000
-Makanan,Ayam Kampung Goreng,27200
-Makanan,Sate Taichan Ayam,27200
-Makanan,Paket Ayam Goreng (Nasi + Ayam Serundeng + Tahu + Tempe),47200
-Makanan,Soto Bogor / Soto Bening (Daging / Paru),39200
-Makanan,Mie Teman Akrab Kuah,33600
-Makanan,Mie Teman Akrab Goreng,37200
-Makanan,Bakwan Malang & Bakso Kuah,35400
-Makanan,Bakso Sapi Kuah,37200
-Makanan,Pempek Palembang (Isi 3),35400
-Makanan,Spaghetti Beef Bolognese,35400
-Nasi Goreng,Nasgor CIFOS Udang,37200
-Nasi Goreng,Nasgor CIFOS Beef,37200
-Nasi Goreng,Nasi Goreng Ayam,35400
-Nasi Goreng,Nasi Goreng Kampung,35400
-Nasi Goreng,Nasi Goreng Smoked Beef,41900
-Nasi Goreng,Nasi Goreng Vege (Telur),31800
-Nasi Goreng,Nasi Bakar Ayam / Cumi / Teri,32700
-Nasi Goreng,Nasi Bakar Tutug Oncom,32700
-Dimsum,Dimsum Ayam / Jamur / Beef,19000
-Dimsum,Dimsum Nori / Udang / Tuna,21800
-Dimsum,Lumpia Kulit Tahu,21800
-Dimsum,Crispy Udang,31800
-Dimsum,Bola Naga,31800
-Roti Bakar,Roti Kadet Pandan Original,21800
-Roti Bakar,Roti Kadet Pandan Keju,33600
-Roti Bakar,Pisang Bakar / Goreng Coklat Keju,27200
-Jajanan,Donat Salju (Isi 2),29000
-Jajanan,Donat Coklat / Keju (Isi 2),34400
-Jajanan,Mini Pao Isi Coklat (Isi 3),16800
-Jajanan,Roti Goreng Coklat Keju,21800
-Jajanan,French Fries,31800
-Jajanan,Potato Wedges,37200
-Jajanan,Chicken Wings,37200
-Jajanan,Otak-Otak Singapore,27200
-Jajanan,Lumpia Leleh Coklat (Isi 3),29000
-Jajanan,Pastel Telur Sayuran,13600
-Jajanan,Risol Smoked Beef (Isi 2),29000
-Jajanan,Cireng Rujak,27200
-Jajanan,Singkong Goreng,33600
-Jajanan,Singkong Goreng Keju,35500
-Coffee,Espresso Single,18181
-Coffee,Espresso Double,20000
-Coffee,Affogato (+Ice Cream),29191
-Coffee,Americano (Hot/Ice),21818
-Coffee,Long Black (Hot/Ice),21818
-Coffee,Mochacino (Coffee + Choco),43696
-Coffee,Cappuccino (Hot/Ice),37272
-Coffee,Latte (Hot/Ice),37272
-Speciality,CIFOS Magic Coffee,31800
-Coffee,Manual Brewing Chemex/French Press,33636
-Coffee,Manual Brewing Vietnam drip/Japanese,37272
-Coffee,Manual Brewing Aero press,37272
-Non Coffee,Dark Chocolate,25400
-Non Coffee,Sweet As U (Regal & Milk),25400
-Non Coffee,Vanilla,25400
-Non Coffee,Chocolate Milk,25400
-Non Coffee,Red Velvet,25400
-Non Coffee,Taro,25400
-Non Coffee,Cookies and Cream,25400
-Non Coffee,Tiramisu,25400
-Non Coffee,Sakura Matcha / Green Tea,33600
-Non Coffee,Wedang Uwuh,27200
-Tea,Lemon Tea,25400
-Tea,Lychee Tea,25400
-Tea,Thai Tea,27200
-Tea,Regular Ice Tea,10900
-Tea,Sweet Ice Tea,11800
-Tea,Premium Hot Tea (Chamomile / Earl Grey / Jasmine / Mint),21800
-Ice Cream,3 Scoops of Ice Cream (Vanilla/Chocolate/Strawberry),29100
-Soda,Soda Based Mojito (Lemon/Lychee/Coconut),33600
-Soda,Mojito Yakult,35400
-Speciality,Hotplate Chicken BBQ Mushroom / Blackpepper,36000
-Speciality,Hotplate Beef BBQ Mushroom / Blackpepper,39000
-Speciality,Hotplate Chicken & Beef,41000
+kategori,nama,harga,foto
+Makanan,Paket Nasi Daun Jeruk + Ayam Kampung Serundeng,39000,http://127.0.0.1:8000/storage/menus/nasi daun jeruk serundeng.png
+Makanan,Paket Nasi Kecombrang + Ayam Kampung Serundeng,39000,http://127.0.0.1:8000/storage/menus/nasi kecombrang serundeng.png
+Makanan,Ayam Kampung Goreng,27200,http://127.0.0.1:8000/storage/menus/Ayam Kampung Goreng.jpg
+Makanan,Sate Taichan Ayam,27200,http://127.0.0.1:8000/storage/menus/Sate Taichan Ayam.jpeg
+Makanan,Paket Ayam Goreng (Nasi + Ayam Serundeng + Tahu + Tempe),47200,http://127.0.0.1:8000/storage/menus/Paket Ayam Goreng.png
+Makanan,Soto Bogor / Soto Bening (Daging / Paru),39200,http://127.0.0.1:8000/storage/menus/Soto Bening Daging.jpeg
+Makanan,Mie Teman Akrab Kuah,33600,http://127.0.0.1:8000/storage/menus/Mie Kuah Teman Akrab.jpeg
+Makanan,Mie Teman Akrab Goreng,37200,http://127.0.0.1:8000/storage/menus/Mie Teman Akrab Goreng.jpeg
+Makanan,Bakwan Malang & Bakso Kuah,35400,http://127.0.0.1:8000/storage/menus/Bakwan Malang & Bakso Kuah.jpeg
+Makanan,Bakso Sapi Kuah,37200,http://127.0.0.1:8000/storage/menus/Bakso Sapi Kuah.jpeg
+Makanan,Pempek Palembang (Isi 3),35400,http://127.0.0.1:8000/storage/menus/Pempek Palembang (Isi 3).jpeg
+Makanan,Spaghetti Beef Bolognese,35400,http://127.0.0.1:8000/storage/menus/Spaghetti Beef Bolognese.jpeg
+Nasi Goreng,Nasgor CIFOS Udang,37200,http://127.0.0.1:8000/storage/menus/Nasgor CIFOS Udang.jpeg
+Nasi Goreng,Nasgor CIFOS Beef,37200,http://127.0.0.1:8000/storage/menus/Nasgor CIFOS Beef.jpg
+Nasi Goreng,Nasi Goreng Ayam,35400,http://127.0.0.1:8000/storage/menus/Nasi Goreng Ayam.jpeg
+Nasi Goreng,Nasi Goreng Kampung,35400,http://127.0.0.1:8000/storage/menus/Nasi Goreng Kampung.jpeg
+Nasi Goreng,Nasi Goreng Smoked Beef,41900,http://127.0.0.1:8000/storage/menus/Nasi Goreng Smoked Beef.jpeg
+Nasi Goreng,Nasi Goreng Vege (Telur),31800,http://127.0.0.1:8000/storage/menus/Nasi Goreng Vege (Telur).jpeg
+Nasi Goreng,Nasi Bakar Ayam / Cumi / Teri,32700,http://127.0.0.1:8000/storage/menus/Nasi Bakar Cumi.jpeg
+Nasi Goreng,Nasi Bakar Tutug Oncom,32700,http://127.0.0.1:8000/storage/menus/Nasi Bakar Tutug Oncom.jpg
+Dimsum,Dimsum Ayam / Jamur / Beef,19000,http://127.0.0.1:8000/storage/menus/Dimsum Ayam.jpeg
+Dimsum,Dimsum Nori / Udang / Tuna,21800,http://127.0.0.1:8000/storage/menus/Dimsum Nori.jpeg
+Dimsum,Lumpia Kulit Tahu,21800,http://127.0.0.1:8000/storage/menus/Lumpia Kulit Tahu.jpg
+Dimsum,Crispy Udang,31800,http://127.0.0.1:8000/storage/menus/Crispy Udang.jpeg
+Dimsum,Bola Naga,31800,http://127.0.0.1:8000/storage/menus/Bola Naga.jpeg
+Roti Bakar,Roti Kadet Pandan Original,21800,http://127.0.0.1:8000/storage/menus/Roti Kadet Pandan Original.jpeg
+Roti Bakar,Roti Kadet Pandan Keju,33600,http://127.0.0.1:8000/storage/menus/Roti Kadet Pandan Keju.jpeg
+Jajanan,Pisang Bakar / Goreng Coklat Keju,27200,http://127.0.0.1:8000/storage/menus/Pisang Bakar Coklat Keju.jpeg
+Jajanan,Donat Salju (Isi 2),29000,http://127.0.0.1:8000/storage/menus/Donat Salju (Isi 2).jpeg
+Jajanan,Donat Coklat / Keju (Isi 2),34400,http://127.0.0.1:8000/storage/menus/Donat Coklat dan Keju (Isi 2).jpeg
+Jajanan,Mini Pao Isi Coklat (Isi 3),16800,http://127.0.0.1:8000/storage/menus/Mini Pao Isi Coklat (Isi 3).jpeg
+Jajanan,Roti Goreng Coklat Keju,21800,http://127.0.0.1:8000/storage/menus/Roti Goreng Coklat Keju.jpeg
+Jajanan,French Fries,31800,http://127.0.0.1:8000/storage/menus/French Fries.jpg
+Jajanan,Potato Wedges,37200,http://127.0.0.1:8000/storage/menus/Potato Wedges.jpeg
+Jajanan,Chicken Wings,37200,http://127.0.0.1:8000/storage/menus/Chicken Wings.jpeg
+Jajanan,Otak-Otak Singapore,27200,http://127.0.0.1:8000/storage/menus/Otak-Otak Singapore.jpeg
+Jajanan,Lumpia Leleh Coklat (Isi 3),29000,http://127.0.0.1:8000/storage/menus/Lumpia Leleh Coklat (Isi 3).jpeg
+Jajanan,Pastel Telur Sayuran,13600,http://127.0.0.1:8000/storage/menus/Pastel Telur Sayuran.jpeg
+Jajanan,Risol Smoked Beef (Isi 2),29000,http://127.0.0.1:8000/storage/menus/Risol Smoked Beef (Isi 2).jpeg
+Jajanan,Cireng Rujak,27200,http://127.0.0.1:8000/storage/menus/Cireng Rujak.jpeg
+Jajanan,Singkong Goreng,33600,http://127.0.0.1:8000/storage/menus/Singkong Goreng.jpeg
+Jajanan,Singkong Goreng Keju,35500,http://127.0.0.1:8000/storage/menus/Singkong Goreng Keju.jpeg
+Coffee,Espresso Single,18181,http://127.0.0.1:8000/storage/menus/Espresso Single.jpeg
+Coffee,Espresso Double,20000,http://127.0.0.1:8000/storage/menus/Espresso Double.jpeg
+Coffee,Affogato (+Ice Cream),29191,http://127.0.0.1:8000/storage/menus/Affogato (Ice Cream).jpeg
+Coffee,Americano (Hot/Ice),21818,http://127.0.0.1:8000/storage/menus/Americano.jpeg
+Coffee,Long Black (Hot/Ice),21818,http://127.0.0.1:8000/storage/menus/Long Black ice.jpeg
+Coffee,Mochacino (Coffee + Choco),43696,http://127.0.0.1:8000/storage/menus/Mochacino (Coffee choco).jpg
+Coffee,Cappuccino (Hot/Ice),37272,http://127.0.0.1:8000/storage/menus/Cappuccino (Ice).jpeg
+Coffee,Latte (Hot/Ice),37272,http://127.0.0.1:8000/storage/menus/Latte.jpeg
+Speciality,CIFOS Magic Coffee,31800,http://127.0.0.1:8000/storage/menus/Cifos Magic Coffee.jpeg
+Coffee,Manual Brewing Chemex/French Press,33636,http://127.0.0.1:8000/storage/menus/Manual Brewing Chemex.jpeg
+Coffee,Manual Brewing Vietnam drip/Japanese,37272,http://127.0.0.1:8000/storage/menus/Manual Brewing Vietnam drip.jpeg
+Coffee,Manual Brewing Aero press,37272,http://127.0.0.1:8000/storage/menus/Manual Brewing Aero press.jpeg
+Non Coffee,Dark Chocolate,25400,http://127.0.0.1:8000/storage/menus/Dark Chocolate.jpeg
+Non Coffee,Sweet As U (Regal & Milk),25400,http://127.0.0.1:8000/storage/menus/Sweet As U (Regal & Milk).jpeg
+Non Coffee,Vanilla,25400,http://127.0.0.1:8000/storage/menus/Vanilla.jpeg
+Non Coffee,Chocolate Milk,25400,http://127.0.0.1:8000/storage/menus/Chocolate Milk.jpeg
+Non Coffee,Red Velvet,25400,http://127.0.0.1:8000/storage/menus/Red Velvet.jpeg
+Non Coffee,Taro,25400,http://127.0.0.1:8000/storage/menus/Taro.jpeg
+Non Coffee,Cookies and Cream,25400,http://127.0.0.1:8000/storage/menus/Cookies and Cream.jpeg
+Non Coffee,Tiramisu,25400,http://127.0.0.1:8000/storage/menus/Tiramisu.jpeg
+Non Coffee,Sakura Matcha / Green Tea,33600,http://127.0.0.1:8000/storage/menus/Sakura Matcha.jpeg
+Non Coffee,Wedang Uwuh,27200,http://127.0.0.1:8000/storage/menus/Wedang Uwuh.jpeg
+Tea,Lemon Tea,25400,http://127.0.0.1:8000/storage/menus/Lemon Tea.jpeg
+Tea,Lychee Tea,25400,http://127.0.0.1:8000/storage/menus/Lychee Tea.jpeg
+Tea,Thai Tea,27200,http://127.0.0.1:8000/storage/menus/Thai Tea.jpeg
+Tea,Regular Ice Tea,10900,http://127.0.0.1:8000/storage/menus/Regular Ice Tea.jpeg
+Tea,Sweet Ice Tea,11800,http://127.0.0.1:8000/storage/menus/Sweet Ice Tea.jpeg
+Tea,Premium Hot Tea (Chamomile / Earl Grey / Jasmine / Mint),21800,http://127.0.0.1:8000/storage/menus/Chamomile Hot Tea.jpeg
+Ice Cream,3 Scoops of Ice Cream (Vanilla/Chocolate/Strawberry),29100,http://127.0.0.1:8000/storage/menus/3 Scoops of Ice Cream.jpeg
+Soda,Soda Based Mojito (Lemon/Lychee/Coconut),33600,http://127.0.0.1:8000/storage/menus/Soda Based Mojito.jpeg
+Soda,Mojito Yakult,35400,http://127.0.0.1:8000/storage/menus/Mojito Yakult.jpeg
+Speciality,Hotplate Chicken BBQ Mushroom / Blackpepper,36000,http://127.0.0.1:8000/storage/menus/Hotplate Chicken BBQ.jpeg
+Speciality,Hotplate Beef BBQ Mushroom / Blackpepper,39000,http://127.0.0.1:8000/storage/menus/Hotplate Beef BBQ.jpeg
+Speciality,Hotplate Chicken & Beef,41000,http://127.0.0.1:8000/storage/menus/Hotplate Chicken & Beef.jpeg

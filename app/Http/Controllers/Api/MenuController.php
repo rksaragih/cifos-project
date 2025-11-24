@@ -204,7 +204,7 @@ class MenuController extends Controller
      * Delete menu (Admin)
      * DELETE /api/menus/{menu}
      */
-    public function destroy(Menu $menu)
+    public function destroy(Menu $menu) 
     {
         // Delete the associated photo if it exists
         if ($menu->foto_menu) {

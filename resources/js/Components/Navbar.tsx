@@ -27,7 +27,7 @@ const Navbar = () => {
             <img 
               src={cifosLogo} 
               alt="CIFOS Logo"  
-              className="h-16 w-16 object-cover rounded-full"
+              className="h-12 w-12 object-cover rounded-full"
             />
           </Link>
 
